@@ -1,6 +1,6 @@
 # CodePaintStudio Resume Builder
 
-![License](https://img.shields.io/badge/license-MIT-blue) ![Version](https://img.shields.io/badge/version-1.0.0-green)
+![Version](https://img.shields.io/badge/version-1.0.0-green)
 
 **CodePaintStudio Resume Builder** 是一个简洁优雅简历制作系统，旨在帮助用户轻松创建专业的简历。你可以通过直观的界面和可定制的模板快速生成个性化的简历。
 
