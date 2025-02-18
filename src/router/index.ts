@@ -8,6 +8,7 @@ import EditPage from '@/views/Edit/EditPage.vue';
 import User from '@/views/User/indexPage.vue';
 import UserInformation from '@/views/User/components/UserInformation.vue';
 import UserCv from '@/views/User/components/UserCv.vue';
+import CvAdmn from '@/views/User/components/CvAdmn.vue';
 
 import LoginPage from '@/views/Login/LoginPage.vue';
 
@@ -50,6 +51,11 @@ const router = createRouter({
               path: '/user/cv',
               name: 'userCv',
               component: UserCv
+            },
+            {
+              path: '/user/cvAdmn',
+              name: 'cvAdmn',
+              component: CvAdmn
             }
           ]
         }
