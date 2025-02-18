@@ -5,6 +5,7 @@
     <div class="menu">
       <RouterLink to="/user/information">个人信息</RouterLink>
       <RouterLink to="/user/cv">我的简历</RouterLink>
+      <RouterLink to="/user/cvAdmn">简历模板管理</RouterLink>
     </div>
     <RouterView></RouterView>
   </div>
