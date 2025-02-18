@@ -9,24 +9,24 @@
     <RouterView></RouterView>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .user {
   display: flex;
   height: 90vh;
   width: 75%;
   margin: 0 auto;
   background-color: aliceblue;
-}
 
-.menu {
-  width: 20%;
-  height: 100%;
-  background-color: rgb(182, 177, 177);
-  border-radius: 10px;
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  .menu {
+    width: 20%;
+    height: 100%;
+    background-color: rgb(182, 177, 177);
+    border-radius: 10px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 a {
