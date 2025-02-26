@@ -11,6 +11,5 @@
   width: 400px;
   height: 600px;
   background-color: rgb(27, 190, 202);
-  ;
 }
 </style>
