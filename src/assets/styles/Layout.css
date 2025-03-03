@@ -1,0 +1,68 @@
+/* 整个上边框 */
+.header {
+  width: 100%;
+  height: 6vh;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  position: relative;
+  display: flex;
+  z-index: 2;
+  transition: top 0.3s ease;
+
+}
+.header .fixed{
+  position: fixed; /* 固定位置 */
+  top: 0; /* 固定在页面顶部 */
+  left: 0; /* 从页面左侧开始 */
+  width: 100%;
+
+}
+
+.leftSize{
+  position: absolute;
+  left:0%;
+  margin-left: 3vw;
+  display: flex;
+  align-items: center;
+  top: 50%;
+  transform: translate(0,-50%);
+}
+.leftSize img{
+  width: 4.84vh;
+}
+/* 中间部分 */
+.mainSize{
+  position: absolute;
+  left:50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 8.89vw;
+  font-size:0.96vw;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* 右边部分 */
+.rightSize{
+  position: absolute;
+  right: 0%;
+  margin-right: 3vw;
+  top: 50%;
+  transform: translate(0,-50%);
+}
+.LayoutHome{
+  color:#616DFF;
+  text-decoration:underline;
+  text-decoration-color: aquamarine;
+}
+.LayoutCv{
+  color:#000000;
+  text-decoration: none;
+}
+.LayoutUser{
+  font-size: 10px;
+  color:#4F4F4F;
+  text-decoration:none;
+}
+

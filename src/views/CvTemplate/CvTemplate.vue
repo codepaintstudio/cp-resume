@@ -92,7 +92,7 @@ const scrollToTop = () => {
         <div class="flex items-center mr-16 w-[16.2rem] h-[2.4rem] rounded-lg bg-[#3370ff]">
           <input type="text" placeholder="搜索简历模板"
             class="flex-1 pl-[1.2rem] h-full bg-white border rounded-lg focus:outline-none focus:border-blue-500">
-          <img src="@/assets/images/search.svg" class="h-full inline-block" alt="搜索">
+          <img src="@/assets/images/CvTemplate/search.svg" class="h-full inline-block" alt="搜索">
         </div>
       </div>
 

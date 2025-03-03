@@ -1,0 +1,248 @@
+.contentMain{
+    position: relative;
+    width: 100vw; /* 确保占据整个视口宽度 */
+    height: 100%;
+    background-color: #FFFFFF;
+  
+  }
+  /*背景圆圈*/
+  .sphere {
+    position: absolute;
+    background-color: #3370FF; /* 淡蓝色 */
+    opacity: 0.3;
+    filter: blur(50px);
+    z-index: 1;
+  }
+  .sphere1 {
+    width: 25vw;
+    height: 25vw;
+    border-radius: 50%; /* 圆形 */
+    top: 20vh; /* 初始位置 */
+    left: 0%;
+    translate: -50%;
+  }
+  
+  .sphere2 {
+    border-top-left-radius: 60%;
+    border-end-start-radius: 60%;
+    width: 35vw; /* 设置一个足够大的宽度来包含整个圆形 */
+    height: 45vw; /* 同上 */
+    top: 40vh; /* 可以根据需要调整位置，但由于我们只显示右半部分，所以垂直位置不是很重要 */
+    right: 0; /* 右边缘对齐 */
+    translate: 0% -50%;
+  }
+  
+  
+  /* 上拉置顶 随着页面的滚动而滚动*/
+  .toTop{
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(204, 222, 222);
+    border-radius: 50%;
+    background-image: url('@/assets/images/');
+    right: 10%;
+    bottom:5%;
+  
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  
+  }
+  /* 主要内容排版定义 */
+  .Cmain{
+    width: 100%;
+    height: 100vw;
+    /* background-color: #919398; */
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+  }
+  /* SLOGON标语展示模块 */
+  .Slogon{
+    width: 60%;
+    height: 60vh;
+    /* background-color: #3370FF; */
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .LogoCenter{
+    position: relative;
+    width: 100%;
+    height: 15vw;
+  }
+  
+  .msg1{
+    position: absolute;
+    font-size: 7vw;
+  }
+  .msg2{
+    position: absolute;
+    right: 0;
+    bottom: -12%;
+    translate: 0 -200%;
+    font-size: 2vw;
+  }
+  .MakeResume{
+    display: block;
+    width: 12vw;
+    height: 3vw;
+    /* background-color: #acb6cd; */
+    background-image: url('@/assets/images/Home/MakeResume.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    left:50%;
+    bottom: 0%;
+    transform: translateX(-50%);
+  }
+  /* 精选简历 */
+  .BestResume{
+    width: 70%;
+    height: 70vh;
+    /* background-color: #16264e; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .topLine{
+    width: 30vw;
+    height: 6vh;
+    /* background-color: aqua; */
+    position: relative;
+  }
+  
+  .leftLine{
+    position: absolute;
+    display: block;
+    width: 10vw;
+    height: 4vw;
+    background-image: url('@/assets/images/Home/Left2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 0%;
+    top: 3vh;
+    translate: 0 -50%;
+  }
+  
+  .mainLine{
+    position: absolute;
+    width: 10vw;
+    height: 4vw;
+    left:50%;
+    top: 3vh;
+    translate: -40% -50%;
+    font-size: 2vw;
+  }
+  .rightLine{
+    position: absolute;
+    display: block;
+    width: 10vw;
+    height: 4vw;
+    background-image: url('@/assets/images/Home/Right1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    right: 0%;
+    top: 3vh;
+    translate: 0 -50%;
+  }
+  
+  
+  
+  /* 简历遍历 */
+  .resumeList{
+    width: 100%;
+    height: 30vh;
+    /* background-color: rgb(130, 160, 160); */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+  }
+  
+  /* 简历样式盒子 */
+  
+  .resume{
+    width: 12vw;
+    height: 16vw;
+    background-color: rgb(58, 63, 207);
+  }
+  .seeMore{
+    position: absolute;
+    display: block;
+    width: 7vw;
+    height: 4vw;
+    background-image: url('@/assets/images/Home/More2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    bottom: 0%;
+    translate: 0 -50%;
+  }
+  /* 历史简历 */
+  .HisResume{
+    width: 70%;
+    height: 60vh;
+    /* background-color: #3370FF; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .topLine2{
+    width: 30vw;
+    height: 6vh;
+    /* background-color: aqua; */
+    position: relative;
+  }
+  .hisList{
+    width: 100%;
+    height: 30vh;
+    /* background-color: rgb(130, 160, 160); */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  
+  .toMore{
+    position: absolute;
+    right: 0%;
+    top: 25%;
+    width: 10vw;
+    height: 2vw;
+    translate: 0 -50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+  /* .toMore div{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  } */
+  .msgMore{
+    /* position:absolute; */
+    display: block;
+    font-size:1.2vw;
+    color:#3370FF;
+    /* left: 0%; */
+  }
+  .more{
+    /* position: absolute; */
+    display: block;
+    width: 2vw;
+    height: 2vw;
+    /* background-color: #79849c; */
+    background-image: url('@/assets/images/Home/箭头2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* right: 0%; */
+  }
