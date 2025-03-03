@@ -14,7 +14,7 @@ const props = defineProps({
       return {
         id: '',
         title: '标题',
-        imageUrl: 'src/assets/images/default-resume.png',
+        imageUrl: 'src/assets/img/default-resume.png',
         style: '风格',
         industry: '行业',
         color: '颜色',
@@ -43,7 +43,7 @@ const closeMenu = () => {
       <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img src="@/assets/images/default-resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
+          <img src="@/assets/img/default-resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
         </div>
 
         <!-- 右侧详情 -->

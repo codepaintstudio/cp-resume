@@ -12,7 +12,7 @@ defineProps({
     default: () => ({
       id: '',
       title: '标题',
-      imageUrl: 'src/assets/images/default-resume.png',
+      imageUrl: 'src/assets/img/default-resume.png',
       style: '风格',
       industry: '行业',
       color: '颜色',
