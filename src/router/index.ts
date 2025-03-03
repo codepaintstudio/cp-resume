@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Layout from '@/views/Layout/indexPage.vue'
+import Nav from '@/views/nav/indexPage.vue'
 import HomePage from '@/views/Home/HomePage.vue';
 import CvTemplateView from '@/views/CvTemplate/CvTemplate.vue';
-import CvTemplatePreview from '@/views/CvTemplatePreview/CvTemplatePreview.vue';
 import EditPage from '@/views/Edit/EditPage.vue';
 
 import User from '@/views/User/indexPage.vue';
@@ -17,8 +16,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'layout',
-      component: Layout,
+      name: 'Nav',
+      component: Nav,
       redirect: '/home',
       children: [
         {
@@ -30,11 +29,6 @@ const router = createRouter({
           path: '/cv',
           name: 'cvTemplate',
           component: CvTemplateView
-        },
-        {
-          path: '/cv/:id',
-          name: 'cvTemplatePreview',
-          component: CvTemplatePreview
         },
         {
           path: '/user',
