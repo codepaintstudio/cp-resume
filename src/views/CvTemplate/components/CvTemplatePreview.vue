@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
+import CvCard from "@/components/CvCard.vue";
 
 // 接收父组件传递的控制菜单显示状态的 props
 const props = defineProps({
@@ -63,11 +64,7 @@ const closeMenu = () => {
       <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <div v-for="i in 10" :key="i" class="bg-white shadow-md rounded-lg p-4 w-[250px]">
-            <img src="@/assets/images/default-resume.png" alt="简历预览" class="w-full rounded-md" />
-            <h3 class="text-center text-sm font-semibold mt-2">个人简历</h3>
-            <p class="text-center text-xs text-gray-500">蓝色简约风格</p>
-          </div>
+          <CvCard v-for="i in 10" :key="i" custom-class="w-50 h-76"></CvCard>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import imgCV from "@/assets/images/default-resume.png";
 import Menu from './components/CvTemplatePreview.vue';
+import CvCard from "@/components/CvCard.vue";
 
 // 控制菜单显示与隐藏的状态
 const showMenu = ref(false);
@@ -72,22 +72,7 @@ const scrollToTop = () => {
 
       <!-- 模板 -->
       <div class="flex justify-between flex-wrap gap-y-[1.5rem]">
-        <button v-for="i in 12" :key="i" @click="toggleMenu">
-          <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow w-[279px]">
-            <img :src="imgCV" class="w-full h-[300px] object-cover rounded-t-lg" :alt="`简历模板 ${i}`">
-            <div class="p-4">
-              <div class="flex items-center justify-between">
-                <h3 class="text-gray-800 font-medium">简约简历模板</h3>
-              </div>
-              <div class="flex flex-wrap gap-2 mt-3">
-                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">简约</span>
-                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">商务</span>
-                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">蓝色</span>
-                <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">现代</span>
-              </div>
-            </div>
-          </div>
-        </button>
+        <CvCard v-for="i in 12" :key="i" @click="toggleMenu"></CvCard>
         <i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i
           class="w-[279px]"></i>
       </div>
