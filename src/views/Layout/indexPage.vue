@@ -6,7 +6,7 @@
     <RouterLink to="/cv">简历模板</RouterLink>
     <RouterLink to="/user">用户中心</RouterLink>
   </header>
-  <RouterView class="mt-[50px]"></RouterView>
+  <RouterView class="mt-12"></RouterView>
 </template>
 <style scoped>
 .header {
