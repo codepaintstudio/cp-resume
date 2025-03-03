@@ -26,13 +26,13 @@ const scrollToTop = () => {
 <template>
   <div class="relative min-h-screen bg-gradient-to-b from-white to-blue-300  pb-[6rem]">
 
-    <div class="mx-[4rem] pt-[2.9rem]">
+    <div class="mx-20 pt-12">
 
       <!-- 筛选区域与搜索区域 -->
-      <div class="flex justify-between items-center mb-[2.55rem]">
+      <div class="flex justify-between items-center mb-10">
 
         <!-- 筛选区域 -->
-        <div class="flex ml-[0.5rem]">
+        <div class="flex ml-2">
           <div>
             <select v-model="select1"
               class="w-[5.2rem] h-[2.4rem]  mr-[1.6rem] text-[#505050] rounded-lg border-2 border-solid border-[#cdcdcd] text-center pr-[0.5rem] text-[16px] focus:outline-none">
@@ -63,7 +63,7 @@ const scrollToTop = () => {
         </div>
 
         <!-- 搜索区域 -->
-        <div class="flex items-center mr-[4.5rem] w-[16.2rem] h-[2.4rem] rounded-lg bg-[#3370ff]">
+        <div class="flex items-center mr-16 w-[16.2rem] h-[2.4rem] rounded-lg bg-[#3370ff]">
           <input type="text" placeholder="搜索简历模板"
             class="flex-1 pl-[1.2rem] h-full bg-white border rounded-lg focus:outline-none focus:border-blue-500">
           <img src="@/assets/images/search.svg" class="h-full inline-block" alt="搜索">

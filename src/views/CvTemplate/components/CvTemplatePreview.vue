@@ -21,7 +21,7 @@ const closeMenu = () => {
 <template>
   <div v-if="props.isVisible" class="mb-[30px]" @click.self="closeMenu">
     <div
-      class="flex flex-col justify-center w-[80.3rem] min-h-screen bg-white opacity-100 p-10 rounded-lg shadow-lg mx-auto mt-[30px]">
+      class="flex flex-col justify-center w-320 min-h-screen bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[30px]">
 
       <!-- 菜单内容 -->
       <!-- <div class="container mx-auto p-6"> -->
@@ -39,7 +39,7 @@ const closeMenu = () => {
           <div class="flex gap-2">
             <span class="px-2 py-1 text-sm bg-gray-200 rounded">简约</span>
             <span class="px-2 py-1 text-sm bg-gray-200 rounded">商务</span>
-            <span class="px-2 py-1 text-sm bg-gray-200 rounded">应聘</span>
+            <span class="px-2 py-1 text-sm bg-gray-200 rounded">蓝色</span>
           </div>
 
           <p class="text-gray-600 text-sm color-[#595b5e]">尺寸：21x29.5厘米</p>
