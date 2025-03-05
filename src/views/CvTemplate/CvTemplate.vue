@@ -55,7 +55,7 @@ const scrollToTop = () => {
 
 // 触发搜索
 const handleSearch = () => {
-  searchText.value = searchQuery.value;
+  searchText.value = searchQuery.value.trim();  // 去除空格
   console.log(searchText.value)
 };
 // 计算符合搜索条件的数据
