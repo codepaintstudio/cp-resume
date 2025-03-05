@@ -35,9 +35,7 @@ const closeMenu = () => {
 <template>
   <div v-if="props.isVisible" class="mb-[30px]" @click.self="closeMenu">
     <div
-      class="flex flex-col justify-center w-320 min-h-screen bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[30px]">
-
-      <!-- 菜单内容 -->
+      class="flex flex-col justify-center w-340 min-h-screen bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[30px]">
 
       <!-- 简历详情 -->
       <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6">
