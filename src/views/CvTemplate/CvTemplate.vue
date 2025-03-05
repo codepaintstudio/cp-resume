@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
 
@@ -25,7 +25,8 @@ const options = ["风格1", "风格2", "风格3", "风格4"];
 
 const selectedIndex = ref(0); // 当前选中的简历索引
 const showMenu = ref(false); // 控制菜单显示与隐藏的状态
-
+const searchQuery = ref(""); // 存储搜索关键字
+const searchText = ref(""); // 触发搜索时保存的关键词（点击搜索按钮后才生效）
 // 切换菜单显示状态
 const toggleMenu = (index: number) => {
   showMenu.value = !showMenu.value;
@@ -44,12 +45,31 @@ const nextCv = () => {
   scrollToTop();
 };
 
+// 滚动到顶部
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
 };
+
+// 触发搜索
+const handleSearch = () => {
+  searchText.value = searchQuery.value;
+  console.log(searchText.value)
+};
+// 计算符合搜索条件的数据
+const filteredData = computed(() => {
+  if (!searchText.value) return mockData;
+  const query = searchText.value.toLowerCase();
+
+  return mockData.filter(item =>
+    item.title.toLowerCase().includes(query) ||
+    item.style.toLowerCase().includes(query) ||
+    item.industry.toLowerCase().includes(query) ||
+    item.color.toLowerCase().includes(query)
+  );
+});
 </script>
 
 <template>
@@ -93,15 +113,17 @@ const scrollToTop = () => {
 
         <!-- 搜索区域 -->
         <div class="flex items-center mr-16 w-[16.2rem] h-[2.5rem] rounded-lg bg-[#3370ff]">
-          <input type="text" placeholder="搜索简历模板"
+          <input v-model="searchQuery" type="text" placeholder="搜索简历模板"
             class="flex-1 pl-[1.2rem] h-full bg-white border rounded-lg focus:outline-none focus:border-blue-500">
-          <img src="@/assets/img/CvTemplate/search.svg" class="h-full inline-block" alt="搜索">
+          <img src="@/assets/img/CvTemplate/search.svg"
+            class="h-full inline-block cursor-pointer transition-all duration-200 active:scale-90 hover:scale-105 hover:rotate-6"
+            alt="搜索" @click="handleSearch" />
         </div>
       </div>
 
       <!-- 模板 -->
       <div class="flex justify-between flex-wrap gap-y-[1.5rem]">
-        <CvCard v-for="(i, index) in mockData" :key="i.id" :cvData="i" @click="toggleMenu(index)"></CvCard>
+        <CvCard v-for="(i, index) in filteredData" :key="i.id" :cvData="i" @click="toggleMenu(index)"></CvCard>
         <i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i
           class="w-[279px]"></i>
       </div>
