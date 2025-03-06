@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
+import MultiCheck from "./components/MultiCheck.vue";
 
 //模拟数据
 const mockData = [
@@ -18,10 +19,6 @@ const mockData = [
   { id: '11', title: '工程师专用', imageUrl: 'src/assets/img/default-resume.png', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
   { id: '12', title: '实习生简历', imageUrl: '/src/assets/img/default-resume.png', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
 ];
-const select1 = ref("");
-const select2 = ref("");
-const select3 = ref("");
-const options = ["风格1", "风格2", "风格3", "风格4"];
 
 const selectedIndex = ref(0); // 当前选中的简历索引
 const showMenu = ref(false); // 控制菜单显示与隐藏的状态
@@ -53,22 +50,61 @@ const scrollToTop = () => {
   });
 };
 
+
+// 筛选区域
+const selectedStyle = ref<string[]>([]);
+const selectedIndustry = ref<string[]>([]);
+const selectedColor = ref<string[]>([]);
+const handleSelectionChange1 = (newSelection: string[]) => {
+  selectedStyle.value = newSelection;
+};
+const handleSelectionChange2 = (newSelection: string[]) => {
+  selectedIndustry.value = newSelection;
+};
+const handleSelectionChange3 = (newSelection: string[]) => {
+  selectedColor.value = newSelection;
+};
+// 提取唯一值的方法
+const uniqueValues = (key: keyof typeof mockData[0]) => {
+  return [...new Set(mockData.map(item => item[key]))];
+};
+
+// 计算属性 - 过滤唯一值
+const styles = computed(() => uniqueValues("style"));
+const industries = computed(() => uniqueValues("industry"));
+const colors = computed(() => uniqueValues("color"));
+
+
 // 触发搜索
 const handleSearch = () => {
   searchText.value = searchQuery.value.trim();  // 去除空格
   console.log(searchText.value)
 };
-// 计算符合搜索条件的数据
+// 计算符合条件的数据
 const filteredData = computed(() => {
-  if (!searchText.value) return mockData;
   const query = searchText.value.toLowerCase();
 
-  return mockData.filter(item =>
-    item.title.toLowerCase().includes(query) ||
-    item.style.toLowerCase().includes(query) ||
-    item.industry.toLowerCase().includes(query) ||
-    item.color.toLowerCase().includes(query)
-  );
+  return mockData.filter(item => {
+    // 搜索条件
+    const matchesSearch = !searchText.value ||
+      item.title.toLowerCase().includes(query) ||
+      item.style.toLowerCase().includes(query) ||
+      item.industry.toLowerCase().includes(query) ||
+      item.color.toLowerCase().includes(query);
+
+    // 筛选条件
+    const matchesStyle = selectedStyle.value.length === 0 ||
+      selectedStyle.value.includes(item.style);
+
+    const matchesIndustry = selectedIndustry.value.length === 0 ||
+      selectedIndustry.value.includes(item.industry);
+
+    const matchesColor = selectedColor.value.length === 0 ||
+      selectedColor.value.includes(item.color);
+
+    // 组合所有条件
+    return matchesSearch && matchesStyle && matchesIndustry && matchesColor;
+  });
 });
 </script>
 
@@ -82,33 +118,11 @@ const filteredData = computed(() => {
 
         <!-- 筛选区域 -->
         <div class="flex ml-2">
-          <div>
-            <select v-model="select1"
-              class="w-[5.4rem] h-[2.5rem]  mr-[1.6rem] text-[#505050] rounded-lg border-2 border-solid border-[#cdcdcd] text-center pr-[0.5rem] text-[16px] focus:outline-none">
-              <option value="">风格</option>
-              <option v-for="item in options" :key="item" :value="item">
-                {{ item }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <select v-model="select2"
-              class="w-[5.4rem] h-[2.5rem]  mr-[1.6rem] text-[#505050] rounded-lg border-2 border-solid border-[#cdcdcd] text-center pr-[0.5rem] text-[16px] focus:outline-none">
-              <option value="">行业</option>
-              <option v-for="item in options" :key="item" :value="item">
-                {{ item }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <select v-model="select3"
-              class="w-[5.4rem] h-[2.5rem]  mr-[1.6rem] text-[#505050] rounded-lg border-2 border-solid border-[#cdcdcd] text-center pr-[0.5rem] text-[16px] focus:outline-none">
-              <option value="">颜色</option>
-              <option v-for="item in options" :key="item" :value="item">
-                {{ item }}
-              </option>
-            </select>
-          </div>
+
+          <MultiCheck title="风格" :options="styles" @update:modelValue="handleSelectionChange1" class="mr-8" />
+          <MultiCheck title="行业" :options="industries" @update:modelValue="handleSelectionChange2" class="mr-8" />
+          <MultiCheck title="颜色" :options="colors" @update:modelValue="handleSelectionChange3" />
+
         </div>
 
         <!-- 搜索区域 -->
@@ -127,6 +141,7 @@ const filteredData = computed(() => {
         <i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i
           class="w-[279px]"></i>
       </div>
+
     </div>
 
     <!-- 引用菜单组件，并绑定显示状态 -->
@@ -139,7 +154,7 @@ const filteredData = computed(() => {
       class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/CvTemplate/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
       @click="nextCv"></button>
 
-    <Menu class="absolute h-full top-0 left-0 right-0" :cvData="mockData[selectedIndex]" :isVisible="showMenu"
+    <Menu class="absolute h-full  top-0 left-0 right-0" :cvData="mockData[selectedIndex]" :isVisible="showMenu"
       @update:isVisible="showMenu = $event">
     </Menu>
 
