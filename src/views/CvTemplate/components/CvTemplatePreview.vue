@@ -34,11 +34,10 @@ const closeMenu = () => {
 
 <template>
   <div v-if="props.isVisible" class="mb-[30px]" @click.self="closeMenu">
-    <div
-      class="flex flex-col justify-center w-340 min-h-screen bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[30px]">
+    <div class="flex flex-col justify-center w-340  bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[30px]">
 
       <!-- 简历详情 -->
-      <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6">
+      <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6 mb-10">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
           <img src="@/assets/img/default-resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
