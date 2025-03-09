@@ -2,20 +2,22 @@
 
 
 .contentMain{
-    position: relative;
-    width: 100vw; /* 确保占据整个视口宽度 */
+    @apply relative w-screen h-full bg-white
+    /* position: relative;
+    width: 100vw; // 确保占据整个视口宽度 
     height: 100%;
     background-color: #FFFFFF;
-    
+     */
   }
   /*背景圆圈*/
   .sphere {
-    position: absolute;
-    background-color: #3370FF; /* 淡蓝色 */
+    @apply absolute bg-[#3370FF] opacity-30 blur-[50px] z-10 transition-transform duration-200 ease-out
+    /* position: absolute;
+    background-color: #3370FF; // 淡蓝色 
     opacity: 0.3;
     filter: blur(50px);
     z-index: 1;
-    
+    transition: transform 0.2s ease-out; */
   }
 /* 两个球的动画 */
   @keyframes Lmove{
@@ -44,12 +46,13 @@
     }
   }
   .sphere1 {
-    width: 25vw;
-    height: 25vw;
-    border-radius: 50%; /* 圆形 */
-    top: 20vh; /* 初始位置 */
+    @apply w-[25vw] h-[25vw] rounded-full absolute top-[20vh] left-0 -translate-x-1/2
+    /* width: 25vw;
+    height: 25vw; */
+    /* border-radius: 50%; 
+    top: 20vh; 
     left: 0%;
-    translate: -50%;
+    translate: -50%; */
     animation-name: Lmove;
     animation-duration: 5s;
     animation-iteration-count: infinite; /* 无限循环 */
@@ -57,13 +60,14 @@
   }
   
   .sphere2 {
-    border-top-left-radius: 60%;
+    @apply w-[35vw] h-[45vw] absolute top-[40vh] right-0 translate-y-[-50%] rounded-tl-[60%] rounded-es-[60%]
+    /* border-top-left-radius: 60%;
     border-end-start-radius: 60%;
-    width: 35vw; /* 设置一个足够大的宽度来包含整个圆形 */
-    height: 45vw; /* 同上 */
-    top: 40vh; /* 可以根据需要调整位置，但由于我们只显示右半部分，所以垂直位置不是很重要 */
-    right: 0; /* 右边缘对齐 */
-    translate: 0% -50%;
+    width: 35vw; 
+    height: 45vw; 
+    top: 40vh; 
+    right: 0;
+    translate: 0% -50%; */
     animation-name: Rmove;
     animation-duration: 5s;
     animation-iteration-count: infinite; /* 无限循环 */
@@ -73,7 +77,8 @@
   
   /* 上拉置顶 随着页面的滚动而滚动*/
   .toTop{
-    position: fixed;
+    @apply fixed w-10 h-10 bg-white rounded-full bg-[url('@/assets/images/')] right-[10%] bottom-[5%] shadow-[2px_3px_5px_rgba(0,0,0,0.5)] flex justify-center items-center
+    /* position: fixed;
     width: 40px;
     height: 40px;
     background-color: #FFFFFF;
@@ -87,84 +92,93 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  
+   */
   }
   /* 主要内容排版定义 */
   .Cmain{
-    width: 100%;
-    height: 100vw;
+    @apply w-full h-[100vw] flex flex-col justify-center items-center z-10
+    /* width: 100%;
+    height: 100vw; */
     /* background-color: #919398; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content:center;
     align-items: center;
-    z-index: 10;
+    z-index: 10; */
   }
   /* SLOGON标语展示模块 */
   .Slogon{
-    width: 60%;
-    height: 60vh;
+    @apply w-[60%] h-[60vh] z-10 flex flex-col justify-center items-center relative
+    /* width: 60%;
+    height: 60vh; */
     /* background-color: #3370FF; */
-    z-index: 10;
+    /* z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content:center;
     align-items: center;
-    position: relative;
+    position: relative; */
   }
   
   .LogoCenter{
-    position: relative;
+    @apply relative w-full h-[15vw]
+    /* position: relative;
     width: 100%;
-    height: 15vw;
+    height: 15vw; */
   }
   
   .msg1{
-    position: absolute;
-    font-size: 7vw;
+    @apply absolute text-[7vw]
+    /* position: absolute;
+    font-size: 7vw; */
   }
   .msg2{
-    position: absolute;
+    @apply absolute right-0 bottom-[-12%] translate-y-[-200%] text-[2vw]
+    /* position: absolute;
     right: 0;
     bottom: -12%;
     translate: 0 -200%;
-    font-size: 2vw;
+    font-size: 2vw; */
   }
   .MakeResume{
-    display: block;
+    @apply block w-[12vw] h-[3vw] bg-[url('../../assets/img/Home/MakeResume.png')] bg-contain bg-no-repeat absolute left-1/2 bottom-0 -translate-x-1/2
+    /* display: block;
     width: 12vw;
-    height: 3vw;
+    height: 3vw; */
     /* background-color: #acb6cd; */
-    background-image: url('../../assets/img/Home/MakeResume.png');
+    /* background-image: url('../../assets/img/Home/MakeResume.png');
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;
     left:50%;
     bottom: 0%;
     
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
   }
   /* 精选简历 */
   .BestResume{
-    width: 70%;
-    height: 70vh;
+    @apply w-[70%] h-[70vh] flex flex-col justify-center items-center relative z-10
+    /* width: 70%;
+    height: 70vh; */
     /* background-color: #16264e; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index:10;
+    z-index:10; */
   }
   .topLine{
-    width: 30vw;
-    height: 6vh;
+    @apply w-[30vw] h-[6vh] relative
+    /* width: 30vw;
+    height: 6vh; */
     /* background-color: aqua; */
-    position: relative;
+    /* position: relative; */
   }
   
   .leftLine{
-    position: absolute;
+    @apply absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2
+    /* position: absolute;
     display: block;
     width: 10vw;
     height: 4vw;
@@ -173,20 +187,22 @@
     background-repeat: no-repeat;
     left: 0%;
     top: 3vh;
-    translate: 0 -50%;
+    translate: 0 -50%; */
   }
   
   .mainLine{
-    position: absolute;
+    @apply absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]
+    /* position: absolute;
     width: 10vw;
     height: 4vw;
     left:50%;
     top: 3vh;
     translate: -40% -50%;
-    font-size: 2vw;
+    font-size: 2vw; */
   }
   .rightLine{
-    position: absolute;
+    @apply absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2
+    /* position: absolute;
     display: block;
     width: 10vw;
     height: 4vw;
@@ -195,70 +211,77 @@
     background-repeat: no-repeat;
     right: 0%;
     top: 3vh;
-    translate: 0 -50%;
+    translate: 0 -50%; */
   }
   
   
   
   /* 简历遍历 */
   .resumeList{
-    width: 100%;
-    height: 30vh;
+    @apply w-full h-[30vh] flex justify-around items-center
+    /* width: 100%;
+    height: 30vh; */
     /* background-color: rgb(130, 160, 160); */
-    display: flex;
+    /* display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: center; */
   
   }
   
   /* 简历样式盒子 */
   
   .resume{
-    width: 12vw;
+    @apply w-[12vw] h-[16vw] bg-[rgb(58,63,207)]
+    /* width: 12vw;
     height: 16vw;
-    background-color: rgb(58, 63, 207);
+    background-color: rgb(58, 63, 207); */
   }
   .seeMore{
-    position: absolute;
-    display: block;
+    @apply absolute block w-[7vw] h-[4vw] bg-[url('../../assets/img/Home/More2.png')] bg-contain bg-no-repeat bottom-0 -translate-y-1/2
+    /* position: absolute; */
+    /* display: block;
     width: 7vw;
     height: 4vw;
     background-image: url('../../assets/img/Home/More2.png');
     background-size: contain;
     background-repeat: no-repeat;
     bottom: 0%;
-    translate: 0 -50%;
+    translate: 0 -50%; */
   }
   /* 历史简历 */
   .HisResume{
-    width: 70%;
-    height: 60vh;
+    @apply w-[70%] h-[60vh] flex flex-col justify-center items-center relative z-10
+    /* width: 70%;
+    height: 60vh; */
     /* background-color: #3370FF; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
-    z-index:10;
+    z-index:10; */
   }
   .topLine2{
-    width: 30vw;
-    height: 6vh;
+    @apply w-[30vw] h-[6vh] relative
+    /* width: 30vw;
+    height: 6vh; */
     /* background-color: aqua; */
-    position: relative;
+    /* position: relative; */
   }
   .hisList{
-    width: 100%;
-    height: 30vh;
+    @apply w-full h-[30vh] flex justify-around items-center
+    /* width: 100%;
+    height: 30vh; */
     /* background-color: rgb(130, 160, 160); */
-    display: flex;
+    /* display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: center; */
   }
   
   
   .toMore{
-    position: absolute;
+    @apply absolute right-0 top-[25%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row
+    /* position: absolute;
     right: 0%;
     top: 25%;
     width: 10vw;
@@ -267,7 +290,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
+    flex-direction: row; */
   }
   /* .toMore div{
     width: 100%;
@@ -275,20 +298,22 @@
     position: relative;
   } */
   .msgMore{
+    @apply block text-[1.2vw] text-[#3370FF]
     /* position:absolute; */
-    display: block;
+    /* display: block;
     font-size:1.2vw;
-    color:#3370FF;
+    color:#3370FF; */
     /* left: 0%; */
   }
   .more{
+    @apply block w-[2vw] h-[2vw] bg-[url('../../assets/img/Home/arrow2.png')] bg-contain bg-no-repeat
     /* position: absolute; */
-    display: block;
+    /* display: block;
     width: 2vw;
-    height: 2vw;
+    height: 2vw; */
     /* background-color: #79849c; */
-    background-image: url('../../assets/img/Home/arrow2.png');
+    /* background-image: url('../../assets/img/Home/arrow2.png');
     background-size: contain;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     /* right: 0%; */
   }
