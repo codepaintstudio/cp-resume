@@ -11,67 +11,36 @@
   }
   /*背景圆圈*/
   .sphere {
-    @apply absolute bg-[#3370FF] opacity-30 blur-[50px] z-10 transition-transform duration-200 ease-out
-    /* position: absolute;
-    background-color: #3370FF; // 淡蓝色 
-    opacity: 0.3;
-    filter: blur(50px);
-    z-index: 1;
-    transition: transform 0.2s ease-out; */
+    @apply absolute w-96 h-96 rounded-full opacity-10;
   }
-/* 两个球的动画 */
-  @keyframes Lmove{
-    0%{
-      left:0;
 
+  /* 两个球的动画 */
+  @keyframes sphere1-animation {
+    0%, 100% { 
+      transform: translateY(0); 
     }
-    50%{
-      left:10vw;
-    }
-    0%{
-      left:0;
+    50% { 
+      transform: translateY(-20px); 
     }
   }
 
-  @keyframes Rmove{
-    0%{
-      right:0;
-
+  @keyframes sphere2-animation {
+    0%, 100% { 
+      transform: translateY(0); 
     }
-    50%{
-      right:2vw;
-    }
-    0%{
-      right:0;
+    50% { 
+      transform: translateY(20px); 
     }
   }
+
   .sphere1 {
-    @apply w-[25vw] h-[25vw] rounded-full absolute top-[20vh] left-0 -translate-x-1/2
-    /* width: 25vw;
-    height: 25vw; */
-    /* border-radius: 50%; 
-    top: 20vh; 
-    left: 0%;
-    translate: -50%; */
-    animation-name: Lmove;
-    animation-duration: 5s;
-    animation-iteration-count: infinite; /* 无限循环 */
-    animation-timing-function: linear; /* 匀速动画 */
+    @apply bg-blue-500 left-[-100px];
+    animation: sphere1-animation 3s ease-in-out infinite;
   }
   
   .sphere2 {
-    @apply w-[35vw] h-[45vw] absolute top-[40vh] right-0 translate-y-[-50%] rounded-tl-[60%] rounded-es-[60%]
-    /* border-top-left-radius: 60%;
-    border-end-start-radius: 60%;
-    width: 35vw; 
-    height: 45vw; 
-    top: 40vh; 
-    right: 0;
-    translate: 0% -50%; */
-    animation-name: Rmove;
-    animation-duration: 5s;
-    animation-iteration-count: infinite; /* 无限循环 */
-    animation-timing-function: linear; /* 匀速动画 */
+    @apply bg-purple-500 right-[-150px];
+    animation: sphere2-animation 3s ease-in-out infinite;
   }
   
   
