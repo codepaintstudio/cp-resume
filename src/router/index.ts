@@ -66,6 +66,13 @@ const router = createRouter({
       component: LoginPage
     }
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // 始终滚动到顶部
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { top: 0, behavior: 'smooth' };
+  },
 })
 
 export default router

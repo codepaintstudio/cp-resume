@@ -28,10 +28,18 @@ function debounce(func: Function, delay: number): Function {
 const handleScroll = debounce(() => {
   const scrollY = window.scrollY || window.pageYOffset;
 
+  // 定义 sphere1 和 sphere2 的移动范围
+  const minScrollY = 0; // 最小 scrollY 值
+  const maxScrollY = 100; // 最大 scrollY 值
+
+  // 限制 scrollY 在 minScrollY 和 maxScrollY 之间
+  const clampedScrollY = Math.min(Math.max(scrollY, minScrollY), maxScrollY);
+
   // 获取两个 sphere 的 DOM 元素
   if (sphere1.value && sphere2.value) {
-    sphere1.value.style.top = `${20 + scrollY * 0.1}vh`;
-    sphere2.value.style.top = `${40 + scrollY * 0.1}vh`;
+    // 根据 clampedScrollY 计算新的 top 值
+    sphere1.value.style.top = `${20 + clampedScrollY * 0.1}vh`;
+    sphere2.value.style.top = `${40 + clampedScrollY * 0.1}vh`;
     sphere1.value.style.animationPlayState = 'paused';
     sphere2.value.style.animationPlayState = 'paused';
   }
