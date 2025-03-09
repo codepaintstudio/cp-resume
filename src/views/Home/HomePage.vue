@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { ArrowUp } from 'lucide-vue-next';
-import { debounce } from '@/utils/debounce';
 
+
+// 引入图标
+import { ArrowUp } from 'lucide-vue-next';
 const router = useRouter();
 const ToCv = () => {
   router.push('/cv');
@@ -13,6 +14,15 @@ const toTopRef = ref<HTMLElement | null>(null);
 
 const sphere1 = ref<HTMLElement | null>(null);
 const sphere2 = ref<HTMLElement | null>(null);
+
+// 防抖函数
+function debounce(func: Function, delay: number): Function {
+  let timeoutId: number;
+  return function (...args: any[]) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(null, args), delay);
+  };
+}
 
 // 处理滚动事件
 const handleScroll = debounce(() => {
@@ -43,6 +53,7 @@ const handleScroll = debounce(() => {
   }, 100);
 }, 10);
 
+
 // 在组件挂载后添加事件监听器
 onMounted(() => {
   // 检查 toTopRef.value 是否存在，并且它是一个 HTMLElement
@@ -57,6 +68,7 @@ onMounted(() => {
     });
   }
 })
+
 
 </script>
 <template>
