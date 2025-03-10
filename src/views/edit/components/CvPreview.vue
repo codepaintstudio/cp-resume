@@ -1,6 +1,6 @@
 <script setup lang="ts">
 </script>
 <template>
-  <div>简历编辑页面</div>
+  <div>预览</div>
 </template>
 <style scoped></style>

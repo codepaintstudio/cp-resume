@@ -45,8 +45,38 @@
       right:0;
     }
   }
+
+  /* @theme{
+    --animate-Lmove:Lmove 5s linear infinite
+    --animate-Lmove:Rmove 5s linear infinite
+    @keyframes Lmove{
+      0%{
+        left:0;
+  
+      }
+      50%{
+        left:10vw;
+      }
+      0%{
+        left:0;
+      }
+    }
+
+    @keyframes Rmove{
+      0%{
+        right:0;
+  
+      }
+      50%{
+        right:2vw;
+      }
+      0%{
+        right:0;
+      }
+    }
+  } */
   .sphere1 {
-    @apply w-[25vw] h-[25vw] rounded-full absolute top-[20vh] left-0 -translate-x-1/2
+    @apply w-[25vw] h-[25vw] rounded-full absolute top-[20vh] left-0 -translate-x-1/2;
     /* width: 25vw;
     height: 25vw; */
     /* border-radius: 50%; 
@@ -60,7 +90,7 @@
   }
   
   .sphere2 {
-    @apply w-[35vw] h-[45vw] absolute top-[40vh] right-0 translate-y-[-50%] rounded-tl-[60%] rounded-es-[60%]
+    @apply w-[35vw] h-[45vw] absolute top-[40vh] right-0 translate-y-[-50%] rounded-tl-[60%] rounded-es-[60%];
     /* border-top-left-radius: 60%;
     border-end-start-radius: 60%;
     width: 35vw; 
