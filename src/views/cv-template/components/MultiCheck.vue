@@ -58,7 +58,7 @@ onUnmounted(() => {
     <button ref="trigger" @click.stop="isOpen = !isOpen"
       class="flex h-[2.5rem] items-center border border-gray-300 px-4 py-2 rounded-md bg-white shadow-sm hover:bg-gray-100">
       {{ title }}
-      <img src="@/assets/img/CvTemplate/drop-down.svg" alt="" class="h-full ml-[8px]">
+      <img src="@/assets/img/cv-template/drop_down.svg" alt="" class="h-full ml-[8px]">
     </button>
 
     <!-- 下拉列表 -->
