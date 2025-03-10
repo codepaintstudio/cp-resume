@@ -6,18 +6,18 @@ import MultiCheck from "./components/MultiCheck.vue";
 
 //模拟数据
 const mockData = [
-  { id: '1', title: '商务风简历', imageUrl: 'src/assets/img/default-resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-  { id: '2', title: '简约设计', imageUrl: 'src/assets/img/default-resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-  { id: '3', title: '创意模板', imageUrl: 'src/assets/img/default-resume.png', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-  { id: '4', title: '学术风格', imageUrl: 'src/assets/img/default-resume.png', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
-  { id: '5', title: '现代时尚', imageUrl: 'src/assets/img/default-resume.png', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-  { id: '6', title: '正式简历', imageUrl: 'src/assets/img/default-resume.png', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
-  { id: '7', title: '科技风格', imageUrl: 'src/assets/img/default-resume.png', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-  { id: '8', title: '医疗专用', imageUrl: 'src/assets/img/default-resume.png', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
-  { id: '9', title: '自由职业', imageUrl: 'src/assets/img/default-resume.png', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
-  { id: '10', title: '艺术风', imageUrl: 'src/assets/img/default-resume.png', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
-  { id: '11', title: '工程师专用', imageUrl: 'src/assets/img/default-resume.png', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
-  { id: '12', title: '实习生简历', imageUrl: '/src/assets/img/default-resume.png', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
+  { id: '1', title: '商务风简历', imageUrl: 'src/assets/img/default_resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
+  { id: '2', title: '简约设计', imageUrl: 'src/assets/img/default_resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
+  { id: '3', title: '创意模板', imageUrl: 'src/assets/img/default_resume.png', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
+  { id: '4', title: '学术风格', imageUrl: 'src/assets/img/default_resume.png', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
+  { id: '5', title: '现代时尚', imageUrl: 'src/assets/img/default_resume.png', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
+  { id: '6', title: '正式简历', imageUrl: 'src/assets/img/default_resume.png', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
+  { id: '7', title: '科技风格', imageUrl: 'src/assets/img/default_resume.png', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
+  { id: '8', title: '医疗专用', imageUrl: 'src/assets/img/default_resume.png', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
+  { id: '9', title: '自由职业', imageUrl: 'src/assets/img/default_resume.png', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
+  { id: '10', title: '艺术风', imageUrl: 'src/assets/img/default_resume.png', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
+  { id: '11', title: '工程师专用', imageUrl: 'src/assets/img/default_resume.png', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
+  { id: '12', title: '实习生简历', imageUrl: '/src/assets/img/default_resume.png', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
 ];
 
 const selectedIndex = ref(0); // 当前选中的简历索引
@@ -129,7 +129,7 @@ const filteredData = computed(() => {
         <div class="flex items-center mr-16 w-[16.2rem] h-[2.5rem] rounded-lg bg-[#3370ff]">
           <input v-model="searchQuery" type="text" placeholder="搜索简历模板"
             class="flex-1 pl-[1.2rem] h-full bg-white border rounded-lg focus:outline-none focus:border-blue-500">
-          <img src="@/assets/img/CvTemplate/search.svg"
+          <img src="@/assets/img/cv-template/search.svg"
             class="h-full inline-block cursor-pointer transition-all duration-200 active:scale-90 hover:scale-105 hover:rotate-6"
             alt="搜索" @click="handleSearch" />
         </div>
@@ -148,10 +148,10 @@ const filteredData = computed(() => {
     <div v-if="showMenu" class="absolute top-0 bg-black opacity-25 w-full h-full">
     </div>
     <button v-if="showMenu"
-      class="fixed z-10  top-1/2 left-24 w-10 h-10  bg-[url(@/assets/img/CvTemplate/navigate_before.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
+      class="fixed z-10  top-1/2 left-24 w-10 h-10  bg-[url(@/assets/img/cv-template/navigate_before.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
       @click="prevCv"></button>
     <button v-if="showMenu"
-      class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/CvTemplate/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
+      class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/cv-template/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
       @click="nextCv"></button>
 
     <Menu class="absolute h-full  top-0 left-0 right-0" :cvData="mockData[selectedIndex]" :isVisible="showMenu"
