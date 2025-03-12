@@ -3,8 +3,9 @@ import { ref, computed } from "vue";
 import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
 import MultiCheck from "./components/MultiCheck.vue";
+import type { Template } from "@/types/template";
 
-//模拟数据
+//模拟数据：总模板
 const mockData = [
   { id: '1', title: '商务风简历', imageUrl: 'src/assets/img/default_resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
   { id: '2', title: '简约设计', imageUrl: 'src/assets/img/default_resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
@@ -19,27 +20,42 @@ const mockData = [
   { id: '11', title: '工程师专用', imageUrl: 'src/assets/img/default_resume.png', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
   { id: '12', title: '实习生简历', imageUrl: '/src/assets/img/default_resume.png', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
 ];
+//模拟数据：推荐模板10个
+const recommendData = [
+  { id: '1', title: '推荐模板1', imageUrl: 'src/assets/img/default_resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
+  { id: '2', title: '推荐模板2', imageUrl: 'src/assets/img/default_resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
+  { id: '3', title: '推荐模板3', imageUrl: 'src/assets/img/default_resume.png', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
+  { id: '4', title: '推荐模板4', imageUrl: 'src/assets/img/default_resume.png', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
+  { id: '5', title: '推荐模板5', imageUrl: 'src/assets/img/default_resume.png', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
+  { id: '6', title: '推荐模板6', imageUrl: 'src/assets/img/default_resume.png', style: '专业', industry: '教育', color: '黑色', size: '210*290' },
+]
 
-const selectedIndex = ref(0); // 当前选中的简历索引
-const showMenu = ref(false); // 控制菜单显示与隐藏的状态
-const searchQuery = ref(""); // 存储搜索关键字
-const searchText = ref(""); // 触发搜索时保存的关键词（点击搜索按钮后才生效）
+const selectedIndex = ref<number>(0); // 当前选中的简历索引
+const selectedData = ref<Template[]>([])
+const showMenu = ref<boolean>(false); // 控制菜单显示与隐藏的状态
+const searchQuery = ref<string>(""); // 存储搜索关键字
+const searchText = ref<string>(""); // 触发搜索时保存的关键词（点击搜索按钮后才生效）
 // 切换菜单显示状态
 const toggleMenu = (index: number) => {
   showMenu.value = !showMenu.value;
   selectedIndex.value = index; // 更新选中的简历数据
-  scrollToTop();
+  selectedData.value = filteredData.value
+  // scrollToTop();
+};
+
+// 更新cv列表
+const updateCvList = (newValue: number,) => {
+  selectedIndex.value =  newValue
+  selectedData.value = recommendData
 };
 
 // 切换上一张
 const prevCv = () => {
   if (selectedIndex.value > 0) selectedIndex.value--;
-  scrollToTop();
 };
 // 切换下一张
 const nextCv = () => {
-  if (selectedIndex.value < mockData.length - 1) selectedIndex.value++;
-  scrollToTop();
+  if (selectedIndex.value < selectedData.value.length - 1) selectedIndex.value++;
 };
 
 // 滚动到顶部
@@ -137,32 +153,37 @@ const filteredData = computed(() => {
 
       <!-- 模板 -->
       <div class="flex justify-between flex-wrap gap-y-[1.5rem]">
-        <CvCard v-for="(i, index) in filteredData" :key="i.id" :cvData="i" @click="toggleMenu(index)"></CvCard>
+        <CvCard v-for="(i, index) in filteredData" :key="i.id" :cvTemplate="i" @click="toggleMenu(index)"></CvCard>
         <i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i
           class="w-[279px]"></i>
       </div>
 
     </div>
 
-    <!-- 引用菜单组件，并绑定显示状态 -->
-    <div v-if="showMenu" class="absolute top-0 bg-black opacity-25 w-full h-full">
+    <!-- 阴影层 -->
+    <div v-if="showMenu" class="absolute z-8 top-0 bg-black opacity-25 w-full h-full">
     </div>
-    <button v-if="showMenu"
-      class="fixed z-10  top-1/2 left-24 w-10 h-10  bg-[url(@/assets/img/cv-template/navigate_before.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
-      @click="prevCv"></button>
-    <button v-if="showMenu"
-      class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/cv-template/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
-      @click="nextCv"></button>
 
-    <Menu class="absolute h-full  top-0 left-0 right-0" :cvData="mockData[selectedIndex]" :isVisible="showMenu"
-      @update:isVisible="showMenu = $event">
+    <!-- 模板详情菜单 -->
+    <Menu class="fixed overflow-auto no-scrollbar h-full z-9  top-0 left-0 right-0" :cvTemplate="selectedData[selectedIndex]" :cv-list="recommendData" :isVisible="showMenu"
+      @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv" @update-cv-list="updateCvList">
     </Menu>
-
 
     <!-- 返回顶部 -->
     <button @click="scrollToTop"
-      class="fixed bottom-8 right-22 w-12 h-12 bg-[url(@/assets/img/CvTemplate/top.webp)] bg-cover  rounded-full flex items-center justify-center hover:shadow-lg transition-shadow !rounded-button whitespace-nowrap">
+      class="fixed bottom-8 right-22 w-12 h-12 bg-[url(@/assets/img/cv-template/top.webp)] bg-cover  rounded-full flex items-center justify-center hover:shadow-lg transition-shadow !rounded-button whitespace-nowrap">
 
     </button>
   </div>
 </template>
+
+<style scoped>
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  /* Firefox */
+}
+</style>
