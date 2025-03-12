@@ -55,32 +55,34 @@ onUnmounted(() => {
 <template>
   <div class="relative block">
     <!-- 触发按钮 -->
-    <button ref="trigger" @click.stop="isOpen = !isOpen"
+    <button ref="trigger" @click="isOpen = !isOpen"
       class="flex h-[2.5rem] items-center border border-gray-300 px-4 py-2 rounded-md bg-white shadow-sm hover:bg-gray-100">
       {{ title }}
       <img src="@/assets/img/cv-template/drop_down.svg" alt="" class="h-full ml-[8px]">
     </button>
 
     <!-- 下拉列表 -->
-    <div v-if="isOpen" ref="dropdown"
-      class="absolute left-0 w-48 bg-white shadow-md rounded-lg mt-2 flex flex-col items-center ">
+    <transition name="fade-slide">
+      <div v-if="isOpen" ref="dropdown"
+        class="absolute left-0 w-48 bg-white shadow-md rounded-lg mt-2 flex flex-col items-center">
 
-      <div class="h-[15rem] w-full overflow-y-scroll no-scrollbar border rounded-t-lg border-gray-300 ">
-        <div class="p-2 pl-4">
-          <label v-for="(option, index) in props.options" :key="index"
-            class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-gray-100">
-            <input type="checkbox" v-model="selectedOptions" :value="option" class="w-4 h-4" @click.stop />
-            <span>{{ option }}</span>
-          </label>
+        <div class="h-[15rem] w-full overflow-y-scroll no-scrollbar border rounded-t-lg border-gray-300 ">
+          <div class="p-2 pl-4">
+            <label v-for="(option, index) in props.options" :key="index"
+              class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-gray-100">
+              <input type="checkbox" v-model="selectedOptions" :value="option" class="w-4 h-4" @click.stop />
+              <span>{{ option }}</span>
+            </label>
+          </div>
         </div>
-      </div>
 
-      <!-- 清除按钮 -->
-      <button @click.stop="clearSelection"
-        class="w-5/6 my-2 text-gray-800 py-2 border rounded-lg border-gray-300 hover:bg-gray-100">
-        清除
-      </button>
-    </div>
+        <!-- 清除按钮 -->
+        <button @click.stop="clearSelection"
+          class="w-5/6 my-2 text-gray-800 py-2 border rounded-lg border-gray-300 hover:bg-gray-100">
+          清除
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -92,5 +94,25 @@ onUnmounted(() => {
 .no-scrollbar {
   scrollbar-width: none;
   /* Firefox */
+}
+
+/* 进入动画 */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.5s ease, transform 0.3s ease;
+}
+
+/* 初始状态 */
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 结束状态 */
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
