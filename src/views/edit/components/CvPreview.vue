@@ -127,59 +127,59 @@
 </template>
 
 <script setup lang="ts">
-// import { ref } from 'vue';
-import { useResumeStore } from '@/stores/useResumeStore';
+import { ref } from 'vue';
+// import { useResumeStore } from '@/stores/useResumeStore';
 
-const resume = useResumeStore();
-// const resume = ref({
-//   personalInfo: {
-//     name: '张三',
-//     gender: '男',
-//     age: 25,
-//     politicalStatus: '中共党员',
-//     phone: '13800000000',
-//     email: 'zs@qq.com',
-//     university: '锦城大学',
-//     major: '计算机科学与技术',
-//     website: 'https://zhangsan.com',
-//     avatar: 'https://via.placeholder.com/150'
-//   },
-//   honors: [
-//     { id: 1, honorName: '国家奖学金' },
-//     { id: 2, honorName: '优秀学生干部' }
-//   ],
-//   education: [
-//     { id: 1, school: '锦城大学', degree: '超本科', major: '计算机科学与技术', startDate: '2018-09', endDate: '2022-06' },
-//     { id: 2, school: '锦城大学大学院', degree: '超硕士', major: '计算机科学与技术', startDate: '2018-09', endDate: '2022-06' }
-//   ],
-//   skills: [
-//     { id: 1, skillName: 'JavaScript' },
-//     { id: 2, skillName: 'Vue.js' },
-//     { id: 3, skillName: 'Node.js' }
-//   ],
-//   workExperience: [
-//     {
-//       id: 1,
-//       company: '某互联网公司',
-//       position: '前端工程师',
-//       startDate: '2022-07',
-//       endDate: '2024-02',
-//       description: '负责前端开发工作\n优化前端性能，提高用户体验'
-//     }
-//   ],
-//   projects: [
-//     {
-//       id: 1,
-//       projectName: '个人博客系统',
-//       role: '开发者',
-//       startDate: '2023-01',
-//       endDate: '2023-06',
-//       briefIntroduction: '基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统',
-//       description: '实现文章管理、评论功能\n支持 Markdown 语法'
-//     }
-//   ],
-//   summary: '热爱编程，具备良好的前端开发能力，熟悉 Vue.js 和 Node.js，具有团队合作精神。'
-// });
+// const resume = useResumeStore();
+const resume = ref({
+  personalInfo: {
+    name: '张三',
+    gender: '男',
+    age: 25,
+    politicalStatus: '中共党员',
+    phone: '13800000000',
+    email: 'zs@qq.com',
+    university: '锦城大学',
+    major: '计算机科学与技术',
+    website: 'https://zhangsan.com',
+    avatar: 'https://via.placeholder.com/150'
+  },
+  honors: [
+    { id: 1, honorName: '国家奖学金' },
+    { id: 2, honorName: '优秀学生干部' }
+  ],
+  education: [
+    { id: 1, school: '锦城大学', degree: '超本科', major: '计算机科学与技术', startDate: '2018-09', endDate: '2022-06' },
+    { id: 2, school: '锦城大学大学院', degree: '超硕士', major: '计算机科学与技术', startDate: '2018-09', endDate: '2022-06' }
+  ],
+  skills: [
+    { id: 1, skillName: 'JavaScript' },
+    { id: 2, skillName: 'Vue.js' },
+    { id: 3, skillName: 'Node.js' }
+  ],
+  workExperience: [
+    {
+      id: 1,
+      company: '某互联网公司',
+      position: '前端工程师',
+      startDate: '2022-07',
+      endDate: '2024-02',
+      description: '负责前端开发工作\n优化前端性能，提高用户体验'
+    }
+  ],
+  projects: [
+    {
+      id: 1,
+      projectName: '个人博客系统',
+      role: '开发者',
+      startDate: '2023-01',
+      endDate: '2023-06',
+      briefIntroduction: '基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统基于 Vue.js 和 Node.js 搭建的博客系统',
+      description: '实现文章管理、评论功能\n支持 Markdown 语法'
+    }
+  ],
+  summary: '热爱编程，具备良好的前端开发能力，熟悉 Vue.js 和 Node.js，具有团队合作精神。'
+});
 </script>
 
 <style scoped>
