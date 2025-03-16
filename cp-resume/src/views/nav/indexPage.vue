@@ -1,67 +1,74 @@
 <script setup lang="ts">
-import { ref,onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
- const isNavActive = ref(true)
- function handleScroll() {
-   const scrollTop = window.scrollY;
-   console.log(scrollTop)
-   const threshold = 60; // 滚动阈值，可以根据需要调整，单位为px
-   if(isHomeActive.value === true)
-   if (scrollTop > threshold) {
-    isNavActive.value = false;
-   } else {
-    isNavActive.value = true;
-   }
- }
+// 路由相关
+const router = useRouter();
+const route = useRoute();
 
-  const isHomeActive = ref(true);
-  const isCvActive = ref(false);
-// 处理点击事件
-  function handleClick(button: string) {
-    if (button === 'home') {
+// 导航栏状态
+const isHomeActive = ref(false);
+const isCvActive = ref(false);
+const isNavActive = ref(true);
+
+// 监听路由变化
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath === '/home') {
       isNavActive.value = true;
       isHomeActive.value = true;
       isCvActive.value = false;
-    } else if (button === 'cv') {
+    } else if (newPath === '/cv') {
       isNavActive.value = false;
       isHomeActive.value = false;
       isCvActive.value = true;
     }
+    else{
+      isNavActive.value = false;
+    }
+  },
+  { immediate: true } // 立即执行一次，初始化状态
+);
+
+// 处理点击事件
+function handleClick(button: string) {
+  if (button === 'home') {
+    isHomeActive.value = true;
+    isCvActive.value = false;
+    router.push('/'); // 导航到首页
+  } else if (button === 'cv') {
+    isHomeActive.value = false;
+    isCvActive.value = true;
+    router.push('/cv'); // 导航到简历模板页
   }
-// function clickChange(event){
-//   const loHome = document.getElementsByClassName('LayoutHome')[0];
-//   const loCv = document.getElementsByClassName('LayoutCv')[0];
-//   if(event.target === loHome){
-//     loHome.style.color = '#616DFF';
-//     loHome.style.textDecoration = 'underline';
-//     loHome.style.textDecorationColor =  '#616DFF';
-//     loCv.style.color = '#000000';
-//     loCv.style.textDecoration = 'none';
-//   }else if(event.target === loCv){
-//     loHome.style.color = '#000000';
-//     loCv.style.color = '#616DFF';
-//     loCv.style.textDecoration = 'underline';
-//     loCv.style.textDecorationColor =  '#616DFF';
-//     loHome.style.textDecoration = 'none';
-//   }
-// }
+}
 
-window.addEventListener('DOMContentLoaded',() =>{
-  const loHome = document.getElementsByClassName('LayoutHome')[0];
-  const loCv = document.getElementsByClassName('LayoutCv')[0];
+// 处理滚动事件
+function handleScroll() {
+  const scrollTop = window.scrollY;
+  const threshold = 60; // 滚动阈值，单位为px
 
-  // loHome.addEventListener('click', clickChange);
-  // loCv.addEventListener('click', clickChange);
-})
- onMounted(() => {
+  if(route.path === '/home'){
+    if (scrollTop > threshold) {
+    isNavActive.value = false;
+    } else {
+    isNavActive.value = true;
+    }
+  }
+
+
+}
+
+// 挂载时添加滚动事件监听器
+onMounted(() => {
   window.addEventListener('scroll', handleScroll);
-  //  window.addEventListener('scroll', handleScroll);
-  //  window.addEventListener('click',clickChange);
- });
+});
 
- onUnmounted(() => {
-  //  window.removeEventListener('scroll', handleScroll);
- });
+// 卸载时移除滚动事件监听器
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 <template>
   <div class="w-full h-[6vh] bg-white flex items-center  z-20 transition-all duration-300 ease-in-out shadow-[0_2px_8px_rgba(0,0,0,0.15)] fixed"
