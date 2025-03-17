@@ -10,7 +10,8 @@ const route = useRoute();
 const isHomeActive = ref(false);
 const isCvActive = ref(false);
 const isNavActive = ref(true);
-
+const isNavFixed = ref(false)
+const isNavRelative = ref(true)
 // 监听路由变化
 watch(
   () => route.path,
@@ -51,9 +52,21 @@ function handleScroll() {
 
   if(route.path === '/home'){
     if (scrollTop > threshold) {
-    isNavActive.value = false;
+      isNavActive.value = false;
+      isNavFixed.value = true;
+      isNavRelative.value = false;
     } else {
-    isNavActive.value = true;
+      isNavActive.value = true;
+      isNavFixed.value = false;
+      isNavRelative.value = true;
+    }
+  }else{
+    if (scrollTop > threshold) {
+      isNavFixed.value = true;
+      isNavRelative.value = false;
+    } else {
+      isNavFixed.value = false;
+      isNavRelative.value = true;
     }
   }
 
@@ -71,8 +84,8 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <div class="w-full h-[6vh] bg-white flex items-center  z-20 transition-all duration-300 ease-in-out shadow-[0_2px_8px_rgba(0,0,0,0.15)] fixed"
-  :class="{navChange:isNavActive}"
+  <div class="w-full h-[6vh] bg-white flex items-center  z-20 transition-all duration-300 ease-in-out shadow-[0_2px_8px_rgba(0,0,0,0.15)] top-0 left-0 fixed"
+  :class="{navChange:isNavActive,navFixed:isNavFixed,'relative':isNavRelative}"
   >
       <div class="absolute left-0 ml-[3vw] flex items-center top-1/2 -translate-y-1/2">
         <img class="h-[4.84vh]" src="/src/assets/img/LayoutNav/Logo2.png" alt="">
@@ -105,5 +118,8 @@ onUnmounted(() => {
 }
 .navChange{
   @apply bg-transparent shadow-none
+}
+.nav-fixed {
+  @apply fixed
 }
 </style>
