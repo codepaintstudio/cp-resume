@@ -45,7 +45,7 @@ const toggleMenu = (index: number) => {
 
 // 更新cv列表
 const updateCvList = (newValue: number,) => {
-  selectedIndex.value =  newValue
+  selectedIndex.value = newValue
   selectedData.value = recommendData
 };
 
@@ -165,7 +165,8 @@ const filteredData = computed(() => {
     </div>
 
     <!-- 模板详情菜单 -->
-    <Menu class="fixed overflow-auto no-scrollbar h-full z-9  top-0 left-0 right-0" :cvTemplate="selectedData[selectedIndex]" :cv-list="recommendData" :isVisible="showMenu"
+    <Menu class="fixed overflow-auto overscroll-contain no-scrollbar h-full z-9  top-0 left-0 right-0"
+      :cvTemplate="selectedData[selectedIndex]" :cv-list="recommendData" :isVisible="showMenu"
       @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv" @update-cv-list="updateCvList">
     </Menu>
 
