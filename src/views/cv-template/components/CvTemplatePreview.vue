@@ -30,7 +30,7 @@ const props = defineProps({
 });
 
 // 自定义事件，触发父组件关闭菜单
-const emit = defineEmits(['update:isVisible','childPrev', 'childNext', 'updateCvList']);
+const emit = defineEmits(['update:isVisible', 'childPrev', 'childNext', 'updateCvList']);
 const closeMenu = () => {
   emit('update:isVisible', false);
 };
@@ -65,14 +65,13 @@ const openDetail = (cvIndex: number) => {
     <div class="flex flex-col justify-center w-340  bg-white opacity-100 p-16 rounded-lg shadow-lg mx-auto mt-[70px]">
 
       <button @click="prevCv"
-      class="fixed z-10  top-1/2 left-24 w-10 h-10  bg-[url(@/assets/img/cv-template/navigate_before.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
-      ></button>
+        class="fixed z-10  top-1/2 left-24 w-10 h-10  bg-[url(@/assets/img/cv-template/navigate_before.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"></button>
       <button @click="nextCv"
-      class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/cv-template/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"
-      ></button>
+        class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/cv-template/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"></button>
 
       <!-- 简历详情 -->
-      <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6 mb-10" ref="detailSectionRef">
+      <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6 mb-10"
+        ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
           <img src="@/assets/img/default_resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
@@ -109,7 +108,8 @@ const openDetail = (cvIndex: number) => {
       <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(index)" :cvTemplate="i" custom-class="w-50 h-76"></CvCard>
+          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(index)" :cvTemplate="i"
+            custom-class="w-50 h-76"></CvCard>
         </div>
         <div v-if="!cvList.length" class="text-center my-12 pb-10 text-xl font-semibold mb-4 text-gray-500">
           <h1>暂无相关推荐</h1>
