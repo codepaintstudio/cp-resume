@@ -72,18 +72,13 @@ onMounted(() => {
 </script>
 <template>
   <div id="relative w-screen h-full bg-white flex">
-    <span
-      ref="sphere1"
-      class="absolute bg-[#3370FF] opacity-30 blur-[50px] z-10 transition-transform duration-200 ease-out sphere1 w-[25vw] h-[25vw] rounded-full top-[30vw] left-[-12.5vw] ;"
-    ></span>
-    <span
-      ref="sphere2"
-      class="absolute top-[38vw] right-0 w-[30vw] h-[60vw] translate-y-[-50%] overflow-hidden blur-[80px] sphere2"
-    >
+    <span ref="sphere1"
+      class="absolute bg-[#3370FF] opacity-30 blur-[50px] z-10 transition-transform duration-200 ease-out sphere1 w-[25vw] h-[25vw] rounded-full top-[30vw] left-[-12.5vw] ;"></span>
+    <span ref="sphere2"
+      class="absolute top-[38vw] right-0 w-[30vw] h-[60vw] translate-y-[-50%] overflow-hidden blur-[80px] sphere2">
       <!-- 添加 overflow-hidden -->
       <span
-        class="absolute bg-[#3370FF] opacity-30 z-10 transition-transform duration-200 ease-out w-[60vw] h-[60vw] rounded-full"
-      >
+        class="absolute bg-[#3370FF] opacity-30 z-10 transition-transform duration-200 ease-out w-[60vw] h-[60vw] rounded-full">
         <!-- 关键修改点 -->
       </span>
     </span>
@@ -96,77 +91,54 @@ onMounted(() => {
             码绘工作室简历制作
           </div>
           <div
-            class="block w-[12vw] h-[3vw] bg-[url('../../assets/img/Home/MakeResume.png')] bg-contain bg-no-repeat absolute left-1/2 bottom-0 -translate-x-1/2"
-            @click="ToCv"
-          ></div>
+            class="block w-[12vw] h-[3vw] bg-[url('@/assets/img/Home/MakeResume.png')] bg-contain bg-no-repeat absolute left-1/2 bottom-0 -translate-x-1/2"
+            @click="ToCv"></div>
         </div>
       </div>
 
       <div class="w-[70%] h-[70vh] flex flex-col justify-center items-center relative z-10">
         <div class="w-[30vw] h-[6vh] relative">
           <span
-            class="absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"
-          ></span>
+            class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"></span>
           <span
-            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]"
-            >精选简历</span
-          >
+            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]">精选简历</span>
           <span
-            class="absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"
-          ></span>
+            class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
         <div class="w-full h-[30vh] flex justify-around items-center">
-          <div
-            v-for="(box, index) in boxes"
-            :key="index"
-            class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]"
-          >
+          <div v-for="(box, index) in boxes" :key="index" class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]">
             /*可添加跳转*/ Box {{ index + 1 }}
           </div>
         </div>
         <span
-          class="absolute block w-[7vw] h-[4vw] bg-[url('../../assets/img/Home/More2.png')] bg-contain bg-no-repeat bottom-0 -translate-y-1/2"
-          @click="ToCv"
-        ></span>
+          class="absolute block w-[7vw] h-[4vw] bg-[url('@/assets/img/Home/More2.png')] bg-contain bg-no-repeat bottom-0 -translate-y-1/2"
+          @click="ToCv"></span>
       </div>
 
       <div class="w-[70%] h-[60vh] flex flex-col justify-center items-center relative z-10">
         <div class="w-[30vw] h-[6vh] relative">
           <span
-            class="absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"
-          ></span>
+            class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"></span>
           <span
-            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]"
-            >历史简历</span
-          >
+            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]">历史简历</span>
           <span
-            class="absolute block w-[10vw] h-[4vw] bg-[url('../../assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"
-          ></span>
+            class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
         <div class="w-full h-[30vh] flex justify-around items-center">
-          <div
-            v-for="(box, index) in boxes"
-            :key="index"
-            class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]"
-          >
+          <div v-for="(box, index) in boxes" :key="index" class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]">
             /*可添加跳转*/ Box {{ index + 1 }}
           </div>
         </div>
         <div
           class="absolute right-0 top-[25%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row"
-          @click="ToCv"
-        >
+          @click="ToCv">
           <span class="block text-[1.2vw] text-[#3370FF]">查看全部</span>
-          <span
-            class="block w-[2vw] h-[2vw] bg-[url('../../assets/img/Home/arrow2.png')] bg-contain bg-no-repeat"
-          ></span>
+          <span class="block w-[2vw] h-[2vw] bg-[url('@/assets/img/Home/arrow2.png')] bg-contain bg-no-repeat"></span>
         </div>
       </div>
     </div>
-    <div
-      ref="toTopRef"
-      class="fixed w-10 h-10 bg-white rounded-full right-[10%] bottom-[5%] shadow-[2px_3px_5px_rgba(0,0,0,0.5)] flex justify-center items-center"
-    >
+    <div ref="toTopRef"
+      class="fixed w-10 h-10 bg-white rounded-full right-[10%] bottom-[5%] shadow-[2px_3px_5px_rgba(0,0,0,0.5)] flex justify-center items-center">
       <ArrowUp />
     </div>
   </div>
