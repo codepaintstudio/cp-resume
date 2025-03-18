@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Nav from '@/views/nav/indexPage.vue'
 import HomePage from '@/views/home/HomePage.vue';
 import CvTemplateView from '@/views/cv-template/indexPage.vue';
@@ -12,7 +12,7 @@ import CvAdmn from '@/views/user/components/CvAdmn.vue';
 import LoginPage from '@/views/login/indexPage.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
