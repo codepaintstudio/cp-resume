@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue';
 
 // 路由相关
-const router = useRouter();
 const route = useRoute();
 
 // 导航栏状态
@@ -33,19 +32,11 @@ watch(
   { immediate: true } // 立即执行一次，初始化状态
 );
 
-// 处理点击事件
-function handleClick(button: string) {
-  if (button === 'home') {
-    isHomeActive.value = true;
-    isCvActive.value = false;
-    router.push('/'); // 导航到首页
-  } else if (button === 'cv') {
-    isHomeActive.value = false;
-    isCvActive.value = true;
-    router.push('/cv'); // 导航到简历模板页
-  }
-}
 
+// 判断当前路由是否是选中的 Tab
+function isActiveTab(tabPath: string) {
+  return route.path === tabPath
+}
 // 处理滚动事件
 function handleScroll() {
   const scrollTop = window.scrollY;
@@ -95,9 +86,9 @@ onUnmounted(() => {
 
     <div
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[8.89vw] text-[0.96vw] flex justify-around">
-      <RouterLink to="/" class=" text-black pb-[0.08vh]" :class="{ active: isHomeActive }" @click="handleClick('home')">
+      <RouterLink to="/" class=" text-black pb-[0.08vh]" :class="{ active: isActiveTab('/home') }">
         首页</RouterLink>
-      <RouterLink to="/cv" class=" text-black pb-[0.08vh]" :class="{ active: isCvActive }" @click="handleClick('cv')">
+      <RouterLink to="/cv" class=" text-black pb-[0.08vh]" :class="{ active: isActiveTab('/cv') }">
         简历模板</RouterLink>
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">
