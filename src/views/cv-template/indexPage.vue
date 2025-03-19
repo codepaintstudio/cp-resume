@@ -125,7 +125,7 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="relative min-h-screen bg-gradient-to-b from-white to-blue-300  pb-[6rem]">
+  <div class="relative min-h-screen">
 
     <div class="mx-20 pt-12">
 
