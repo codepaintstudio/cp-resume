@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted,onUnmounted } from 'vue'
-
+import {debounce} from './../utils/tool'
 const sphere1 = ref<HTMLElement | null>(null)
 const sphere2 = ref<HTMLElement | null>(null)
 
-// 防抖函数
-function debounce<T extends (...args: any[]) => void>(
-  func: T,
-  delay: number,
-): (...args: Parameters<T>) => void {
-  let timeoutId: number
-  return function (...args: Parameters<T>) {
-    clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => func(...args), delay)
-  }
-}
+
 
 // 处理滚动事件
 const handleScroll = debounce(() => {

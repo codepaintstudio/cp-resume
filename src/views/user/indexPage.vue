@@ -10,6 +10,7 @@
     <RouterView></RouterView>
   </div>
 </template>
+
 <style scoped lang="scss">
 .user {
   display: flex;
