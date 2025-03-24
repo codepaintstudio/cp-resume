@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted,onUnmounted } from 'vue'
-import {debounce} from './../utils/tool'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { debounce } from './../utils/tool'
 const sphere1 = ref<HTMLElement | null>(null)
 const sphere2 = ref<HTMLElement | null>(null)
 
@@ -16,8 +16,8 @@ const handleScroll = debounce(() => {
   const progress = (clampedScrollY - minScrollY) / (maxScrollY - minScrollY)
 
   if (sphere1.value && sphere2.value) {
-    sphere1.value.style.top = `${30 + 20 * progress}vw`
-    sphere2.value.style.top = `${38 + 20 * progress}vw`
+    sphere1.value.style.top = `${30 - 20 * progress}vw`
+    sphere2.value.style.top = `${38 - 20 * progress}vw`
     sphere1.value.style.animationPlayState = 'paused'
     sphere2.value.style.animationPlayState = 'paused'
   }
@@ -28,7 +28,7 @@ const handleScroll = debounce(() => {
       sphere2.value.style.animationPlayState = 'running'
     }
   }, 100)
-}, 10)
+}, 8)
 
 // 在组件挂载时添加事件监听器
 onMounted(() => {
@@ -42,16 +42,15 @@ onUnmounted(() => {
 
 </script>
 <template>
-  <div class="contents">
   <span ref="sphere1"
-    class="-z-1 absolute bg-[#3370FF] opacity-30 blur-[50px] transition-transform duration-200 ease-out sphere1 w-[25vw] h-[25vw] rounded-full top-[30vw] left-[-12.5vw] ;"></span>
+    class="-z-1 fixed bg-[#3370FF] opacity-30 blur-[50px] transition-transform duration-200 ease-out sphere1 w-[25vw] h-[25vw] rounded-full top-[30vw] left-[-12.5vw] ;"></span>
   <span ref="sphere2"
-    class="-z-1 absolute top-[38vw] right-0 w-[30vw] h-[60vw] translate-y-[-50%] overflow-hidden blur-[80px] sphere2">
+    class="-z-1 fixed top-[38vw] right-0 w-[30vw] h-[60vw] translate-y-[-50%] overflow-hidden blur-[80px] sphere2">
+    <!-- 添加 overflow-hidden -->
     <span
       class="absolute bg-[#3370FF] opacity-30 transition-transform duration-200 ease-out w-[60vw] h-[60vw] rounded-full">
     </span>
   </span>
-  </div>
 </template>
 <style scoped>
 @keyframes Lmove {

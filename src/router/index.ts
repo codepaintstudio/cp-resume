@@ -34,7 +34,7 @@ const router = createRouter({
           path: '/user',
           name: 'user',
           component: User,
-          redirect: '/user/Information',
+          redirect: '/user/cv',
           children: [
             {
               path: '/user/Information',

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import CvSetting from "./components/CvSetting.vue";
-import CvPreview from "./components/CvPreview.vue";
-import CvSettings from "./components/CvEditor.vue";
-import CvHeader from "./components/CvHeader.vue";
-import EditMenu from "./components/EditMenu.vue";
+import CvSetting from "./setting/indexPage.vue";
+import CvPreview from "./preview/indexPage.vue";
+import CvSettings from "./editor/indexPage.vue";
+import CvHeader from "./header/indexPage.vue";
+import EditMenu from "./edit-menu/indexPage.vue";
+
 </script>
 
 <template>
