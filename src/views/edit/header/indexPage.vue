@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import { exportToPDF } from "@/utils/exportToPdf.ts";
+
+// 触发 PDF 导出
+const handleExport = () => {
+  exportToPDF("resume-container", "我的简历.pdf");
+};
+</script>
 <template>
-  <header class="fixed z-20 top-0 flex w-full justify-between items-center px-10 bg-white shadow-md h-18">
+  <header class="fixed  top-0 flex w-full justify-between items-center px-10 bg-white shadow-md h-18">
 
     <div class="flex items-center space-x-2">
 
@@ -33,7 +41,8 @@
         <span class="icon-[teenyicons--share-outline]"></span>
         <span>分享</span>
       </button>
-      <button class="h-[35px] flex items-center space-x-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      <button @click="handleExport"
+        class="h-[35px] flex items-center space-x-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
         <span class="icon-[uil--export]"></span>
         <span>导出</span>
       </button>
