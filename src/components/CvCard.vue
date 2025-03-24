@@ -3,6 +3,10 @@ import { defineProps } from 'vue'
 import type { Template } from '@/types/template'
 
 defineProps({
+  isView: {
+    type: Boolean,
+    default: true,
+  },
   customClass: {
     type: String,
     default: 'w-70 h-100',
@@ -23,25 +27,22 @@ defineProps({
 </script>
 <template>
   <div :class="['bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow', customClass]">
-    <img
-      :src="cvTemplate.imageUrl"
-      class="w-full h-3/4 object-cover rounded-t-lg"
-      :alt="`简历模板`"
-    />
-    <div class="p-3">
+    <img :src="cvTemplate.imageUrl" :class="{ 'w-full object-cover rounded-t-lg': true, 'h-3/4': isView }"
+      :alt="`简历模板`" />
+    <div v-if="isView" class="p-3">
       <div class="flex items-center justify-between">
         <h3 class="text-gray-800 font-medium">{{ cvTemplate.title }}</h3>
       </div>
       <div class="flex flex-wrap gap-2 mt-2 mb-2">
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.style
-        }}</span>
+          }}</span>
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.industry
-        }}</span>
+          }}</span>
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.color
-        }}</span>
+          }}</span>
       </div>
     </div>
   </div>
