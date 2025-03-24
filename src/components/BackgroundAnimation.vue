@@ -1,22 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
+import { ref, onMounted,onUnmounted } from 'vue'
+import {debounce} from './../utils/tool'
 const sphere1 = ref<HTMLElement | null>(null)
 const sphere2 = ref<HTMLElement | null>(null)
 
-// 防抖函数
 
-// 防抖函数
-function debounce<T extends (...args: any[]) => void>(
-  func: T,
-  delay: number,
-): (...args: Parameters<T>) => void {
-  let timeoutId: number
-  return function (...args: Parameters<T>) {
-    clearTimeout(timeoutId)
-    timeoutId = setTimeout(() => func(...args), delay)
-  }
-}
 
 // 处理滚动事件
 const handleScroll = debounce(() => {
@@ -42,21 +30,28 @@ const handleScroll = debounce(() => {
   }, 100)
 }, 10)
 
+// 在组件挂载时添加事件监听器
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
+
+// 在组件卸载时移除事件监听器
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
 </script>
 <template>
+  <div class="contents">
   <span ref="sphere1"
     class="-z-1 absolute bg-[#3370FF] opacity-30 blur-[50px] transition-transform duration-200 ease-out sphere1 w-[25vw] h-[25vw] rounded-full top-[30vw] left-[-12.5vw] ;"></span>
   <span ref="sphere2"
     class="-z-1 absolute top-[38vw] right-0 w-[30vw] h-[60vw] translate-y-[-50%] overflow-hidden blur-[80px] sphere2">
-    <!-- 添加 overflow-hidden -->
     <span
       class="absolute bg-[#3370FF] opacity-30 transition-transform duration-200 ease-out w-[60vw] h-[60vw] rounded-full">
-      <!-- 关键修改点 -->
     </span>
   </span>
+  </div>
 </template>
 <style scoped>
 @keyframes Lmove {
@@ -91,17 +86,13 @@ onMounted(() => {
   animation-name: Lmove;
   animation-duration: 5s;
   animation-iteration-count: infinite;
-  /* 无限循环 */
   animation-timing-function: linear;
-  /* 匀速动画 */
 }
 
 .sphere2 {
   animation-name: Rmove;
   animation-duration: 5s;
   animation-iteration-count: infinite;
-  /* 无限循环 */
   animation-timing-function: linear;
-  /* 匀速动画 */
 }
 </style>

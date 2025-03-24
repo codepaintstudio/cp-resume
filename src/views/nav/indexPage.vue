@@ -8,8 +8,8 @@ const router = useRouter();
 const route = useRoute();
 
 // 导航栏状态
-const isHomeActive = ref(false);
-const isCvActive = ref(false);
+
+const currentActive = ref<boolean>(true)
 const isNavActive = ref(true);
 const isNavFixed = ref(false)
 const isNavRelative = ref(true)
@@ -19,12 +19,10 @@ watch(
   (newPath) => {
     if (newPath === '/home') {
       isNavActive.value = true;
-      isHomeActive.value = true;
-      isCvActive.value = false;
+      currentActive.value = true
     } else if (newPath === '/cv') {
       isNavActive.value = false;
-      isHomeActive.value = false;
-      isCvActive.value = true;
+      currentActive.value = false
     }
     else {
       isNavActive.value = false;
@@ -36,12 +34,10 @@ watch(
 // 处理点击事件
 function handleClick(button: string) {
   if (button === 'home') {
-    isHomeActive.value = true;
-    isCvActive.value = false;
+    currentActive.value = true
     router.push('/'); // 导航到首页
   } else if (button === 'cv') {
-    isHomeActive.value = false;
-    isCvActive.value = true;
+    currentActive.value = false
     router.push('/cv'); // 导航到简历模板页
   }
 }
@@ -95,9 +91,9 @@ onUnmounted(() => {
 
     <div
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[8.89vw] text-[0.96vw] flex justify-around">
-      <RouterLink to="/" class=" text-black pb-[0.08vh]" :class="{ active: isHomeActive }" @click="handleClick('home')">
+      <RouterLink to="/" :class=" `text-black pb-[0.08vh] ${currentActive ? 'active' :''}`"  @click="handleClick('home')">
         首页</RouterLink>
-      <RouterLink to="/cv" class=" text-black pb-[0.08vh]" :class="{ active: isCvActive }" @click="handleClick('cv')">
+      <RouterLink to="/cv" :class="`text-black pb-[0.08vh] ${!currentActive ? 'active' : '' }`"   @click="handleClick('cv')">
         简历模板</RouterLink>
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">

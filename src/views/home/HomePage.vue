@@ -12,12 +12,7 @@ const boxes = ref<null[]>(Array(5).fill(null))
 const toTopRef = ref<HTMLElement | null>(null)
 
 // 返回顶部
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
+import {scrollToTop} from '../../utils/tool'
 
 // 在组件挂载后添加事件监听器
 onMounted(() => {
