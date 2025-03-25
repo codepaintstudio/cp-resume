@@ -92,6 +92,16 @@ const resumeTemplate = {
   summary: ''
 } as const;
 
+const sectionsDefault = ref([
+  { label: "基本信息", key: "personalInfo", value: true },
+  { label: "教育经历", key: "education", value: true },
+  { label: "工作经验", key: "workExperience", value: true },
+  { label: "技能特长", key: "skills", value: true },
+  { label: "项目经验", key: "projects", value: true },
+  { label: "荣誉奖项", key: "honors", value: true },
+  { label: "自我评价", key: "summary", value: true },
+]);
+
 export const useResumeStore = defineStore('resume', {
   state: (): ResumeState => {
 
@@ -99,6 +109,7 @@ export const useResumeStore = defineStore('resume', {
     const savedResumeData = localStorage.getItem('resumeData');
     const savedCurrentId = localStorage.getItem('currentId');
     const isFirstVisit = localStorage.getItem('isFirstVisit') === null; // 是否首次访问
+    const savedSections = localStorage.getItem('sections');
 
     const currentId = savedCurrentId && !isNaN(Number(savedCurrentId))
       ? Number(savedCurrentId)
@@ -110,15 +121,7 @@ export const useResumeStore = defineStore('resume', {
       localStorage.setItem('isFirstVisit', 'false');
     }
 
-    const sections = ref([
-      { label: "基本信息", key: "personalInfo", value: true },
-      { label: "教育经历", key: "education", value: true },
-      { label: "工作经验", key: "workExperience", value: true },
-      { label: "技能特长", key: "skills", value: true },
-      { label: "项目经验", key: "projects", value: true },
-      { label: "荣誉奖项", key: "honors", value: true },
-      { label: "自我评价", key: "summary", value: true },
-    ]);
+    const sections = savedSections ? JSON.parse(savedSections) : sectionsDefault;
 
     return {
       ...resumeData,
@@ -133,6 +136,7 @@ export const useResumeStore = defineStore('resume', {
     saveToLocalStorage() {
       localStorage.setItem('resumeData', JSON.stringify(this.$state));
       localStorage.setItem('currentId', JSON.stringify(this.currentId));
+      localStorage.setItem('sections', JSON.stringify(this.sections));
     },
     // 初始化时检查最大 id，后面新增id是递增的
     initializeCurrentId() {

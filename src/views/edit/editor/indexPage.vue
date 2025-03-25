@@ -15,7 +15,7 @@ const openMenu = (menuName: string) => {
 <template>
   <div class="bg-white p-4 rounded-lg w-56 space-y-2">
     <!-- 固定项：基本信息 -->
-    <div @click="openMenu(resumeStore.sections[0].label)"
+    <div @click="openMenu(resumeStore.sections[0].key)"
       class="flex items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none">
       <span class="text-sm hover:text-blue-400">{{ resumeStore.sections[0].label }}</span>
       <div class="flex items-center space-x-2">
@@ -30,7 +30,7 @@ const openMenu = (menuName: string) => {
     <!-- 可拖拽列表 -->
     <draggable v-model="resumeStore.sections" handle=".drag-handle" animation="200" item-key="label">
       <template #item="{ element, index }">
-        <div v-if="index != 0" :key="index" @click="openMenu(element.label)"
+        <div v-if="index != 0" :key="index" @click="openMenu(element.key)"
           class="flex items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none my-2">
           <span class="text-sm hover:text-blue-400">{{ element.label }}</span>
           <div class="flex items-center space-x-2">

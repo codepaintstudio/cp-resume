@@ -16,13 +16,13 @@ const resumeStore = useResumeStore();
 
 // 组件映射表：label -> 组件
 const componentsMap: Record<string, Component> = {
-  "基本信息": PersonalInfoComponent,
-  "教育经历": EducationComponent,
-  "工作经验": WorkExperienceComponent,
-  "技能特长": SkillsComponent,
-  "项目经验": ProjectsComponent,
-  "荣誉奖项": HonorsComponent,
-  "自我评价": SummaryComponent,
+  "personalInfo": PersonalInfoComponent,
+  "education": EducationComponent,
+  "workExperience": WorkExperienceComponent,
+  "skills": SkillsComponent,
+  "projects": ProjectsComponent,
+  "honors": HonorsComponent,
+  "summary": SummaryComponent,
 };
 
 // 监听 store 的变化，保存到 localStorage
@@ -38,7 +38,7 @@ watch(
 <template>
   <div id="resume-container" class="bg-white p-6 rounded-lg w-200 space-y-4">
 
-    <component v-for="(item, index) in resumeStore.sections" :key="index" :is="componentsMap[item.label]"
+    <component v-for="(item, index) in resumeStore.sections" :key="index" :is="componentsMap[item.key]"
       v-show="item.value" />
   </div>
 </template>

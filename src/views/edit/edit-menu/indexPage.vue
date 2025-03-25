@@ -1,36 +1,10 @@
 <script setup lang="ts">
 import { useMenuStore } from "@/stores/useMenuStore";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useResumeStore } from '@/stores/useResumeStore';
-// import { Menu } from "lucide-vue-next";
 
 const resume = useResumeStore();
-
-// 定义 menuContent 的键集合，并提取为类型
-const menuKeys = [
-  "基本信息",
-  "教育经历",
-  "工作经验",
-  "项目经验",
-  "荣誉奖项",
-  "获奖经历",
-  "校园经历",
-  "技能特长",
-  "自我评价",
-  "兴趣爱好",
-  "自定义",
-] as const;
-
-type MenuKey = typeof menuKeys[number];
-
-// 获取菜单状态
-const menuStore = useMenuStore();
-
-// 确保 activeMenu 类型为 MenuKey | undefined
-const activeMenu = computed(() => {
-  return menuKeys.includes(menuStore.activeMenu as MenuKey) ? (menuStore.activeMenu as MenuKey) : undefined;
-});
-
+const menu = useMenuStore();
 // 添加教育经历
 const addEducation = () => {
   resume.addEducation({
@@ -41,20 +15,52 @@ const addEducation = () => {
     endDate: ''
   });
 };
+
+//标题编辑逻辑
+const isEditing = ref(false);
+const inputRef = ref<HTMLInputElement | null>(null);
+const enableEditing = () => {
+  isEditing.value = true;
+  setTimeout(() => inputRef.value?.focus(), 0);
+};
+const disableEditing = () => {
+  isEditing.value = false;
+};
+
+// 计算属性获取 label
+const selectedLabel = computed({
+  get: () => resume.sections.find(item => item.key === menu.activeMenu)?.label || "",
+  set: (newLabel: string) => {
+    const section = resume.sections.find(item => item.key === menu.activeMenu);
+    if (section) {
+      section.label = newLabel;
+    }
+  },
+});
 </script>
 
 <template>
 
   <Teleport to="body">
-    <div v-if="activeMenu" class="fixed inset-0 bg-black opacity-25"></div>
+    <div v-if="menu.activeMenu" class="fixed inset-0 bg-black opacity-25"></div>
     <transition name="fade-slide">
-      <div v-if="activeMenu" @click.self="menuStore.closeMenu"
+      <div v-if="menu.activeMenu" @click.self="menu.closeMenu"
         class="fixed inset-0  bg-opacity-50 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg w-240 h-150 relative">
 
           <!-- 基本信息 -->
-          <div v-if="activeMenu === '基本信息'">
-            <h3 class="text-xl px-8 py-5 font-medium border-b-1 border-gray-300">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'personalInfo'">
+
+            <div class="text-xl px-8 py-5 font-medium border-b border-gray-300">
+              <input v-if="isEditing" ref="inputRef" v-model="selectedLabel" @blur="disableEditing"
+                @keyup.enter="disableEditing" class="focus:outline-none" />
+              <div class="flex space-x-2 items-center" v-else>
+                <span>{{ selectedLabel }}</span>
+                <i @click="enableEditing" class="icon-[iconamoon--edit-thin] cursor-pointer  hover:text-blue-700"></i>
+              </div>
+
+            </div>
+
             <div class="grid grid-cols-2 gap-y-8 p-10 px-14">
               <div class="text-sm text-gray-700">
                 <label class="mb-1">姓名：</label>
@@ -116,8 +122,8 @@ const addEducation = () => {
           </div>
 
           <!-- 教育经历 -->
-          <div v-if="activeMenu === '教育经历'" class="grid h-full border grid-rows-[auto_1fr_auto]">
-            <h3 class="text-xl px-8 py-5 border-b-1 font-medium border-gray-300">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'education'" class="grid h-full border grid-rows-[auto_1fr_auto]">
+            <h3 class="text-xl px-8 py-5 border-b-1 font-medium border-gray-300">{{ selectedLabel }}</h3>
 
             <div class="overflow-scroll overscroll-contain no-scrollbar ">
               <div v-for="(edu, index) in resume.education" :key="edu.id"
@@ -157,48 +163,48 @@ const addEducation = () => {
             <div class="flex border-t-1 border-gray-300 bottom-0 justify-between px-10 py-5">
               <button @click="addEducation" class="border p-2 rounded-sm text-xs hover:bg-gray-100">+ 添加教育背景</button>
               <button class="bg-blue-600 text-white hover:bg-blue-700 p-2 px-6 rounded-sm text-xs"
-                @click.self="menuStore.closeMenu">保存</button>
+                @click.self="menu.closeMenu">保存</button>
             </div>
 
           </div>
 
-          <div v-if="activeMenu === '工作经验'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'workExperience'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '项目经验'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'projects'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '荣誉奖项'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'honors'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '获奖经历'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === '获奖经历'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '校园经历'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === '校园经历'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '技能特长'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'skills'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '自我评价'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === 'summary'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '兴趣爱好'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === '兴趣爱好'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <div v-if="activeMenu === '自定义'">
-            <h3 class="text-xl mb-4 font-medium">{{ menuStore.activeMenu }}</h3>
+          <div v-if="menu.activeMenu === '自定义'">
+            <h3 class="text-xl mb-4 font-medium">{{ selectedLabel }}</h3>
           </div>
 
-          <button @click="menuStore.closeMenu" class="absolute top-2 right-2 text-gray-600">✖</button>
+          <button @click="menu.closeMenu" class="absolute top-2 right-2 text-gray-600">✖</button>
         </div>
       </div>
     </transition>
