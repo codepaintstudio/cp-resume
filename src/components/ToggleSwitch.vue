@@ -1,13 +1,8 @@
 <template>
-  <div
-    class="w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300"
-    :class="isChecked ? 'bg-blue-500' : 'bg-gray-300'"
-    @click="toggleSwitch"
-  >
-    <div
-      class="w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300"
-      :class="isChecked ? 'translate-x-5' : 'translate-x-0'"
-    ></div>
+  <div class="w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300"
+    :class="isChecked ? 'bg-blue-500' : 'bg-gray-300'" @click="toggleSwitch">
+    <div class="w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300"
+      :class="isChecked ? 'translate-x-5' : 'translate-x-0'"></div>
   </div>
 </template>
 

@@ -1,10 +1,23 @@
 <script setup lang="ts">
-// import { useResumeStore } from '@/stores/useResumeStore';
+import { useResumeStore } from '@/stores/useResumeStore';
 
-// const resume = useResumeStore();
+const resume = useResumeStore();
 </script>
 <template>
-  <div>荣誉</div>
+  <div class="section experience-section mt-6" v-if="resume.workExperience.length">
+    <div class="section-title font-bold text-xl mb-2">荣誉奖项</div>
+    <div class="section-content">
+      <div class="item mb-2" v-for="honor in resume.honors" :key="honor.id">
+        <div class="subtitle font-semibold">
+          <span>{{ honor.honorName }}</span>
+          <span class="mx-2">{{ honor.date }}</span>
+        </div>
+        <ul class="list-disc list-inside mt-1">
+          <li v-for="(desc, index) in honor.description.split('\n')" :key="index">{{ desc }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </template>
 <style scoped>
 .resume-container {
@@ -131,6 +144,8 @@
 }
 
 .section-content .item .subtitle {
+  display: flex;
+  justify-content: space-between;
   font-weight: bold;
   margin-bottom: 5px;
   word-break: break-all;

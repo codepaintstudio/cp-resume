@@ -16,8 +16,8 @@ const openMenu = (menuName: string) => {
   <div class="bg-white p-4 rounded-lg w-56 space-y-2">
     <!-- 固定项：基本信息 -->
     <div @click="openMenu(resumeStore.sections[0].key)"
-      class="flex items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none">
-      <span class="text-sm hover:text-blue-400">{{ resumeStore.sections[0].label }}</span>
+      class="flex h-13 items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none overflow-hidden">
+      <span class="text-sm hover:text-blue-400 overflow-hidden">{{ resumeStore.sections[0].label }}</span>
       <div class="flex items-center space-x-2">
         <ToggleSwitch @click.stop :modelValue="true" />
         <button @click.stop
@@ -31,8 +31,8 @@ const openMenu = (menuName: string) => {
     <draggable v-model="resumeStore.sections" handle=".drag-handle" animation="200" item-key="label">
       <template #item="{ element, index }">
         <div v-if="index != 0" :key="index" @click="openMenu(element.key)"
-          class="flex items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none my-2">
-          <span class="text-sm hover:text-blue-400">{{ element.label }}</span>
+          class="flex h-13 items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none my-2 overflow-hidden">
+          <span class="text-sm hover:text-blue-400 overflow-hidden">{{ element.label }}</span>
           <div class="flex items-center space-x-2">
             <ToggleSwitch @click.stop v-model="element.value" />
             <!-- 拖拽按钮 -->
