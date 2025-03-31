@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch,computed} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue';
 
@@ -8,6 +8,8 @@ const router = useRouter();
 const route = useRoute();
 
 // 导航栏状态
+//测试通过将isLogin作为判断，使得用户中心根据不同情况发生变化
+const isLogin = ref(false);
 
 const currentActive = ref<boolean>(true)
 const isNavActive = ref(true);
@@ -70,6 +72,9 @@ function handleScroll() {
 
 }
 
+const UserIs = computed(()=>{
+  return isLogin.value?'/user':'/login'
+})
 // 挂载时添加滚动事件监听器
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -97,7 +102,7 @@ onUnmounted(() => {
         简历模板</RouterLink>
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">
-      <RouterLink to="/user" class="text-[0.8vw] text-[#4F4F4F] no-underline">用户中心</RouterLink>
+      <RouterLink :to="UserIs" class="text-[0.8vw] text-[#4F4F4F] no-underline"><span>{{isLogin?'用户中心':'请先登录'}}</span></RouterLink>
     </div>
 
 

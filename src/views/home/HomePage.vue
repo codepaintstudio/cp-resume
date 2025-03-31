@@ -20,7 +20,6 @@ onMounted(() => {
     toTopRef.value.addEventListener('click', scrollToTop)
   }
 })
-
 // 在组件卸载时移除事件监听器
 </script>
 <template>
