@@ -14,12 +14,11 @@ const props = defineProps({
     default: () => {
       return {
         id: '',
-        title: '标题',
-        imageUrl: 'src/assets/img/default_resume.png',
+        name: '标题',
+        folderPath: 'src/assets/img/default_resume.png',
         style: '风格',
         industry: '行业',
         color: '颜色',
-        size: '默认尺寸'
       }
     }
   },
@@ -79,14 +78,13 @@ const openDetail = (cvIndex: number) => {
 
         <!-- 右侧详情 -->
         <div class="space-y-5 mt-[50px]">
-          <h1 class="text-2xl font-bold">{{ cvTemplate.title }}</h1>
+          <h1 class="text-2xl font-bold">{{ cvTemplate.name }}</h1>
           <div class="flex gap-2">
             <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.style }}</span>
             <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.industry }}</span>
             <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.color }}</span>
           </div>
 
-          <p class="text-gray-600 text-sm color-[#595b5e]">尺寸：{{ cvTemplate.size }}</p>
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.color }}</p>
 
           <RouterLink to="/edit"

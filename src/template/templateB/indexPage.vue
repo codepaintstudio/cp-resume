@@ -10,6 +10,7 @@ const colorStyles = computed(() => {
     '--primary-color': templateStore.themeColor,
     '--primary-color-light': templateStore.themeColor,
     '--primary-color-dark': templateStore.themeColor,
+    '--font-family': templateStore.fontId,
     '--text-color': '#333',
     '--background-color': '#fff',
     '--section-divider-color': '#eaeaea',
@@ -150,7 +151,7 @@ defineProps<{
   background-color: var(--background-color);
   color: var(--text-color);
   padding: 20px 30px;
-  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-family: var(--font-family);
   line-height: 1.6;
   max-width: 800px;
   margin: 0 auto;

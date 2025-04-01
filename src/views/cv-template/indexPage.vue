@@ -177,14 +177,3 @@ const filteredData = computed(() => {
     </button>
   </div>
 </template>
-
-<style scoped>
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  scrollbar-width: none;
-  /* Firefox */
-}
-</style>

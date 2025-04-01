@@ -25,11 +25,18 @@ const setTemplate = (template: Template) => {
 
 </script>
 <template>
-  <div>模板设置</div>
-  <div class="flex">
-    <div class="p-2 mb-1" v-for="(template, index) in templates" :key="index" @click="setTemplate(template)">
-      <CvCard :cv-template="template"></CvCard>
+  <div class="grid grid-rows-[auto_1fr] gap-4 h-full">
+    <div>模板选择</div>
+    <div class="flex space-y-5 justify-between flex-wrap p-5 overflow-scroll overscroll-contain no-scrollbar">
+      <div v-for="(template, index) in templates" :key="index" @click="setTemplate(template)">
+        <CvCard custom-class="w-60 h-84" :cv-template="template"></CvCard>
+      </div>
+      <i class="w-60 h-84"></i>
+      <i class="w-60 h-84"></i>
+      <i class="w-60 h-84"></i>
+      <i class="w-60 h-84"></i>
     </div>
   </div>
+
 </template>
 <style scoped></style>

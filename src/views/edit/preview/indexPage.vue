@@ -9,7 +9,7 @@ const resumeStore = useResumeStore();
 
 const templateStore = useTemplateStore();
 // 动态导入所有模板组件
-const templateModules = import.meta.glob('../../../template/**/index.vue');
+const templateModules = import.meta.glob('../../../template/**/indexPage.vue');
 // 模板列表
 const templates = ref<Template[]>([]);
 // 当前渲染的组件
@@ -50,7 +50,7 @@ const loadCurrentTemplate = () => {
       console.error('模板路径错误:', selectedTemplate.folderPath);
       return;
     }
-    const importPath = `../../../template/${folderName}/index.vue`;
+    const importPath = `../../../template/${folderName}/indexPage.vue`;
     const importFunc = templateModules[importPath];
     if (importFunc) {
       currentComponent.value = defineAsyncComponent(() => importFunc() as Promise<typeof import('*.vue')['default']>);

@@ -8,7 +8,10 @@
     "layout": "classical",
     "style": "简约",
     "industry": "互联网",
-    "color": "蓝色"
+    "color": "蓝色",
+    "setting": {
+      "color":"#2b7fff"
+    }
   },
   {
     "id": "202502",

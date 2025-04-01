@@ -25,7 +25,8 @@ defineProps({
 })
 </script>
 <template>
-  <div :class="['bg-white rounded-lg shadow-[0px_0px_15px_-5px] hover:shadow-lg transition-shadow', customClass]">
+  <div
+    :class="['bg-white rounded-lg shadow-[0px_0px_8px_-3px] hover:shadow-[0px_0px_15px_-5px] transition-shadow', customClass]">
     <img :src="`src/template/${cvTemplate.folderPath}/preview.png`"
       :class="{ 'w-full object-cover rounded-t-lg': true, 'h-3/4': isView }" :alt="`简历模板`" />
     <div v-if="isView" class="p-3">

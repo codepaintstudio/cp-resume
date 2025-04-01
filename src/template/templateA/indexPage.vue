@@ -11,7 +11,8 @@ const ShadesStyle = computed(() => {
     '--color-font': templateStore.fontColor,
     '--line-spacing': `${templateStore.lineSpacing}px`,
     '--block-spacing': `${templateStore.blockSpacing}px`,
-    '--page-margin': `${templateStore.pageMargin}px`
+    '--page-margin': `${templateStore.pageMargin}px`,
+    '--font-family': templateStore.fontId,
   };
 });
 // 引入引用的store
@@ -173,8 +174,9 @@ defineProps<{
 }
 
 /* 颜色相关的css放入style */
-body {
+.resume-container {
   line-height: var(--line-spacing);
+  font-family: var(--font-family);
 }
 
 .section {
