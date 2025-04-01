@@ -10,12 +10,13 @@ export const useTemplateStore = defineStore('templateStore', () => {
   const lineSpacing = ref<number>(21);
   const blockSpacing = ref<number>(21);
   const pageMargin = ref<number>(21);
+  const fontId = ref<string>('zql')
 
   const setTemplate = (template: Template) => {
     currentTemplate.value = template
     console.log(currentTemplate.value)
   }
-  return { currentTemplate, themeColor, fontColor, setTemplate, lineSpacing, blockSpacing, pageMargin }
+  return { currentTemplate, themeColor, fontColor, setTemplate, lineSpacing, blockSpacing, pageMargin, fontId }
 },
 {
   persist: true,

@@ -1,2 +1,50 @@
 @import 'tailwindcss';
 @plugin "@iconify/tailwind4";
+
+/* 引入字体 */
+@font-face {
+  font-family: 'zql';
+  src: url('/font/zql.woff2') format('woff2')
+}
+@font-face {
+  font-family: 'ZCOOL QingKe HuangYou';
+  src: url('/font/ZCOOLQingKeHuangYou-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'ZCOOLKuaiLe-Regular';
+  src: url('/font/ZCOOLKuaiLe-Regular.ttf')
+}
+@font-face {
+  font-family: 'ZhiMangXing-Regular';
+  src: url('/font/ZhiMangXing-Regular.ttf')
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+  
+.no-scrollbar {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* 进入动画 */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 初始状态 */
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 结束状态 */
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
