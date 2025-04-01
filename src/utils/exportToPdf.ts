@@ -24,9 +24,18 @@ export const exportToPDF = async (elementId: string, fileName: string = "resume.
     logging: false,
     backgroundColor: "#FFFFFF", // 防止透明背景转 JPEG 变黑
     onclone: (clonedDoc) => {
-      // 可选：克隆文档时隐藏不需要的元素
       const targetElement = clonedDoc.getElementById(elementId);
-      if (targetElement) targetElement.style.boxShadow = "none"; // 移除阴影效果
+      if (targetElement) {
+        targetElement.style.boxShadow = "none";
+
+        // 直接操作列表元素
+        const listItems = targetElement.querySelectorAll('li');
+        listItems.forEach(li => {
+          li.style.listStyleType = 'none';
+          li.style.paddingLeft = '0';
+        });
+
+      }
     }
   });
 
