@@ -20,7 +20,7 @@ import EditMenu from "./edit-menu/indexPage.vue";
       <EditMenu />
       <!-- 中间简历预览 -->
       <div class="flex justify-center">
-        <CvPreview class="shadow-[0px_0px_15px_-5px] p-4 rounded-lg" />
+        <CvPreview class="shadow-[0px_0px_15px_-5px] rounded-lg" />
       </div>
 
       <!-- 右侧设置栏 -->

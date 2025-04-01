@@ -1,0 +1,18 @@
+[
+  {
+    "id": "202501",
+    "name": "简洁模板-a",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateA",
+    "thumbnail": "preview.png",
+    "layout": "classical"
+  },
+  {
+    "id": "202502",
+    "name": "简洁模板-b",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateB",
+    "thumbnail": "preview.png",
+    "layout": "classical"
+  }
+]

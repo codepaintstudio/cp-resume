@@ -128,7 +128,7 @@ const addHonor = () => {
             </div>
 
             <component :is="componentsMap[menu.activeMenu]" />
-            
+
             <div class="flex border-t-1 border-gray-300 bottom-0 justify-between px-10 py-5">
               <button v-if="isButtonVisible" @click="handleClick"
                 class="border p-2 rounded-sm text-xs hover:bg-gray-100">
