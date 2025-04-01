@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { getTemplates } from '@/utils/getTemplates';
 import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
+import CvCard from '@/components/CvCard.vue';
 
 const templateStore = useTemplateStore();
 const templates = ref<Template[]>([]);
@@ -15,14 +16,20 @@ onMounted(async () => {
   }
 });
 
+const emit = defineEmits(['setActiveIndex']);
+const setTemplate = (template: Template) => {
+  templateStore.currentTemplate = template;
+  //传值给父组件activeIndex = null
+  emit('setActiveIndex', null);
+};
 
 </script>
 <template>
   <div>模板设置</div>
-  <div>
-    <button class="p-2 block mb-1 bg-amber-100" v-for="(template, index) in templates" :key="index"
-      @click="templateStore.setTemplate(template)">模板{{ template.id }}
-    </button>
+  <div class="flex">
+    <div class="p-2 mb-1" v-for="(template, index) in templates" :key="index" @click="setTemplate(template)">
+      <CvCard :cv-template="template"></CvCard>
+    </div>
   </div>
 </template>
 <style scoped></style>

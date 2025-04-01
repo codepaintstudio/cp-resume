@@ -7,27 +7,27 @@ import type { Template } from "@/types/template";
 
 //模拟数据：总模板
 const mockData = [
-  { id: '1', title: '商务风简历', imageUrl: '/src/assets/img/default_resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-  { id: '2', title: '简约设计', imageUrl: '/src/assets/img/default_resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-  { id: '3', title: '创意模板', imageUrl: '/src/assets/img/default_resume.png', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-  { id: '4', title: '学术风格', imageUrl: '/src/assets/img/default_resume.png', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
-  { id: '5', title: '现代时尚', imageUrl: '/src/assets/img/default_resume.png', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-  { id: '6', title: '正式简历', imageUrl: '/src/assets/img/default_resume.png', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
-  { id: '7', title: '科技风格', imageUrl: '/src/assets/img/default_resume.png', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-  { id: '8', title: '医疗专用', imageUrl: '/src/assets/img/default_resume.png', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
-  { id: '9', title: '自由职业', imageUrl: '/src/assets/img/default_resume.png', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
-  { id: '10', title: '艺术风', imageUrl: '/src/assets/img/default_resume.png', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
-  { id: '11', title: '工程师专用', imageUrl: '/src/assets/img/default_resume.png', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
-  { id: '12', title: '实习生简历', imageUrl: '/src/assets/img/default_resume.png', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
+  { id: '1', name: '商务风简历', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
+  { id: '2', name: '简约设计', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
+  { id: '3', name: '创意模板', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
+  { id: '4', name: '学术风格', folderPath: 'templateA', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
+  { id: '5', name: '现代时尚', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
+  { id: '6', name: '正式简历', folderPath: 'templateA', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
+  { id: '7', name: '科技风格', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
+  { id: '8', name: '医疗专用', folderPath: 'templateA', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
+  { id: '9', name: '自由职业', folderPath: 'templateA', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
+  { id: '10', name: '艺术风', folderPath: 'templateA', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
+  { id: '11', name: '工程师专用', folderPath: 'templateA', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
+  { id: '12', name: '实习生简历', folderPath: 'templateA', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
 ];
 //模拟数据：推荐模板10个
 const recommendData = [
-  { id: '1', title: '推荐模板1', imageUrl: '/src/assets/img/default_resume.png', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-  { id: '2', title: '推荐模板2', imageUrl: '/src/assets/img/default_resume.png', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-  { id: '3', title: '推荐模板3', imageUrl: '/src/assets/img/default_resume.png', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-  { id: '4', title: '推荐模板4', imageUrl: '/src/assets/img/default_resume.png', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-  { id: '5', title: '推荐模板5', imageUrl: '/src/assets/img/default_resume.png', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-  { id: '6', title: '推荐模板6', imageUrl: '/src/assets/img/default_resume.png', style: '专业', industry: '教育', color: '黑色', size: '210*290' },
+  { id: '1', name: '推荐模板1', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
+  { id: '2', name: '推荐模板2', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
+  { id: '3', name: '推荐模板3', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
+  { id: '4', name: '推荐模板4', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
+  { id: '5', name: '推荐模板5', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
+  { id: '6', name: '推荐模板6', folderPath: 'templateA', style: '专业', industry: '教育', color: '黑色', size: '210*290' },
 ]
 
 const selectedIndex = ref<number>(0); // 当前选中的简历索引
@@ -103,7 +103,7 @@ const filteredData = computed(() => {
   return mockData.filter(item => {
     // 搜索条件
     const matchesSearch = !searchText.value ||
-      item.title.toLowerCase().includes(query) ||
+      item.name.toLowerCase().includes(query) ||
       item.style.toLowerCase().includes(query) ||
       item.industry.toLowerCase().includes(query) ||
       item.color.toLowerCase().includes(query);

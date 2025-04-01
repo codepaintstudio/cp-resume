@@ -109,10 +109,10 @@ const addHonor = () => {
 <template>
 
   <Teleport to="body">
-    <div v-if="menu.activeMenu" class="fixed inset-0 bg-black opacity-25"></div>
+    <div v-if="menu.activeMenu" class="fixed z-14 inset-0 bg-black opacity-25"></div>
     <transition name="fade-slide">
       <div v-if="menu.activeMenu" @click.self="menu.closeMenu"
-        class="fixed inset-0  bg-opacity-50 flex items-center justify-center">
+        class="fixed z-15 inset-0  bg-opacity-50 flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg w-240 h-150 relative">
 
           <!-- 基本信息 -->

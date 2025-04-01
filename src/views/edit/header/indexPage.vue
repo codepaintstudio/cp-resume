@@ -7,7 +7,7 @@ const handleExport = () => {
 };
 </script>
 <template>
-  <header class="fixed  top-0 flex w-full justify-between items-center px-10 bg-white shadow-md h-18">
+  <header class="fixed z-10  top-0 flex w-full justify-between items-center px-10 bg-white shadow-md h-18">
 
     <div class="flex items-center space-x-2">
 

@@ -31,6 +31,10 @@ const closeMenu = (event: Event) => {
   if (!(event.target as HTMLElement).closest(".menu-container")) {
     activeIndex.value = null;
   }
+  // 如果点击蒙层则关闭
+  if (event.target === document.getElementById("black_Mask")) {
+    activeIndex.value = null;
+  }
 };
 
 onMounted(() => {
@@ -40,6 +44,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener("click", closeMenu);
 });
+
+const setActiveIndex = (index: number) => {
+  // 点击模板关闭菜单
+  activeIndex.value = index;
+};
 </script>
 
 <template>
@@ -52,9 +61,15 @@ onBeforeUnmount(() => {
       </button>
 
       <!-- 动态渲染不同组件 -->
-      <div v-if="activeIndex === index"
+      <div v-if="activeIndex === index && activeIndex !== 4"
         class="absolute z-20 top-1/2 left-20 transform -translate-y-1/2 w-50 h-41 bg-white shadow-[0px_0px_15px_-5px] p-3 rounded-sm">
         <component :is="dynamicComponent"></component>
+      </div>
+      <div v-if="activeIndex === index && activeIndex === 4" class="fixed z-14 inset-0 bg-black opacity-25"
+        id="black_Mask"></div>
+      <div v-if="activeIndex === index && activeIndex === 4"
+        class="fixed z-20 w-280 h-180 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-white shadow-[0px_0px_15px_-5px] p-3 rounded-sm">
+        <component @setActiveIndex="setActiveIndex" :is="dynamicComponent"></component>
       </div>
     </div>
   </div>

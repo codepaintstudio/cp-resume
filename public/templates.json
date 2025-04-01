@@ -5,7 +5,10 @@
     "description": "简约而不简单的简历模板。",
     "folderPath": "templateA",
     "thumbnail": "preview.png",
-    "layout": "classical"
+    "layout": "classical",
+    "style": "简约",
+    "industry": "互联网",
+    "color": "蓝色"
   },
   {
     "id": "202502",
@@ -13,6 +16,9 @@
     "description": "简约而不简单的简历模板。",
     "folderPath": "templateB",
     "thumbnail": "preview.png",
-    "layout": "classical"
+    "layout": "classical",
+    "style": "简约",
+    "industry": "IT",
+    "color": "黄色"
   }
 ]

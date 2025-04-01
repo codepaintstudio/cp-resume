@@ -14,5 +14,8 @@ export interface Template {
   description?: string;
   folderPath: string;
   thumbnail?: string;
-  layout: string;
+  layout?: string;
+  style: string;
+  industry: string;
+  color: string;
 }
