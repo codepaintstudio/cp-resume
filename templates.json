@@ -1,0 +1,27 @@
+[
+  {
+    "id": "202501",
+    "name": "简洁模板-a",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateA",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简约",
+    "industry": "互联网",
+    "color": "蓝色",
+    "setting": {
+      "color":"#2b7fff"
+    }
+  },
+  {
+    "id": "202502",
+    "name": "简洁模板-b",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateB",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简约",
+    "industry": "IT",
+    "color": "黄色"
+  }
+]
