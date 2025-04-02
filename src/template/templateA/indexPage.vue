@@ -179,6 +179,12 @@ defineProps<{
   font-family: var(--font-family);
 }
 
+ul li::before {
+  content: '–';
+  left: 0;
+  color: var(--color-theme);
+}
+
 .section {
   margin-bottom: var(--block-spacing);
 }

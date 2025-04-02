@@ -5,6 +5,7 @@ import type { Template } from "../types/template";
 
 export const useTemplateStore = defineStore('templateStore', () => {
   const currentTemplate = ref<Template | null>(null)
+  const cvTitle = ref<string>('我的简历')
   const themeColor = ref<string>('#203CCB')  // 默认
   const fontColor = ref<string>('#ffffff')
   const lineSpacing = ref<number>(21);
@@ -16,7 +17,7 @@ export const useTemplateStore = defineStore('templateStore', () => {
     currentTemplate.value = template
     console.log(currentTemplate.value)
   }
-  return { currentTemplate, themeColor, fontColor, setTemplate, lineSpacing, blockSpacing, pageMargin, fontId }
+  return { currentTemplate, themeColor, fontColor, setTemplate, lineSpacing, blockSpacing, pageMargin, fontId, cvTitle }
 },
 {
   persist: true,
