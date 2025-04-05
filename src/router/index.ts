@@ -11,6 +11,7 @@ import CvAdmn from '@/views/user/components/CvAdmn.vue';
 
 import LoginPage from '@/views/login/indexPage.vue';
 
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -65,6 +66,7 @@ const router = createRouter({
       name: 'login',
       component: LoginPage
     }
+
   ],
   scrollBehavior(to, from, savedPosition) {
     // 始终滚动到顶部

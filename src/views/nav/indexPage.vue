@@ -2,6 +2,11 @@
 import { ref, onMounted, onUnmounted, watch,computed} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue';
+import { useAuthStore } from '@/stores/userStatus';
+
+//调用store
+const authStore = useAuthStore()
+const isLogin = computed(() => authStore.isLogin)
 
 // 路由相关
 const router = useRouter();
@@ -9,12 +14,16 @@ const route = useRoute();
 
 // 导航栏状态
 //测试通过将isLogin作为判断，使得用户中心根据不同情况发生变化
-const isLogin = ref(false);
+
 
 const currentActive = ref<boolean>(true)
 const isNavActive = ref(true);
 const isNavFixed = ref(false)
 const isNavRelative = ref(true)
+
+//新增：下拉菜单的状态
+const showDropdown = ref(false)
+
 // 监听路由变化
 watch(
   () => route.path,
@@ -72,6 +81,14 @@ function handleScroll() {
 
 }
 
+// 退出登录处理
+const handleLogout = () => {
+  authStore.setLoginStatus(false)
+  localStorage.removeItem('currentUser')
+  router.push('/home')
+  showDropdown.value = false
+}
+
 const UserIs = computed(()=>{
   return isLogin.value?'/user':'/login'
 })
@@ -102,9 +119,43 @@ onUnmounted(() => {
         简历模板</RouterLink>
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">
-      <RouterLink :to="UserIs" class="text-[0.8vw] text-[#4F4F4F] no-underline"><span>{{isLogin?'用户中心':'请先登录'}}</span></RouterLink>
+    <!-- 登录状态显示带下拉菜单的用户中心 -->
+    <div v-if="isLogin" class="relative">
+      <div
+        class="text-[0.8vw] text-[#4F4F4F] no-underline cursor-pointer"
+        @click.stop="showDropdown = !showDropdown"
+      >
+        <RouterLink
+          to="/user"
+          class="text-[#4F4F4F] hover:text-[#616DFF] transition-colors"
+        >
+          用户中心
+        </RouterLink>
+      </div>
+
+      <!-- 下拉菜单 -->
+      <div
+        v-if="showDropdown"
+        class="absolute top-full right-0 mt-2 w-[8vw] bg-white shadow-lg rounded-md py-2 z-50"
+      >
+        <div
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[0.8vw]"
+          @click="handleLogout"
+        >
+          退出登录
+        </div>
+      </div>
     </div>
 
+    <!-- 未登录状态直接显示登录链接 -->
+    <RouterLink
+      v-else
+      to="/login"
+      class="text-[0.8vw] text-[#4F4F4F] no-underline hover:text-[#616DFF] transition-colors"
+    >
+      请先登录
+    </RouterLink>
+  </div>
 
   </div>
 
