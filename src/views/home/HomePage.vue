@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import CvCard from '@/components/CvCard.vue'
 
 // 引入图标
 import { ArrowUp } from 'lucide-vue-next'
@@ -12,7 +13,7 @@ const boxes = ref<null[]>(Array(5).fill(null))
 const toTopRef = ref<HTMLElement | null>(null)
 
 // 返回顶部
-import {scrollToTop} from '../../utils/tool'
+import { scrollToTop } from '../../utils/tool'
 
 // 在组件挂载后添加事件监听器
 onMounted(() => {
@@ -34,7 +35,7 @@ onMounted(() => {
             码绘工作室简历制作
           </div>
           <div
-            class="block w-[12vw] h-[3vw] bg-[url('@/assets/img/Home/MakeResume.png')] bg-contain bg-no-repeat absolute left-1/2 bottom-0 -translate-x-1/2"
+            class="block w-[12vw] h-[3vw] bg-[url('@/assets/img/Home/MakeResume.png')] bg-contain bg-no-repeat absolute left-1/2 bottom-0 -translate-x-1/2 transition-all duration-200 hover:scale-102 active:scale-100"
             @click="ToCv"></div>
         </div>
       </div>
@@ -48,13 +49,12 @@ onMounted(() => {
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
-        <div class="w-full h-[30vh] flex justify-around items-center">
-          <div v-for="(box, index) in boxes" :key="index" class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]">
-            /*可添加跳转*/ Box {{ index + 1 }}
-          </div>
+        <div class="w-full flex justify-around items-center mt-6 mb-10">
+          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
+          </CvCard>
         </div>
         <span
-          class="absolute block w-[7vw] h-[4vw] bg-[url('@/assets/img/Home/More2.png')] bg-contain bg-no-repeat bottom-0 -translate-y-1/2"
+          class="block w-30 h-10 bg-[url('@/assets/img/Home/More2.png')] bg-contain bg-no-repeat bottom-0  transition-all duration-200 hover:scale-102 active:scale-100"
           @click="ToCv"></span>
       </div>
 
@@ -67,16 +67,15 @@ onMounted(() => {
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
-        <div class="w-full h-[30vh] flex justify-around items-center">
-          <div v-for="(box, index) in boxes" :key="index" class="w-[12vw] h-[16vw] bg-[rgb(58,63,207)]">
-            /*可添加跳转*/ Box {{ index + 1 }}
-          </div>
+        <div class="w-full flex justify-around items-center mt-10 mb-10">
+          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
+          </CvCard>
         </div>
         <div
-          class="absolute right-0 top-[25%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row"
+          class="absolute right-0 top-[20%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row "
           @click="ToCv">
-          <span class="block text-[1.2vw] text-[#3370FF]">查看全部</span>
-          <span class="block w-[2vw] h-[2vw] bg-[url('@/assets/img/Home/arrow2.png')] bg-contain bg-no-repeat"></span>
+          <span class="block text-[1.2vw] text-[#3370FF] ">查看全部</span>
+          <span class="block w-[2vw] h-[2vw] bg-[url('@/assets/img/Home/arrow2.png')] bg-contain bg-no-repeat "></span>
         </div>
       </div>
     </div>

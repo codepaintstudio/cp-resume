@@ -122,7 +122,8 @@ onUnmounted(() => {
         </div>
 
         <!-- 下拉菜单 -->
-        <div v-if="showDropdown" class="absolute top-full right-0 mt-2 w-[8vw] bg-white shadow-lg rounded-md py-2 z-50">
+        <div v-if="showDropdown && route.path.includes('/user')"
+          class="absolute top-full right-0 mt-2 w-[8vw] bg-white shadow-lg rounded-md py-2 z-50">
           <div class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[0.8vw]" @click="handleLogout">
             退出登录
           </div>
