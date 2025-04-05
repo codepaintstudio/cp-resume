@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { exportToPDF } from "@/utils/exportToPdf.ts";
+import { useTemplateStore } from '@/stores/useTemplateStore';
 
+const templateStore = useTemplateStore();
 // 触发 PDF 导出
 const handleExport = () => {
-  exportToPDF("resume-container", "我的简历.pdf");
+  exportToPDF("resume-container", templateStore.cvTitle);
 };
 </script>
 <template>
