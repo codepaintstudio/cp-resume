@@ -15,7 +15,7 @@ const props = defineProps({
       return {
         id: '',
         name: '标题',
-        folderPath: 'src/assets/img/default_resume.png',
+        folderPath: 'src/template/default/preview.png',
         style: '风格',
         industry: '行业',
         color: '颜色',
@@ -73,7 +73,8 @@ const openDetail = (cvIndex: number) => {
         ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img src="@/assets/img/default_resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
+          <img :src="`src/template/${cvTemplate.folderPath}/preview.png`" alt="简历预览"
+            class="rounded-lg shadow-[0px_0px_15px_-5px] w-[350px]" />
         </div>
 
         <!-- 右侧详情 -->

@@ -16,7 +16,7 @@ defineProps({
     default: () => ({
       id: '',
       name: '标题',
-      folderPath: 'src/assets/img/default_resume.png',
+      folderPath: 'default',
       style: '风格',
       industry: '行业',
       color: '颜色',
@@ -36,13 +36,13 @@ defineProps({
       <div class="flex flex-wrap gap-2 mt-2 mb-2">
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.style
-          }}</span>
+        }}</span>
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.industry
-          }}</span>
+        }}</span>
         <span class="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">{{
           cvTemplate.color
-          }}</span>
+        }}</span>
       </div>
     </div>
   </div>
