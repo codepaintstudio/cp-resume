@@ -3,14 +3,41 @@
 
 
 <template>
-  <div class="w-9/10 h-[85vh] mx-auto mt-14 flex">
-    <div class="bg-white shadow-[0px_0px_10px_-5px] flex flex-col w-[240px] items-center p-10 space-y-12 text-lg">
-
-      <RouterLink to="/user/cv" exact-active-class="text-blue-700">我的简历</RouterLink>
-      <RouterLink to="/user/information" exact-active-class="text-blue-700">账户信息</RouterLink>
-      <RouterLink to="/user/cvAdmn" exact-active-class="text-blue-700">简历模板管理</RouterLink>
-
+  <div class="  ">
+    <div class="flex h-[90vh] w-3/4 mx-auto bg-[aliceblue] m-10">
+      <div class="w-1/5 h-full bg-[rgb(255,255,255)] rounded-[10px] mr-[20px] flex flex-col items-center">
+        <RouterLink to="/user/information">个人信息</RouterLink>
+        <RouterLink to="/user/cv">我的简历</RouterLink>
+        <RouterLink to="/user/cvAdmn">简历模板管理</RouterLink>
+      </div>
+      <RouterView></RouterView>
     </div>
-    <RouterView class="bg-white flex-1 ml-10 shadow-[0px_0px_10px_-5px]"></RouterView>
   </div>
+
 </template>
+
+<style scoped lang="scss">
+.user {
+  display: flex;
+  height: 90vh;
+  width: 75%;
+  margin: 0 auto;
+  background-color: aliceblue;
+}
+
+.menu {
+  width: 20%;
+  height: 100%;
+  background-color: rgb(182, 177, 177);
+  border-radius: 10px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+a {
+  margin: 20px;
+}
+</style>
