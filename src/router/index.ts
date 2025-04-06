@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/userStatus';
 import Nav from '@/views/nav/indexPage.vue'
 import HomePage from '@/views/home/HomePage.vue';
 import CvTemplateView from '@/views/cv-template/indexPage.vue';
@@ -78,3 +79,9 @@ const router = createRouter({
 })
 
 export default router
+
+// 登录访问拦截
+router.beforeEach((to) => {
+  const userStore = useAuthStore()
+  if (!userStore.isLogin && to.path.includes('/user')) return '/login'
+})

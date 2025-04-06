@@ -60,7 +60,7 @@ defineProps<{
           </div>
         </div>
         <div class="detail-row">
-          <div class="detail-item">
+          <div class="detail-item" v-if="resume.personalInfo.university">
             <span class="label">学校：</span>
             <span class="value">{{ resume.personalInfo.university }}</span>
           </div>

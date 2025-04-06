@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import CvCard from '@/components/CvCard.vue'
 
 // 引入图标
@@ -71,12 +71,12 @@ onMounted(() => {
           <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
           </CvCard>
         </div>
-        <div
+        <RouterLink
           class="absolute right-0 top-[20%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row "
-          @click="ToCv">
+          to="/user/cv">
           <span class="block text-[1.2vw] text-[#3370FF] ">查看全部</span>
           <span class="block w-[2vw] h-[2vw] bg-[url('@/assets/img/Home/arrow2.png')] bg-contain bg-no-repeat "></span>
-        </div>
+        </RouterLink>
       </div>
     </div>
     <div ref="toTopRef"

@@ -41,6 +41,15 @@ watch(
   }
 );
 
+// 监听 store 的变化，保存到 localStorage
+watch(
+  () => resumeStore.$state,
+  () => {
+    resumeStore.saveToLocalStorage();
+  },
+  { deep: true }
+);
+
 // 加载当前选中的模板组件
 const loadCurrentTemplate = () => {
   const selectedTemplate = templateStore.currentTemplate;
