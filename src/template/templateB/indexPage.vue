@@ -11,6 +11,10 @@ const colorStyles = computed(() => {
     '--primary-color-light': templateStore.themeColor,
     '--primary-color-dark': templateStore.themeColor,
     '--font-family': templateStore.fontId,
+    '--color-font': templateStore.fontColor,
+    '--line-spacing': `${templateStore.lineSpacing}px`,
+    '--block-spacing': `${templateStore.blockSpacing}px`,
+    '--page-margin': `${templateStore.pageMargin}px`,
     '--text-color': '#333',
     '--background-color': '#fff',
     '--section-divider-color': '#eaeaea',
@@ -47,17 +51,18 @@ defineProps<{
             <span class="label">电话：</span>{{ resume.personalInfo.phone }}
           </div>
           <div class="info-item">
-            <span class="label">邮箱：</span>{{ resume.personalInfo.email }}
-          </div>
-          <div class="info-item">
             <span class="label">学校：</span>{{ resume.personalInfo.university }}
           </div>
           <div class="info-item">
             <span class="label">专业：</span>{{ resume.personalInfo.major }}
           </div>
+
           <div class="info-item" v-if="resume.personalInfo.website">
             <span class="label">网站：</span>
             <a :href="resume.personalInfo.website" target="_blank">{{ resume.personalInfo.website }}</a>
+          </div>
+          <div class="info-item">
+            <span class="label">邮箱：</span>{{ resume.personalInfo.email }}
           </div>
         </div>
       </div>
@@ -150,11 +155,10 @@ defineProps<{
 .resume {
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 20px 30px;
+  margin: var(--page-margin);
+  line-height: var(--line-spacing);
   font-family: var(--font-family);
-  line-height: 1.6;
   max-width: 800px;
-  margin: 0 auto;
 }
 
 .personal-section {
@@ -212,7 +216,7 @@ defineProps<{
 }
 
 .section {
-  margin-bottom: 5px;
+  margin-bottom: var(--block-spacing);
 }
 
 .section-title {

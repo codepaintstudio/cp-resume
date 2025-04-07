@@ -10,7 +10,12 @@
     "industry": "互联网",
     "color": "蓝色",
     "setting": {
-      "color":"#2b7fff"
+      "themeColor":"#2b7fff",
+      "fontColor":"#ffffff",
+      "fontFamily":"zql",
+      "lineSpacing": "21",
+      "blockSpacing":"21",
+      "pageMargin": "21"
     }
   },
   {
@@ -22,6 +27,14 @@
     "layout": "classical",
     "style": "简约",
     "industry": "IT",
-    "color": "黄色"
+    "color": "红色",
+    "setting": {
+      "themeColor":"#e46767",
+      "fontColor":"#ffffff",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
   }
 ]

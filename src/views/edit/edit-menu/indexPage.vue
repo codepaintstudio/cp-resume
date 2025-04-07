@@ -2,6 +2,7 @@
 import { useMenuStore } from "@/stores/useMenuStore";
 import { computed, ref, type Component } from "vue";
 import { useResumeStore } from '@/stores/useResumeStore';
+
 import PersonalInfoEdit from "./components/PersonalInfoEdit.vue";
 import EducationEdit from "./components/EducationEdit.vue";
 import WorkExperienceEdit from "./components/WorkExperienceEdit.vue";
@@ -9,6 +10,13 @@ import SkillsEdit from "./components/SkillsEdit.vue";
 import ProjectsEdit from "./components/ProjectsEdit.vue";
 import HonorsEdit from "./components/HonorsEdit.vue";
 import SummaryEdit from "./components/SummaryEdit.vue";
+
+import InternshipEdit from "./components/InternshipEdit.vue";
+import CampusExperienceEdit from "./components/CampusExperienceEdit.vue";
+import JobIntentionEdit from "./components/JobIntentionEdit.vue";
+import PortfolioEdit from "./components/PortfolioEdit.vue";
+import HobbiesEdit from "./components/HobbiesEdit.vue";
+import CustomizeEdit from "./components/CustomizeEdit.vue";
 
 const componentsMap: Record<string, Component> = {
   "personalInfo": PersonalInfoEdit,
@@ -18,6 +26,12 @@ const componentsMap: Record<string, Component> = {
   "projects": ProjectsEdit,
   "honors": HonorsEdit,
   "summary": SummaryEdit,
+  "internship": InternshipEdit,
+  "campusExperience": CampusExperienceEdit,
+  "jobIntention": JobIntentionEdit,
+  "portfolio": PortfolioEdit,
+  "hobbies": HobbiesEdit,
+  "customize": CustomizeEdit,
 };
 const resume = useResumeStore();
 const menu = useMenuStore();
@@ -57,6 +71,12 @@ const buttonConfig = computed(() => {
       return { visible: true, action: addProject };
     case "honors":
       return { visible: true, action: addHonor };
+    case "internship":
+      return { visible: true, action: addInternship };
+    case "campusExperience":
+      return { visible: true, action: addCampusExperience };
+    case "portfolio":
+      return { visible: true, action: addPortfolio };
     default:
       return { visible: false, action: () => { } };
   }
@@ -102,6 +122,34 @@ const addHonor = () => {
     honorName: '',      // 荣誉名称
     date: '',           // 获奖时间
     description: ''     // 描述
+  });
+};
+
+const addInternship = () => {
+  resume.addInternship({
+    company: '',        // 公司名称
+    position: '',       // 职位
+    startDate: '',      // 开始时间
+    endDate: '',        // 结束时间
+    description: ''  // 描述
+  });
+};
+
+const addCampusExperience = () => {
+  resume.addCampusExperience({
+    startDate: '',      // 开始时间
+    endDate: '',        // 结束时间
+    title: '',          // 摘要或标题
+    responsibility: '', // 主要职责
+    description: ''     // 经历描述
+  });
+};
+
+const addPortfolio = () => {
+  resume.addPortfolio({
+    name: '',    // 项目名称
+    url: '',     // 项目链接
+    description: ''  // 项目描述
   });
 };
 </script>

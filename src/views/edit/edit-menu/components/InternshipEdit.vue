@@ -5,42 +5,33 @@ const resume = useResumeStore();
 
 <template>
   <div class="overflow-scroll overscroll-contain no-scrollbar">
-    <div v-for="(project, index) in resume.projects" :key="project.id"
-      class="p-10 px-14 border-b border-gray-300 relative">
-      <button v-if="index !== 0" @click="resume.deleteProject(project.id)"
+    <div v-for="(work, index) in resume.internship" :key="work.id" class="p-10 px-14 border-b border-gray-300 relative">
+      <button v-if="index !== 0" @click="resume.deleteInternship(work.id)"
         class="p-1 bg-red-400 hover:bg-red-600 rounded-sm mb-2 absolute right-5 text-sm text-white">删除</button>
       <div class="grid grid-cols-2 gap-8">
         <div class="text-sm text-gray-700">
-          <label class="mb-1">项目名称：</label>
-          <input type="text" v-model="project.projectName"
+          <label class="mb-1">公司名称：</label>
+          <input type="text" v-model="work.company"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
         </div>
         <div class="text-sm text-gray-700">
-          <label class="mb-1">担任角色：</label>
-          <input type="text" v-model="project.role"
+          <label class="mb-1">职位：</label>
+          <input type="text" v-model="work.position"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
         </div>
-
-        <div class="flex items-center text-sm text-gray-700">
+        <div class="flex items-center grid-cols-2 text-sm text-gray-700">
           <span>时间：</span>
-          <input type="date" v-model="project.startDate"
+          <input type="date" v-model="work.startDate"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
           <span class="mx-1">-</span>
-          <input type="date" v-model="project.endDate"
+
+          <input type="date" v-model="work.endDate"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
         </div>
-
-
         <div class="text-sm text-gray-700 col-span-2">
-          <label class="mb-1">项目简介：</label>
+          <label class="mb-1">描述：</label>
           <br />
-          <textarea v-model="project.briefIntroduction"
-            class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4 w-5/6 h-16"></textarea>
-        </div>
-        <div class="text-sm text-gray-700 col-span-2">
-          <label class="mb-1">项目描述：</label>
-          <br />
-          <textarea v-model="project.description"
+          <textarea v-model="work.description"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4 w-5/6 h-24"></textarea>
         </div>
       </div>
