@@ -7,84 +7,106 @@ const templateStore = useTemplateStore();
 // 动态生成 CSS 变量的样式
 const colorStyles = computed(() => {
   return {
-    '--primary-color': templateStore.themeColor,
-    '--primary-color-light': templateStore.themeColor,
-    '--primary-color-dark': templateStore.themeColor,
     '--font-family': templateStore.fontId,
+    '--color-theme': templateStore.themeColor,
     '--color-font': templateStore.fontColor,
     '--line-spacing': `${templateStore.lineSpacing}px`,
     '--block-spacing': `${templateStore.blockSpacing}px`,
     '--page-margin': `${templateStore.pageMargin}px`,
     '--text-color': '#333',
     '--background-color': '#fff',
-    '--section-divider-color': '#eaeaea',
   };
 });
 
-// 引用的store
+// 引用的 store
 const resumeStore = useResumeStore();
 
-// 获取store中的数据
+// 获取 store 中的数据
 const resume = computed(() => resumeStore.$state);
 
-defineProps<{
+// 计算属性获取 label
+const selectedLabel = computed({
+  get: () => resumeStore.sections.find(item => item.key === props.module)?.label || "",
+  set: (newLabel: string) => {
+    const section = resumeStore.sections.find(item => item.key === props.module);
+    if (section) {
+      section.label = newLabel;
+    }
+  },
+});
+
+const props = defineProps<{
   module: string;
 }>();
 </script>
+
 <template>
   <div class="resume" :style="colorStyles">
     <!-- 个人信息 -->
-    <section class="personal-section" v-if="module === 'personalInfo'">
+    <section class="personal-section" v-if="resume.personalInfo && module === 'personalInfo'">
       <div class="personal-info">
         <h1 class="name">{{ resume.personalInfo.name }}</h1>
         <div class="info-grid">
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.gender">
             <span class="label">性别：</span>{{ resume.personalInfo.gender }}
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.age">
             <span class="label">年龄：</span>{{ resume.personalInfo.age }}岁
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.politicalStatus">
             <span class="label">政治面貌：</span>{{ resume.personalInfo.politicalStatus }}
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.phone">
             <span class="label">电话：</span>{{ resume.personalInfo.phone }}
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.university">
             <span class="label">学校：</span>{{ resume.personalInfo.university }}
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.major">
             <span class="label">专业：</span>{{ resume.personalInfo.major }}
           </div>
-
           <div class="info-item" v-if="resume.personalInfo.website">
             <span class="label">网站：</span>
             <a :href="resume.personalInfo.website" target="_blank">{{ resume.personalInfo.website }}</a>
           </div>
-          <div class="info-item">
+          <div class="info-item" v-if="resume.personalInfo.email">
             <span class="label">邮箱：</span>{{ resume.personalInfo.email }}
           </div>
         </div>
       </div>
-      <div class="avatar">
+      <div class="avatar" v-if="resume.personalInfo.avatar">
         <img :src="resume.personalInfo.avatar" alt="个人照片">
       </div>
     </section>
 
     <!-- 分割线 -->
-    <hr class="section-divider" />
+    <hr class="section-divider" v-if="module !== 'personalInfo'" />
 
-    <!-- 荣誉奖项 -->
-    <section class="section" v-if="resume.honors.length && module === 'honors'">
-      <h2 class="section-title">荣誉奖项</h2>
-      <ul class="list">
-        <li v-for="honor in resume.honors" :key="honor.id">{{ honor.honorName }}</li>
-      </ul>
+    <!-- 求职意向 -->
+    <section class="section" v-if="resume.jobIntention && module === 'jobIntention'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <div class="info-grid">
+        <div class="info-item" v-if="resume.jobIntention.position">
+          <span class="label">意向岗位：</span>{{ resume.jobIntention.position }}
+        </div>
+        <div class="info-item" v-if="resume.jobIntention.city">
+          <span class="label">意向城市：</span>{{ resume.jobIntention.city }}
+        </div>
+        <div class="info-item" v-if="resume.jobIntention.salary">
+          <span class="label">期待薪资：</span>{{ resume.jobIntention.salary }}
+        </div>
+        <div class="info-item" v-if="resume.jobIntention.status">
+          <span class="label">求职状态：</span>{{ resume.jobIntention.status }}
+        </div>
+        <div class="info-item" v-if="resume.jobIntention.type">
+          <span class="label">求职类型：</span>{{ resume.jobIntention.type }}
+        </div>
+      </div>
     </section>
 
     <!-- 教育经历 -->
     <section class="section" v-if="resume.education.length && module === 'education'">
-      <h2 class="section-title">教育经历</h2>
+      <h2 class="section-title">{{ selectedLabel }}</h2>
       <div class="experience-list">
         <div class="experience-item" v-for="edu in resume.education" :key="edu.id">
           <div class="item-header">
@@ -98,7 +120,7 @@ defineProps<{
 
     <!-- 技能特长 -->
     <section class="section" v-if="resume.skills.length && module === 'skills'">
-      <h2 class="section-title">技能特长</h2>
+      <h2 class="section-title">{{ selectedLabel }}</h2>
       <ul class="skill-list">
         <li v-for="skill in resume.skills" :key="skill.id">{{ skill.skillName }}</li>
       </ul>
@@ -106,7 +128,7 @@ defineProps<{
 
     <!-- 工作/实习经历 -->
     <section class="section" v-if="resume.workExperience.length && module === 'workExperience'">
-      <h2 class="section-title">工作/实习经历</h2>
+      <h2 class="section-title">{{ selectedLabel }}</h2>
       <div class="experience-list">
         <div class="experience-item" v-for="work in resume.workExperience" :key="work.id">
           <div class="item-header">
@@ -121,9 +143,26 @@ defineProps<{
       </div>
     </section>
 
+    <!-- 实习经历 -->
+    <section class="section" v-if="resume.internship.length && module === 'internship'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="intern in resume.internship" :key="intern.id">
+          <div class="item-header">
+            <h3 class="position">{{ intern.position }}</h3>
+            <span class="duration">{{ intern.startDate }} - {{ intern.endDate }}</span>
+          </div>
+          <p class="company">{{ intern.company }}</p>
+          <ul class="description-list">
+            <li v-for="(desc, index) in intern.description.split('\n')" :key="index">{{ desc }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <!-- 项目经验 -->
     <section class="section" v-if="resume.projects.length && module === 'projects'">
-      <h2 class="section-title">项目经验</h2>
+      <h2 class="section-title">{{ selectedLabel }}</h2>
       <div class="experience-list">
         <div class="experience-item" v-for="project in resume.projects" :key="project.id">
           <div class="item-header">
@@ -139,17 +178,65 @@ defineProps<{
       </div>
     </section>
 
+    <!-- 校园经历 -->
+    <section class="section" v-if="resume.campusExperience.length && module === 'campusExperience'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="exp in resume.campusExperience" :key="exp.id">
+          <div class="item-header">
+            <h3 class="position">{{ exp.title }}</h3>
+            <span class="duration">{{ exp.startDate }} - {{ exp.endDate }}</span>
+          </div>
+          <p class="role">主要职责：{{ exp.responsibility }}</p>
+          <ul class="description-list">
+            <li v-for="(desc, index) in exp.description.split('\n')" :key="index">{{ desc }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 荣誉奖项 -->
+    <section class="section" v-if="resume.honors.length && module === 'honors'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <ul class="list">
+        <li v-for="honor in resume.honors" :key="honor.id">{{ honor.honorName }}</li>
+      </ul>
+    </section>
+
+    <!-- 作品展示 -->
+    <section class="section" v-if="resume.portfolio.length && module === 'portfolio'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <div class="experience-list">
+        <div class="experience-item" v-for="work in resume.portfolio" :key="work.id">
+          <div class="item-header">
+            <h3 class="project-name">
+              <a :href="work.url" target="_blank">{{ work.name }}</a>
+            </h3>
+          </div>
+          <p class="project-intro">{{ work.description }}</p>
+        </div>
+      </div>
+    </section>
+
     <!-- 自我评价 -->
     <section class="section" v-if="resume.summary && module === 'summary'">
-      <h2 class="section-title">自我评价</h2>
-      <p class="summary">
-        {{ resume.summary }}
-      </p>
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <p class="summary">{{ resume.summary }}</p>
+    </section>
+
+    <!-- 爱好 -->
+    <section class="section" v-if="resume.hobbies && module === 'hobbies'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <p class="summary">{{ resume.hobbies }}</p>
+    </section>
+
+    <!-- 自定义内容 -->
+    <section class="section" v-if="resume.customize && module === 'customize'">
+      <h2 class="section-title">{{ selectedLabel }}</h2>
+      <p class="summary">{{ resume.customize }}</p>
     </section>
   </div>
 </template>
-
-
 
 <style scoped>
 .resume {
@@ -175,7 +262,7 @@ defineProps<{
 .name {
   font-size: 32px;
   font-weight: bold;
-  color: var(--primary-color-dark);
+  color: var(--color-font);
   margin-bottom: 15px;
 }
 
@@ -192,7 +279,7 @@ defineProps<{
 
 .label {
   font-weight: bold;
-  color: var(--primary-color-dark);
+  color: var(--color-theme);
 }
 
 .avatar {
@@ -211,7 +298,7 @@ defineProps<{
 
 .section-divider {
   border: none;
-  border-top: 1px solid var(--section-divider-color);
+  border-top: 1px solid #eaeaea;
   margin: 6px 0;
 }
 
@@ -222,8 +309,8 @@ defineProps<{
 .section-title {
   font-size: 20px;
   font-weight: bold;
-  color: var(--primary-color);
-  border-left: 4px solid var(--primary-color);
+  color: var(--color-theme);
+  border-left: 4px solid var(--color-theme);
   padding-left: 12px;
   margin-bottom: 15px;
 }
@@ -243,9 +330,9 @@ defineProps<{
 
 .list li::before,
 .skill-list li::before {
-  content: '•';
+  content: '• ';
   left: 0;
-  color: var(--primary-color);
+  color: var(--color-theme);
 }
 
 .experience-list {
@@ -253,7 +340,6 @@ defineProps<{
   flex-direction: column;
   gap: 20px;
 }
-
 
 .item-header {
   display: flex;
@@ -267,7 +353,7 @@ defineProps<{
 .project-name {
   font-size: 16px;
   font-weight: bold;
-  color: var(--primary-color-dark);
+  color: var(--color-theme);
 }
 
 .duration {
@@ -284,7 +370,9 @@ defineProps<{
 }
 
 .project-intro {
+  font-size: 14px;
   margin-bottom: 5px;
+  color: #555;
 }
 
 .description-list {
@@ -299,9 +387,9 @@ defineProps<{
 }
 
 .description-list li::before {
-  content: '–';
+  content: '– ';
   left: 0;
-  color: var(--primary-color);
+  color: var(--color-theme);
 }
 
 .summary {

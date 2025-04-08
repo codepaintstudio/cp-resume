@@ -53,7 +53,7 @@ const nextCv = () => {
 };
 
 // 打开推荐简历详情
-const openDetail = (cvIndex: number) => {
+const openDetail = (cvIndex: Template) => {
   emit('updateCvList', cvIndex);
   scrollToDetail();
 };
@@ -88,7 +88,7 @@ const openDetail = (cvIndex: number) => {
 
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.color }}</p>
 
-          <RouterLink to="/edit"
+          <RouterLink :to="`/edit/${cvTemplate.id}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
             <span>使用此模板</span>
             <span>→</span>
@@ -107,7 +107,7 @@ const openDetail = (cvIndex: number) => {
       <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(index)" :cvTemplate="i"
+          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(cvList[index])" :cvTemplate="i"
             custom-class="w-50 h-76"></CvCard>
         </div>
         <div v-if="!cvList.length" class="text-center my-12 pb-10 text-xl font-semibold mb-4 text-gray-500">

@@ -1,61 +1,77 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
 import MultiCheck from "./components/MultiCheck.vue";
 import type { Template } from "@/types/template";
+import { getTemplates } from "@/utils/getTemplates";
 
-//模拟数据：总模板
-const mockData = [
-  { id: '1', name: '商务风简历', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-  { id: '2', name: '简约设计', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-  { id: '3', name: '创意模板', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-  { id: '4', name: '学术风格', folderPath: 'templateA', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
-  { id: '5', name: '现代时尚', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-  { id: '6', name: '正式简历', folderPath: 'templateA', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
-  { id: '7', name: '科技风格', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-  { id: '8', name: '医疗专用', folderPath: 'templateA', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
-  { id: '9', name: '自由职业', folderPath: 'templateA', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
-  { id: '10', name: '艺术风', folderPath: 'templateA', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
-  { id: '11', name: '工程师专用', folderPath: 'templateA', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
-  { id: '12', name: '实习生简历', folderPath: 'templateA', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
-];
+const templates = ref<Template[]>([]);
+// 获取并初始化模板列表
+onMounted(async () => {
+  try {
+    templates.value = await getTemplates();
+  } catch (error) {
+    console.error('获取模板列表失败:', error);
+  }
+});
+// //模拟数据：总模板
+// const mockData = [
+//   { id: '1', name: '商务风简历', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
+//   { id: '2', name: '简约设计', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
+//   { id: '3', name: '创意模板', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
+//   { id: '4', name: '学术风格', folderPath: 'templateA', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
+//   { id: '5', name: '现代时尚', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
+//   { id: '6', name: '正式简历', folderPath: 'templateA', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
+//   { id: '7', name: '科技风格', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
+//   { id: '8', name: '医疗专用', folderPath: 'templateA', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
+//   { id: '9', name: '自由职业', folderPath: 'templateA', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
+//   { id: '10', name: '艺术风', folderPath: 'templateA', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
+//   { id: '11', name: '工程师专用', folderPath: 'templateA', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
+//   { id: '12', name: '实习生简历', folderPath: 'templateA', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
+// ];
 //模拟数据：推荐模板10个
-const recommendData = [
-  { id: '1', name: '推荐模板1', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-  { id: '2', name: '推荐模板2', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-  { id: '3', name: '推荐模板3', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-  { id: '4', name: '推荐模板4', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-  { id: '5', name: '推荐模板5', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-  { id: '6', name: '推荐模板6', folderPath: 'templateA', style: '专业', industry: '教育', color: '黑色', size: '210*290' },
-]
+const recommendData = (style: string, industry: string, color: string) => {
+  return templates.value.filter(item => {
+
+    // 筛选条件
+    const matchesStyle = style === item.style;
+
+    const matchesIndustry = industry === item.industry;
+
+    const matchesColor = color === item.color;
+
+    // 组合所有条件
+    return matchesStyle || matchesIndustry || matchesColor;
+  });
+
+}
 
 const selectedIndex = ref<number>(0); // 当前选中的简历索引
-const selectedData = ref<Template[]>([])
+const selectedTemplate = ref<Template>(templates?.value[0]);
 const showMenu = ref<boolean>(false); // 控制菜单显示与隐藏的状态
 const searchQuery = ref<string>(""); // 存储搜索关键字
 const searchText = ref<string>(""); // 触发搜索时保存的关键词（点击搜索按钮后才生效）
 // 切换菜单显示状态
 const toggleMenu = (index: number) => {
   showMenu.value = !showMenu.value;
-  selectedIndex.value = index; // 更新选中的简历数据
-  selectedData.value = filteredData.value
-  // scrollToTop();
+  selectedTemplate.value = filteredData.value[index]; // 更新选中的简历数据
 };
 
 // 更新cv列表
-const updateCvList = (newValue: number,) => {
-  selectedIndex.value = newValue
-  selectedData.value = recommendData
+const updateCv = (newValue: Template) => {
+  selectedTemplate.value = newValue;
 };
 
 // 切换上一张
 const prevCv = () => {
   if (selectedIndex.value > 0) selectedIndex.value--;
+  selectedTemplate.value = filteredData.value[selectedIndex.value];
 };
 // 切换下一张
 const nextCv = () => {
-  if (selectedIndex.value < selectedData.value.length - 1) selectedIndex.value++;
+  if (selectedIndex.value < filteredData.value.length - 1) selectedIndex.value++;
+  selectedTemplate.value = filteredData.value[selectedIndex.value];
 };
 
 // 滚动到顶部
@@ -81,14 +97,14 @@ const handleSelectionChange3 = (newSelection: string[]) => {
   selectedColor.value = newSelection;
 };
 // 提取唯一值的方法
-const uniqueValues = (key: keyof typeof mockData[0]) => {
-  return [...new Set(mockData.map(item => item[key]))];
+const uniqueValues = (key: keyof typeof templates.value[0]) => {
+  return [...new Set(templates.value.map(item => item[key]))];
 };
 
 // 计算属性 - 过滤唯一值
-const styles = computed(() => uniqueValues("style"));
-const industries = computed(() => uniqueValues("industry"));
-const colors = computed(() => uniqueValues("color"));
+const styles = computed(() => uniqueValues("style") as string[]);
+const industries = computed(() => uniqueValues("industry") as string[]);
+const colors = computed(() => uniqueValues("color") as string[]);
 
 
 // 触发搜索
@@ -100,7 +116,7 @@ const handleSearch = () => {
 const filteredData = computed(() => {
   const query = searchText.value.toLowerCase();
 
-  return mockData.filter(item => {
+  return templates.value.filter(item => {
     // 搜索条件
     const matchesSearch = !searchText.value ||
       item.name.toLowerCase().includes(query) ||
@@ -166,8 +182,10 @@ const filteredData = computed(() => {
 
     <!-- 模板详情菜单 -->
     <Menu class="fixed overflow-auto overscroll-contain no-scrollbar h-full z-9  top-0 left-0 right-0"
-      :cvTemplate="selectedData[selectedIndex]" :cv-list="recommendData" :isVisible="showMenu"
-      @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv" @update-cv-list="updateCvList">
+      :cvTemplate="selectedTemplate"
+      :cv-list="recommendData(filteredData[selectedIndex]?.style, filteredData[selectedIndex]?.industry, filteredData[selectedIndex]?.color)"
+      :isVisible="showMenu" @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv"
+      @update-cv-list="updateCv">
     </Menu>
 
     <!-- 返回顶部 -->

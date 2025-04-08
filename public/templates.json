@@ -30,7 +30,83 @@
     "color": "红色",
     "setting": {
       "themeColor":"#e46767",
+      "fontColor":"#ff0a0a",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202503",
+    "name": "简洁模板-c",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateC",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简约",
+    "industry": "IT",
+    "color": "黑色",
+    "setting": {
+      "themeColor":"#000000",
+      "fontColor":"#000000",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202501",
+    "name": "简洁模板-a",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateA",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "互联网",
+    "color": "蓝色",
+    "setting": {
+      "themeColor":"#2b7fff",
       "fontColor":"#ffffff",
+      "fontFamily":"zql",
+      "lineSpacing": "21",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202502",
+    "name": "简洁模板-b",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateB",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "IT",
+    "color": "红色",
+    "setting": {
+      "themeColor":"#e46767",
+      "fontColor":"#ff0a0a",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202503",
+    "name": "简洁模板-c",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateC",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "IT",
+    "color": "黑色",
+    "setting": {
+      "themeColor":"#000000",
+      "fontColor":"#000000",
       "fontFamily":"",
       "lineSpacing": "20",
       "blockSpacing":"21",
