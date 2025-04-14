@@ -24,7 +24,6 @@ onMounted(async () => {
     if (templates.value.length > 0 && !templateStore.currentTemplate) {
       templateStore.currentTemplate = templates.value[0];
     }
-    console.log(templateModules);
     loadCurrentTemplate();
   } catch (error) {
     console.error('获取模板列表失败:', error);

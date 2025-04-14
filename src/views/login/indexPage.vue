@@ -58,7 +58,7 @@ const handleLogin = () => {
 
   try {
     const storedUsers = JSON.parse(localStorage.getItem('RuserList') || '[]')
-    const matchedUser = storedUsers.find(user =>
+    const matchedUser = storedUsers.find((user: { userNum: string; UpassWord: string }) =>
       user.userNum === loginUserNum.value &&
       user.UpassWord === loginUserPas.value
     )
@@ -83,7 +83,7 @@ const handleRegister = () => {
 
   try {
     const existingUser = RuserList.value.find(
-      user => user.userNum === registerUserNum.value
+      (user: { userNum: string; UpassWord: string }) => user.userNum === registerUserNum.value
     )
 
     if (existingUser) {
@@ -137,67 +137,46 @@ const switchToLogin = () => {
         <span class="text-[2vw]">CP-ResumeTools</span>
       </div>
 
-      <div class="relative bg-[rgb(255,255,255)] w-[45rem] h-[30rem] shadow-2xl flex justify-center items-center flex-col">
+      <div
+        class="relative bg-[rgb(255,255,255)] w-[45rem] h-[30rem] shadow-2xl flex justify-center items-center flex-col">
         <span class="absolute left-[5rem] top-[3rem] text-[25px] font-bold">
           {{ isLoginMode ? '登录' : '注册' }}
         </span>
 
-        <div
-          v-if="isLoginMode && loginError"
-          class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded"
-        >
+        <div v-if="isLoginMode && loginError"
+          class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded">
           {{ loginError }}
         </div>
-        <div
-          v-if="!isLoginMode && registerError"
-          class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded"
-        >
+        <div v-if="!isLoginMode && registerError"
+          class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded">
           {{ registerError }}
         </div>
 
         <!-- 登录表单 -->
         <div v-if="isLoginMode" class="relative w-1/2 h-1/2 flex justify-center items-center flex-col">
-          <input
-            type="text"
+          <input type="text"
             class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            placeholder="输入账户"
-            v-model="loginUserNum"
-          >
-          <input
-            type="password"
+            placeholder="输入账户" v-model="loginUserNum">
+          <input type="password"
             class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            placeholder="输入密码"
-            v-model="loginUserPas"
-            @keyup.enter="handleLogin"
-          >
+            placeholder="输入密码" v-model="loginUserPas" @keyup.enter="handleLogin">
           <span
             class="absolute right-[-1rem] bottom-[1.5rem] text-[rgb(78,131,255)] text-[13px] cursor-pointer hover:underline"
-            @click="switchToRegister"
-          >
+            @click="switchToRegister">
             注册账户
           </span>
         </div>
 
         <!-- 注册表单 -->
         <div v-if="!isLoginMode" class="relative w-1/2 h-1/2 flex justify-center items-center flex-col">
-          <input
-            type="text"
+          <input type="text"
             class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            v-model="registerUserNum"
-            placeholder="输入用户名"
-          >
-          <input
-            type="password"
+            v-model="registerUserNum" placeholder="输入用户名">
+          <input type="password"
             class="w-[25rem] h-[2.8rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            v-model="registerPassword"
-            placeholder="输入密码"
-            @keyup.enter="handleRegister"
-          >
-           <!-- 动态显示密码要求 -->
-          <div
-            v-if="showPasswordRequirements"
-            class="w-[25rem] text-xs text-red-500 mb-3 px-2 py-2 rounded"
-          >
+            v-model="registerPassword" placeholder="输入密码" @keyup.enter="handleRegister">
+          <!-- 动态显示密码要求 -->
+          <div v-if="showPasswordRequirements" class="w-[25rem] text-xs text-red-500 mb-3 px-2 py-2 rounded">
             <div class="font-medium mb-1">密码要求:</div>
             <ul class="list-disc pl-4">
               <li>长度6-12位字符</li>
@@ -207,10 +186,7 @@ const switchToLogin = () => {
           </div>
           <span class="absolute right-[-1rem] bottom-[1.5rem] text-[rgb(145,145,145)] text-[13px]">
             已有账户？
-            <span
-              class="text-[rgb(78,131,255)] cursor-pointer hover:underline"
-              @click="switchToLogin"
-            >
+            <span class="text-[rgb(78,131,255)] cursor-pointer hover:underline" @click="switchToLogin">
               立即登录
             </span>
           </span>
@@ -220,14 +196,12 @@ const switchToLogin = () => {
         <div class="w-1/2 flex justify-around">
           <button
             class="text-[#79747E] border-1 border-[#79747E] w-[5rem] h-[2.2rem] rounded-sm hover:bg-[#3370FF] hover:border-0 hover:text-[#ffff]"
-            @click="isLoginMode ? handleLogin() : handleRegister()"
-          >
+            @click="isLoginMode ? handleLogin() : handleRegister()">
             确定
           </button>
           <button
             class="text-[#79747E] border-1 border-[#79747E] w-[5rem] h-[2.2rem] rounded-sm hover:bg-[#3370FF] hover:border-0 hover:text-[#ffff]"
-            @click="isLoginMode ? router.push('/') : switchToLogin()"
-          >
+            @click="isLoginMode ? router.push('/') : switchToLogin()">
             取消
           </button>
         </div>
@@ -240,6 +214,7 @@ const switchToLogin = () => {
 .cursor-pointer {
   cursor: pointer;
 }
+
 input:focus {
   outline: 2px solid #3370FF;
   border-color: transparent;
