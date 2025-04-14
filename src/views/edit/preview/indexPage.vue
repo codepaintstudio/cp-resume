@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, defineAsyncComponent } from 'vue';
+import { ref, onMounted, watch, defineAsyncComponent, computed } from 'vue'
 import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import { getTemplates } from '@/utils/getTemplates';
@@ -68,15 +68,28 @@ const loadCurrentTemplate = () => {
     }
   }
 };
+
+// 设定样式变量
+const colorStyles = computed(() => {
+  return {
+    '--page-margin': `${templateStore.pageMargin}px`,
+  };
+});
 </script>
 <template>
 
-  <div id="resume-container" class="bg-white rounded-lg w-200 space-y-4">
+  <div :style="colorStyles" id="resume-container" class="bg-white rounded-lg w-200 space-y-4">
     <component v-for="(item, index) in resumeStore.sections" :is="currentComponent" :module="item.key" :key="index"
       v-show="item.value" />
   </div>
 
 </template>
+
+<style scoped>
+#resume-container {
+  padding: var(--page-margin);
+}
+</style>
 
 
 <!-- <script setup lang="ts">

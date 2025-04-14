@@ -242,7 +242,6 @@ const props = defineProps<{
 .resume {
   background-color: var(--background-color);
   color: var(--text-color);
-  margin: var(--page-margin);
   line-height: var(--line-spacing);
   font-family: var(--font-family);
   max-width: 800px;

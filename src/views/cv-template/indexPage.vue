@@ -31,9 +31,10 @@ onMounted(async () => {
 //   { id: '12', name: '实习生简历', folderPath: 'templateA', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
 // ];
 //模拟数据：推荐模板10个
-const recommendData = (style: string, industry: string, color: string) => {
+const recommendData = (id: string, style: string, industry: string, color: string) => {
   return templates.value.filter(item => {
 
+    const machesId = id !== item.id;
     // 筛选条件
     const matchesStyle = style === item.style;
 
@@ -42,7 +43,7 @@ const recommendData = (style: string, industry: string, color: string) => {
     const matchesColor = color === item.color;
 
     // 组合所有条件
-    return matchesStyle || matchesIndustry || matchesColor;
+    return (matchesStyle || matchesIndustry || matchesColor) && machesId;
   });
 
 }
@@ -183,7 +184,7 @@ const filteredData = computed(() => {
     <!-- 模板详情菜单 -->
     <Menu class="fixed overflow-auto overscroll-contain no-scrollbar h-full z-9  top-0 left-0 right-0"
       :cvTemplate="selectedTemplate"
-      :cv-list="recommendData(filteredData[selectedIndex]?.style, filteredData[selectedIndex]?.industry, filteredData[selectedIndex]?.color)"
+      :cv-list="recommendData(filteredData[selectedIndex]?.id, filteredData[selectedIndex]?.style, filteredData[selectedIndex]?.industry, filteredData[selectedIndex]?.color)"
       :isVisible="showMenu" @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv"
       @update-cv-list="updateCv">
     </Menu>

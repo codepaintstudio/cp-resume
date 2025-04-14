@@ -278,7 +278,7 @@ const props = defineProps<{
 @import './assets/style.css';
 
 .resume-container {
-  margin: var(--page-margin);
+  //margin: var(--page-margin);
   line-height: var(--line-spacing);
   font-family: var(--font-family);
 }

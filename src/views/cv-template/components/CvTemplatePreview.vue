@@ -2,7 +2,9 @@
 import { defineProps, defineEmits, ref } from "vue";
 import CvCard from "@/components/CvCard.vue";
 import type { Template } from "@/types/template";
+import { useTemplateStore } from '@/stores/useTemplateStore.ts'
 
+const templateStore = useTemplateStore()
 // 接收父组件传递的控制菜单显示状态的 props
 const props = defineProps({
   isVisible: {
@@ -16,6 +18,7 @@ const props = defineProps({
         id: '',
         name: '标题',
         folderPath: 'src/template/default/preview.png',
+        thumbnail: 'preview.png',
         style: '风格',
         industry: '行业',
         color: '颜色',
@@ -57,6 +60,8 @@ const openDetail = (cvIndex: Template) => {
   emit('updateCvList', cvIndex);
   scrollToDetail();
 };
+
+
 </script>
 
 <template>
@@ -73,7 +78,7 @@ const openDetail = (cvIndex: Template) => {
         ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img :src="`src/template/${cvTemplate.folderPath}/preview.png`" alt="简历预览"
+          <img :src="`src/template/${cvTemplate.folderPath}/${cvTemplate.thumbnail}`" alt="简历预览"
             class="rounded-lg shadow-[0px_0px_15px_-5px] w-[350px]" />
         </div>
 
@@ -88,7 +93,7 @@ const openDetail = (cvIndex: Template) => {
 
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.color }}</p>
 
-          <RouterLink :to="`/edit/${cvTemplate.id}`"
+          <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/${Date.now()}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
             <span>使用此模板</span>
             <span>→</span>
