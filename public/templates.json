@@ -10,7 +10,12 @@
     "industry": "互联网",
     "color": "蓝色",
     "setting": {
-      "color":"#2b7fff"
+      "themeColor":"#2b7fff",
+      "fontColor":"#ffffff",
+      "fontFamily":"zql",
+      "lineSpacing": "21",
+      "blockSpacing":"21",
+      "pageMargin": "21"
     }
   },
   {
@@ -22,6 +27,90 @@
     "layout": "classical",
     "style": "简约",
     "industry": "IT",
-    "color": "黄色"
+    "color": "红色",
+    "setting": {
+      "themeColor":"#e46767",
+      "fontColor":"#ff0a0a",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202503",
+    "name": "简洁模板-c",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateC",
+    "thumbnail": "preview.png",
+    "layout": "classical",
+    "style": "简约",
+    "industry": "IT",
+    "color": "黑色",
+    "setting": {
+      "themeColor":"#000000",
+      "fontColor":"#000000",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
+  },
+  {
+    "id": "202504",
+    "name": "简洁模板-c",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateA",
+    "thumbnail": "preview1.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "互联网",
+    "color": "黑色",
+    "setting": {
+      "themeColor":"#000000",
+      "fontColor":"#ffffff",
+      "fontFamily":"zql",
+      "lineSpacing": "21",
+      "blockSpacing":"21",
+      "pageMargin": "25"
+    }
+  },
+  {
+    "id": "202505",
+    "name": "简洁模板-d",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateB",
+    "thumbnail": "preview1.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "IT",
+    "color": "黄色",
+    "setting": {
+      "themeColor":"#bdb600",
+      "fontColor":"#bdb600",
+      "fontFamily":"zql",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "24"
+    }
+  },
+  {
+    "id": "202506",
+    "name": "简洁模板-e",
+    "description": "简约而不简单的简历模板。",
+    "folderPath": "templateC",
+    "thumbnail": "preview1.png",
+    "layout": "classical",
+    "style": "简洁",
+    "industry": "IT",
+    "color": "蓝色",
+    "setting": {
+      "themeColor":"#2b7fff",
+      "fontColor":"#2b7fff",
+      "fontFamily":"",
+      "lineSpacing": "20",
+      "blockSpacing":"21",
+      "pageMargin": "21"
+    }
   }
 ]

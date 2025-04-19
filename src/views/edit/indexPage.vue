@@ -10,7 +10,7 @@ import EditMenu from "./edit-menu/indexPage.vue";
 <template>
   <div class=" bg-white h-screen w-full">
     <CvHeader></CvHeader>
-    <div class="mt-24 flex justify-center space-x-13 min-h-screen pb-10">
+    <div class="mt-24 flex justify-center space-x-13 min-h-screen pb-10 ">
       <!-- 左侧功能栏 -->
       <div>
         <CvSetting class="shadow-[0px_0px_15px_-5px] sticky top-20 z-11" />

@@ -28,7 +28,7 @@ const setHovered = (id: number | null) => {
         </div>
         <div v-if="hoveredId === resume.id"
           class="absolute inset-0 rounded-lg flex flex-col justify-center items-center space-y-2">
-          <RouterLink to="/edit" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
+          <RouterLink to="/edit/111" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
           <button class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
         </div>
 

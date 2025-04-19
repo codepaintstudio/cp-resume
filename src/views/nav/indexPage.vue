@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia'
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue';
 import { useAuthStore } from '@/stores/userStatus';
-
+import { ChevronDown } from 'lucide-vue-next';
 //调用store
 const authStore = useAuthStore()
-const isLogin = computed(() => authStore.isLogin)
-
+const { isLogin, currentUser } = storeToRefs(authStore)
 // 路由相关
 const route = useRoute();
 const router = useRouter();
@@ -83,9 +83,29 @@ const handleLogout = () => {
   showDropdown.value = false
 }
 
-const UserIs = computed(() => {
-  return isLogin.value ? '/user' : '/login'
-})
+const myResume = () => {
+  router.push('/user/cv')
+}
+
+const myInformation = () => {
+  router.push('/user/information')
+}
+// 用户名部分的下拉框
+// 定义 dropdownTimer 并初始化 null，但声明它可以存储 setTimeout 的返回值
+const dropdownTimer = ref<ReturnType<typeof setTimeout> | null>(null)
+  function handleMouseEnter() {
+  if (dropdownTimer.value) {  // 先检查是否有值
+    clearTimeout(dropdownTimer.value);  // 使用 .value 访问实际值
+    dropdownTimer.value = null;  // 清除后设为 null
+  }
+  showDropdown.value = true;
+}
+
+function handleMouseLeave() {
+  dropdownTimer.value = setTimeout(() => {
+    showDropdown.value = false;
+  }, 300);
+}
 // 挂载时添加滚动事件监听器
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -114,17 +134,37 @@ onUnmounted(() => {
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">
       <!-- 登录状态显示带下拉菜单的用户中心 -->
-      <div v-if="isLogin" class="relative">
-        <div class="text-[0.8vw] text-[#4F4F4F] no-underline cursor-pointer" @click.stop="showDropdown = !showDropdown">
-          <RouterLink to="/user" class="text-[#4F4F4F] hover:text-[#616DFF] transition-colors">
-            用户中心
+      <div v-if="isLogin"
+      class="relative"
+      >
+        <div class="text-[0.8vw] text-[#4F4F4F] no-underline cursor-pointer flex justify-between items-center" >
+          <RouterLink to="/user" class="text-[#4F4F4F] hover:text-[rgb(97,109,255)] transition-colors">
+              {{ currentUser?.userNum || '用户中心' }}
           </RouterLink>
+          <ChevronDown
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+          />
         </div>
 
+        <div>
+
+        </div>
         <!-- 下拉菜单 -->
-        <div v-if="showDropdown && route.path.includes('/user')"
-          class="absolute top-full right-0 mt-2 w-[8vw] bg-white shadow-lg rounded-md py-2 z-50">
-          <div class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[0.8vw]" @click="handleLogout">
+        <div v-if="showDropdown"
+          class="absolute top-full right-0 mt-2 w-[8vw] bg-white shadow-lg rounded-md py-2 z-50"
+           @mouseenter="handleMouseEnter"
+           @mouseleave="handleMouseLeave"
+          >
+
+          <div class="px-4 py-2 hover:bg-[rgb(231,238,254)] hover:text-[#3370FF] cursor-pointer text-[0.8vw] " @click="myResume">
+            我的简历
+          </div>
+
+          <div class="px-4 py-2 hover:bg-[rgb(231,238,254)] hover:text-[#3370FF] cursor-pointer text-[0.8vw]" @click="myInformation">
+            账户信息
+          </div>
+          <div class="px-4 py-2 hover:bg-[rgb(231,238,254)] hover:text-[#3370FF] cursor-pointer text-[0.8vw]" @click="handleLogout">
             退出登录
           </div>
         </div>
@@ -133,7 +173,7 @@ onUnmounted(() => {
       <!-- 未登录状态直接显示登录链接 -->
       <RouterLink v-else to="/login"
         class="text-[0.8vw] text-[#4F4F4F] no-underline hover:text-[#616DFF] transition-colors">
-        请先登录
+        登录/注册
       </RouterLink>
     </div>
 

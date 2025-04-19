@@ -18,4 +18,12 @@ export interface Template {
   style: string;
   industry: string;
   color: string;
+  setting: {
+    themeColor:string,
+    fontColor:string,
+    fontFamily:string,
+    lineSpacing: number,
+    blockSpacing:number,
+    pageMargin: number
+  }
 }
