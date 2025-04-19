@@ -18,7 +18,7 @@ onMounted(async () => {
 
 const emit = defineEmits(['setActiveIndex']);
 const setTemplate = (template: Template) => {
-  templateStore.currentTemplate = template;
+  templateStore.setTemplate(template);
   //传值给父组件activeIndex = null
   emit('setActiveIndex', null);
 };

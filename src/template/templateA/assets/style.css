@@ -5,11 +5,35 @@ p {
 }
 
 .resume-container {
-  max-width: 960px;
-  padding: 20px 30px 3px 30px;
   background-color: #ffffff;
   border-radius: 10px;
   box-sizing: border-box;
+}
+
+/* 求职意向样式 */
+.job-intention-section .section-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 4px 0;
+}
+
+.job-intention-section .detail-row {
+  display: contents;
+}
+
+.job-intention-section .detail-item {
+  display: flex;
+  align-items: center;
+}
+
+.job-intention-section .label {
+  min-width: 70px;
+  color: #333;
+}
+
+.job-intention-section .value {
+  flex: 1;
+  color: #555;
 }
 
 .personal-info {
@@ -75,7 +99,7 @@ p {
 }
 
 .profile-image img {
-  width: 60px;
+  width: 90px;
   height: auto;
   object-fit: cover;
   border-radius: 10px;
@@ -156,8 +180,10 @@ p {
   word-break: break-word;
 }
 
+
+
 .skills-list {
-  list-style-type: disc;
+  /* list-style: none; */
   padding-left: 20px;
 }
 

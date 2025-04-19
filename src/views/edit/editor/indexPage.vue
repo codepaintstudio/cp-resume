@@ -13,7 +13,7 @@ const openMenu = (menuName: string) => {
 </script>
 
 <template>
-  <div class="bg-white p-4 rounded-lg w-56 space-y-2">
+  <div class="bg-white p-4 rounded-lg w-56 space-y-2 h-[74vh] overflow-scroll overscroll-contain no-scrollbar">
     <!-- 固定项：基本信息 -->
     <div @click="openMenu(resumeStore.sections[0].key)"
       class="flex h-13 items-center justify-between bg-gray-100 rounded-lg p-3 shadow cursor-pointer select-none overflow-hidden">

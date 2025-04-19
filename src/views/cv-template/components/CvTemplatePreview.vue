@@ -2,7 +2,9 @@
 import { defineProps, defineEmits, ref } from "vue";
 import CvCard from "@/components/CvCard.vue";
 import type { Template } from "@/types/template";
+import { useTemplateStore } from '@/stores/useTemplateStore.ts'
 
+const templateStore = useTemplateStore()
 // 接收父组件传递的控制菜单显示状态的 props
 const props = defineProps({
   isVisible: {
@@ -15,7 +17,8 @@ const props = defineProps({
       return {
         id: '',
         name: '标题',
-        folderPath: 'src/assets/img/default_resume.png',
+        folderPath: 'src/template/default/preview.png',
+        thumbnail: 'preview.png',
         style: '风格',
         industry: '行业',
         color: '颜色',
@@ -53,10 +56,12 @@ const nextCv = () => {
 };
 
 // 打开推荐简历详情
-const openDetail = (cvIndex: number) => {
+const openDetail = (cvIndex: Template) => {
   emit('updateCvList', cvIndex);
   scrollToDetail();
 };
+
+
 </script>
 
 <template>
@@ -73,7 +78,8 @@ const openDetail = (cvIndex: number) => {
         ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img src="@/assets/img/default_resume.png" alt="简历预览" class="rounded-lg shadow-md w-[350px]" />
+          <img :src="`src/template/${cvTemplate.folderPath}/${cvTemplate.thumbnail}`" alt="简历预览"
+            class="rounded-lg shadow-[0px_0px_15px_-5px] w-[350px]" />
         </div>
 
         <!-- 右侧详情 -->
@@ -87,7 +93,7 @@ const openDetail = (cvIndex: number) => {
 
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.color }}</p>
 
-          <RouterLink to="/edit"
+          <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/${Date.now()}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
             <span>使用此模板</span>
             <span>→</span>
@@ -106,7 +112,7 @@ const openDetail = (cvIndex: number) => {
       <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(index)" :cvTemplate="i"
+          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(cvList[index])" :cvTemplate="i"
             custom-class="w-50 h-76"></CvCard>
         </div>
         <div v-if="!cvList.length" class="text-center my-12 pb-10 text-xl font-semibold mb-4 text-gray-500">

@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/userStatus';
 import Nav from '@/views/nav/indexPage.vue'
 import HomePage from '@/views/home/HomePage.vue';
 import CvTemplateView from '@/views/cv-template/indexPage.vue';
@@ -10,6 +11,7 @@ import UserCv from '@/views/user/components/UserCv.vue';
 import CvAdmn from '@/views/user/components/CvAdmn.vue';
 
 import LoginPage from '@/views/login/indexPage.vue';
+
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -56,7 +58,7 @@ const router = createRouter({
       ],
     },
     {
-      path: '/edit',
+      path: '/edit/:id',
       name: 'edit',
       component: EditPage
     },
@@ -65,6 +67,7 @@ const router = createRouter({
       name: 'login',
       component: LoginPage
     }
+
   ],
   scrollBehavior(to, from, savedPosition) {
     // 始终滚动到顶部
@@ -76,3 +79,9 @@ const router = createRouter({
 })
 
 export default router
+
+// 登录访问拦截
+router.beforeEach((to) => {
+  const userStore = useAuthStore()
+  if (!userStore.isLogin && to.path.includes('/user')) return '/login'
+})
