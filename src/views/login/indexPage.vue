@@ -24,6 +24,8 @@ const registerPassword = ref("")
 const registerError = ref("")
 // 类型安全 + 错误处理
 const RuserList = ref(
+  //localStorage.getItem('RuserList')在本地存储中获取名叫RuserList的键
+  //Json.parse将JSON字符串解析为JavaScript对象
   JSON.parse(localStorage.getItem('RuserList') || '[]') // 确保输入是字符串
 )
 onMounted(() => {
@@ -31,6 +33,7 @@ onMounted(() => {
 })
 
 const checkLoginStatus = () => {
+  //如果存在currrentUser这个键且值不为空
   const hasUser = !!localStorage.getItem('currrentUser')
   authStore.setLoginStatus(hasUser)
 }
@@ -49,33 +52,41 @@ const validatePassword = (password: string): string => {
 }
 
 const handleLogin = () => {
-  loginError.value = ""
+  loginError.value = "";
 
   if (!loginUserNum.value || !loginUserPas.value) {
-    loginError.value = "用户名和密码不能为空"
-    return
+    loginError.value = "用户名和密码不能为空";
+    return;
   }
 
   try {
-    const storedUsers = JSON.parse(localStorage.getItem('RuserList') || '[]')
-    const matchedUser = storedUsers.find((user: { userNum: string; UpassWord: string }) =>
-      user.userNum === loginUserNum.value &&
-      user.UpassWord === loginUserPas.value
-    )
+    const storedUsers = JSON.parse(localStorage.getItem('RuserList') || '[]');
+    const matchedUser = storedUsers.find(
+      user => user.userNum === loginUserNum.value &&
+              user.UpassWord === loginUserPas.value
+    );
 
     if (matchedUser) {
-      localStorage.setItem('currentUser', JSON.stringify(matchedUser))
-      authStore.setLoginStatus(true)
-      router.push('/user')
+      // 1. 存储到 localStorage
+      localStorage.setItem('currentUser', JSON.stringify(matchedUser));
+
+      // 2. 更新 Pinia Store
+      authStore.setLoginStatus(true, matchedUser);
+
+      // 3. 调试输出
+      console.log('当前用户:', matchedUser);
+
+      // 4. 跳转页面
+      router.push('/user');
     } else {
-      loginError.value = '用户名或密码错误'
-      loginUserPas.value = ''
+      loginError.value = '用户名或密码错误';
+      loginUserPas.value = '';
     }
   } catch (error) {
-    loginError.value = '登录过程出现异常'
-    console.error(error)
+    loginError.value = '登录过程出现异常';
+    console.error(error);
   }
-}
+};
 
 const handleRegister = () => {
   registerError.value = ""
