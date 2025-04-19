@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useResumeStore } from '@/stores/useResumeStore'
 import { ref } from 'vue'
+import SingleSelect from '@/components/SingleSelect.vue'
 
 const resume = useResumeStore()
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -20,6 +21,7 @@ const handleAvatarChange = (event: Event) => {
 
 // 政治面貌和性别选项
 const politicalOptions = [
+  { value: '', label: '不填' },
   { label: '中共党员', value: '中共党员' },
   { label: '中共预备党员', value: '中共预备党员' },
   { label: '共青团员', value: '共青团员' },
@@ -27,6 +29,7 @@ const politicalOptions = [
   { label: '其他', value: '其他' }
 ];
 const genderOptions = [
+  { value: '', label: '不填' },
   { label: '男', value: '男' },
   { label: '女', value: '女' },
   { label: '其他', value: '其他' }
@@ -44,12 +47,7 @@ const genderOptions = [
 
     <div class="text-sm text-gray-700">
       <label class="mb-1">性别：</label>
-      <select v-model="resume.personalInfo.gender"
-        class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4">
-        <option v-for="option in genderOptions" placeholder="请选择性别" :key="option.value" :value="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+      <SingleSelect :options="genderOptions" v-model="resume.personalInfo.gender" />
     </div>
 
     <div class="text-sm text-gray-700">
@@ -60,12 +58,7 @@ const genderOptions = [
 
     <div class="text-sm text-gray-700">
       <label class="mb-1">政治面貌：</label>
-      <select v-model="resume.personalInfo.politicalStatus"
-        class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4">
-        <option v-for="option in politicalOptions" placeholder="请选择政治面貌" :key="option.value" :value="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+      <SingleSelect :options="politicalOptions" v-model="resume.personalInfo.politicalStatus" />
     </div>
 
     <div class="text-sm text-gray-700">
@@ -98,11 +91,6 @@ const genderOptions = [
         class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
     </div>
 
-    <div class="text-sm text-gray-700">
-      <label class="mb-1">申请职位：</label>
-      <input type="text" v-model="resume.personalInfo.applicationPosition"
-        class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
-    </div>
 
     <!-- 头像上传区域 -->
     <div class="col-span-2 flex flex-col">

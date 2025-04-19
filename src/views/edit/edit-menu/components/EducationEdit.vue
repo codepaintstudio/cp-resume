@@ -23,16 +23,15 @@ const resume = useResumeStore()
           <input type="text" v-model="edu.major"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
         </div>
-        <div class="text-sm text-gray-700">
-          <label class="mb-1">开始日期：</label>
+        <div class="flex items-center text-sm text-gray-700">
+          <span>时间：</span>
           <input type="date" v-model="edu.startDate"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
-        </div>
-        <div class="text-sm text-gray-700">
-          <label class="mb-1">结束日期：</label>
-          <input type="date" v-model="edu.endDate"
+          <span class="mx-1">-</span>
+          <input type="date" v-model="edu.endDate" placeholder="结束时间"
             class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4" />
         </div>
+
       </div>
     </div>
   </div>
