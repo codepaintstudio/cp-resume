@@ -16,7 +16,9 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/vite": "^4.0.9",
+    "axios": "^1.8.4",
     "html2canvas": "^1.4.1",
+    "install": "^0.13.0",
     "jspdf": "^3.0.1",
     "lucide-vue-next": "^0.477.0",
     "pinia": "^3.0.1",
@@ -30,7 +32,7 @@
     "@iconify/tailwind": "^1.2.0",
     "@iconify/tailwind4": "^1.0.6",
     "@tsconfig/node22": "^22.0.0",
-    "@types/node": "^22.13.4",
+    "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.2",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.4.0",

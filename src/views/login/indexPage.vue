@@ -4,37 +4,29 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/userStatus'
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue'
 
-
-//调用useAuthStore
 const authStore = useAuthStore()
-//
 const router = useRouter()
+
+// 登录/注册模式切换
 const isLoginMode = ref(true)
 const showPasswordRequirements = ref(false)
 
 // 登录相关状态
 const loginUserNum = ref("")
 const loginUserPas = ref("")
-
 const loginError = ref("")
 
 // 注册相关状态
 const registerUserNum = ref("")
 const registerPassword = ref("")
 const registerError = ref("")
-// 类型安全 + 错误处理
-const RuserList = ref(
-  //localStorage.getItem('RuserList')在本地存储中获取名叫RuserList的键
-  //Json.parse将JSON字符串解析为JavaScript对象
-  JSON.parse(localStorage.getItem('RuserList') || '[]') // 确保输入是字符串
-)
+
 onMounted(() => {
   checkLoginStatus()
 })
 
 const checkLoginStatus = () => {
-  //如果存在currrentUser这个键且值不为空
-  const hasUser = !!localStorage.getItem('currrentUser')
+  const hasUser = !!localStorage.getItem('currentUser')
   authStore.setLoginStatus(hasUser)
 }
 
@@ -51,76 +43,77 @@ const validatePassword = (password: string): string => {
   return ""
 }
 
-const handleLogin = () => {
-  loginError.value = "";
+// 修改后的登录处理
+const handleLogin = async () => {
+  loginError.value = ""
 
-  if (!loginUserNum.value || !loginUserPas.value) {
-    loginError.value = "用户名和密码不能为空";
+  if (!loginUserNum.value.trim() || !loginUserPas.value.trim()) {
+    loginError.value = "用户名和密码不能为空"
+    return
+  }
+
+  try {
+    // 调用authStore的登录方法
+    const result = await authStore.login({
+      userName: loginUserNum.value,
+      userPassword: loginUserPas.value
+    })
+
+    if (result.success) {
+      // 登录成功后跳转
+      const returnUrl = router.currentRoute.value.query.redirect?.toString() || '/user'
+      await router.push(returnUrl)
+    } else {
+      loginError.value = result.message || '登录失败'
+      loginUserPas.value = ''
+    }
+  } catch (error) {
+    loginError.value = '登录过程中出现错误'
+    console.error('登录错误:', error)
+  }
+}
+
+// 修改后的注册处理
+// 在您的组件中
+const handleRegister = async () => {
+  registerError.value = "";
+
+  // 密码验证
+  const passwordError = validatePassword(registerPassword.value);
+  if (passwordError) {
+    registerError.value = passwordError;
+    return;
+  }
+
+  // 邮箱格式验证
+  if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(`${registerUserNum.value}@example.com`)) {
+    registerError.value = "请输入有效的用户名（将用作邮箱前缀）";
     return;
   }
 
   try {
-    const storedUsers = JSON.parse(localStorage.getItem('RuserList') || '[]');
-    const matchedUser = storedUsers.find(
-      user => user.userNum === loginUserNum.value &&
-              user.UpassWord === loginUserPas.value
-    );
+    const result = await authStore.register({
+      userName: registerUserNum.value,
+      userPassword: registerPassword.value,
+      userEmail: `${registerUserNum.value}@example.com`, // 根据用户名生成邮箱
+      userPhoneNumber: "138" + Math.floor(Math.random() * 100000000).toString().padStart(8, '0') // 示例手机号
+    });
 
-    if (matchedUser) {
-      // 1. 存储到 localStorage
-      localStorage.setItem('currentUser', JSON.stringify(matchedUser));
-
-      // 2. 更新 Pinia Store
-      authStore.setLoginStatus(true, matchedUser);
-
-      // 3. 调试输出
-      console.log('当前用户:', matchedUser);
-
-      // 4. 跳转页面
-      router.push('/user');
+    if (result.success) {
+      // 注册成功后处理
+      isLoginMode.value = true;
+      loginUserNum.value = registerUserNum.value;
+      registerUserNum.value = "";
+      registerPassword.value = "";
+      loginError.value = "注册成功，请登录";
     } else {
-      loginError.value = '用户名或密码错误';
-      loginUserPas.value = '';
+      registerError.value = result.message;
     }
   } catch (error) {
-    loginError.value = '登录过程出现异常';
-    console.error(error);
+    registerError.value = '注册过程出现异常';
+    console.error('注册错误:', error);
   }
 };
-
-const handleRegister = () => {
-  registerError.value = ""
-  showPasswordRequirements.value = false
-
-  try {
-    const existingUser = RuserList.value.find(
-      user => user.userNum === registerUserNum.value
-    )
-
-    if (existingUser) {
-      registerError.value = "该用户名已存在"
-      return
-    }
-
-    const newUser = {
-      userNum: registerUserNum.value,
-      UpassWord: registerPassword.value
-    }
-
-    RuserList.value.push(newUser)
-    localStorage.setItem('RuserList', JSON.stringify(RuserList.value))
-
-    // 注册成功后处理 ✅
-    isLoginMode.value = true
-    registerUserNum.value = ""
-    registerPassword.value = ""
-    alert('注册成功，请登录')
-
-  } catch (error) {
-    registerError.value = '注册过程出现异常'
-    console.error(error)
-  }
-}
 
 const switchToRegister = () => {
   isLoginMode.value = false
