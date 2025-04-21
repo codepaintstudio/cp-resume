@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.removeItem('currentUser')
     }
   }
-
+///////////////////////////
   const login = async (credentials: { userName: string; userPassword: string }) => {
     isLoading.value = true
     error.value = null

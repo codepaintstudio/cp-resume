@@ -58,7 +58,7 @@ const router = createRouter({
       ],
     },
     {
-      path: '/edit',
+      path: '/edit/:id',
       name: 'edit',
       component: EditPage
     },
