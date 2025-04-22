@@ -55,7 +55,7 @@ const props = defineProps<{
           <span class="label">性别:</span> {{ resume.personalInfo.gender }}
         </div>
         <div class="info-row" v-if="resume.personalInfo.age">
-          <span class="label">年龄:</span> {{ resume.personalInfo.age }} years
+          <span class="label">年龄:</span> {{ resume.personalInfo.age }}岁
         </div>
         <div class="info-row" v-if="resume.personalInfo.politicalStatus">
           <span class="label">政治面貌:</span> {{ resume.personalInfo.politicalStatus }}
@@ -123,7 +123,7 @@ const props = defineProps<{
     <section class="card" v-if="resume.education.length && module === 'education'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="edu in resume.education" :key="edu.id">
+        <div class="flex-card" v-for="edu in resume.education" :key="edu.id">
           <h3>{{ edu.school }}</h3>
           <p>{{ edu.degree }} - {{ edu.major }}</p>
           <span class="duration">{{ edu.startDate }} - {{ edu.endDate }}</span>
@@ -145,10 +145,12 @@ const props = defineProps<{
     <section class="card" v-if="resume.workExperience.length && module === 'workExperience'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="work in resume.workExperience" :key="work.id">
-          <h3>{{ work.position }}</h3>
-          <p>{{ work.company }}</p>
-          <span class="duration">{{ work.startDate }} - {{ work.endDate }}</span>
+        <div v-for="work in resume.workExperience" :key="work.id">
+          <div class="flex-card">
+            <h3>{{ work.position }}</h3>
+            <p>{{ work.company }}</p>
+            <span class="duration">{{ work.startDate }} - {{ work.endDate }}</span>
+          </div>
           <ul>
             <li v-for="(desc, index) in work.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
@@ -160,10 +162,13 @@ const props = defineProps<{
     <section class="card" v-if="resume.internship.length && module === 'internship'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="intern in resume.internship" :key="intern.id">
-          <h3>{{ intern.position }}</h3>
-          <p>{{ intern.company }}</p>
-          <span class="duration">{{ intern.startDate }} - {{ intern.endDate }}</span>
+        <div  v-for="intern in resume.internship" :key="intern.id">
+          <div class="flex-card">
+            <h3>{{ intern.position }}</h3>
+            <p>{{ intern.company }}</p>
+            <span class="duration">{{ intern.startDate }} - {{ intern.endDate }}</span>
+          </div>
+
           <ul>
             <li v-for="(desc, index) in intern.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
@@ -175,11 +180,14 @@ const props = defineProps<{
     <section class="card" v-if="resume.projects.length && module === 'projects'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="project in resume.projects" :key="project.id">
-          <h3>{{ project.projectName }}</h3>
-          <p>Role: {{ project.role }}</p>
+        <div v-for="project in resume.projects" :key="project.id">
+          <div class="flex-card">
+            <h3>{{ project.projectName }}</h3>
+            <p>{{ project.role }}</p>
+
+            <span class="duration">{{ project.startDate }} - {{ project.endDate }}</span>
+          </div>
           <p>{{ project.briefIntroduction }}</p>
-          <span class="duration">{{ project.startDate }} - {{ project.endDate }}</span>
           <ul>
             <li v-for="(desc, index) in project.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
@@ -191,10 +199,12 @@ const props = defineProps<{
     <section class="card" v-if="resume.campusExperience.length && module === 'campusExperience'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="exp in resume.campusExperience" :key="exp.id">
-          <h3>{{ exp.title }}</h3>
-          <p>Main Responsibility: {{ exp.responsibility }}</p>
-          <span class="duration">{{ exp.startDate }} - {{ exp.endDate }}</span>
+        <div v-for="exp in resume.campusExperience" :key="exp.id">
+          <div class="flex-card">
+            <h3>{{ exp.title }}</h3>
+            <span class="duration">{{ exp.startDate }} - {{ exp.endDate }}</span>
+          </div>
+          <p>主要职责: {{ exp.responsibility }}</p>
           <ul>
             <li v-for="(desc, index) in exp.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
@@ -207,7 +217,13 @@ const props = defineProps<{
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
         <ul>
-          <li v-for="honor in resume.honors" :key="honor.id">{{ honor.honorName }}</li>
+          <li v-for="honor in resume.honors" :key="honor.id">
+
+              <span>{{ honor.honorName }}</span>
+              <span style="margin-left: 55%">{{ honor.date }}</span>
+
+
+          </li>
         </ul>
       </div>
     </section>
@@ -216,8 +232,12 @@ const props = defineProps<{
     <section class="card" v-if="resume.portfolio.length && module === 'portfolio'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div class="experience-item" v-for="work in resume.portfolio" :key="work.id">
-          <h3><a :href="work.url" target="_blank">{{ work.name }}</a></h3>
+        <div v-for="work in resume.portfolio" :key="work.id">
+          <div style="margin-top: 15px" class="flex-card">
+            <h3><a :href="work.url" target="_blank">{{ work.name }}</a></h3>
+            <a :href="work.url" target="_blank">{{ work.url }}</a>
+          </div>
+
           <p>{{ work.description }}</p>
         </div>
       </div>
@@ -301,7 +321,7 @@ const props = defineProps<{
   font-size: 20px;
   font-weight: 600;
   color: var(--color-theme);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   border-bottom: 2px solid var(--color-theme);
   padding-bottom: 20px;
 }
@@ -332,18 +352,20 @@ const props = defineProps<{
   min-width: 100px;
 }
 
-.experience-item {
-  margin-bottom: 20px;
+.flex-card {
+
+  display: flex;
+  justify-content: space-between;
 }
 
-.experience-item h3 {
+.flex-card h3 {
   font-size: 16px;
   font-weight: 600;
   color: var(--color-theme);
   margin-bottom: 5px;
 }
 
-.experience-item p {
+.flex-card p {
   margin: 5px 0;
   color: #555;
 }
