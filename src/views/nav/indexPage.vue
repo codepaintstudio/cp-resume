@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/userStatus';
 import { ChevronDown } from 'lucide-vue-next';
 //调用store
 const authStore = useAuthStore()
-const { isLogin, currentUser } = storeToRefs(authStore)
+const { isLogin, currentUser,fetchUserDetails } = storeToRefs(authStore)
 // 路由相关
 const route = useRoute();
 const router = useRouter();
@@ -139,7 +139,7 @@ onUnmounted(() => {
       >
         <div class="text-[0.8vw] text-[#4F4F4F] no-underline cursor-pointer flex justify-between items-center" >
           <RouterLink to="/user" class="text-[#4F4F4F] hover:text-[rgb(97,109,255)] transition-colors">
-              {{ currentUser?.userNum || '用户中心' }}
+              {{ currentUser?.userName || '用户中心' }}
           </RouterLink>
           <ChevronDown
           @mouseenter="handleMouseEnter"

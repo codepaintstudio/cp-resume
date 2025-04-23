@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { ref, onMounted, getCurrentInstance } from 'vue'
+import { RouterLink, useRouter, onBeforeRouteLeave, useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import CvCard from '@/components/CvCard.vue'
+import { useAuthStore } from '@/stores/userStatus.ts'
 
 // 引入图标
 import { ArrowUp } from 'lucide-vue-next'
 const router = useRouter()
+const authStore = useAuthStore();
+const { isLogin, currentUser } = storeToRefs(authStore)
+
 const ToCv = () => {
   router.push('/cv')
 }
@@ -20,8 +25,10 @@ onMounted(() => {
   if (toTopRef.value) {
     toTopRef.value.addEventListener('click', scrollToTop)
   }
+  console.log(authStore.isLogin)
+  console.log('1')
 })
-// 在组件卸载时移除事件监听器
+
 </script>
 <template>
   <div id="relative w-screen h-full bg-white flex">
@@ -58,18 +65,26 @@ onMounted(() => {
           @click="ToCv"></span>
       </div>
 
-      <div class="w-[70%] h-[60vh] flex flex-col justify-center items-center relative z-10">
+      <div class="w-[70%] h-[60vh] flex flex-col justify-center items-center relative z-10" v-show="!isLogin">
         <div class="w-[30vw] h-[6vh] relative">
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"></span>
+            <!-- 后续再重新判断 -->
           <span
             class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]">历史简历</span>
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
-        <div class="w-full flex justify-around items-center mt-10 mb-10">
-          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
+        <div class="w-full flex justify-around items-center mt-10 mb-10"  v-show="isLogin">
+          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false"
+            customClass="w-[12vw] h-[16vw]">
           </CvCard>
+        </div>
+        <div v-show="!currentUser">
+          <div  class = "text-center">
+            暂无历史简历，点击<a href="" class="text-[#3370FF]">开始制作</a>
+          </div>
+
         </div>
         <RouterLink
           class="absolute right-0 top-[20%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row "
