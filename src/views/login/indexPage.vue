@@ -115,43 +115,6 @@ const handleRegister = async () => {
   }
 };
 
-<<<<<<< HEAD
-=======
-const handleRegister = () => {
-  registerError.value = ""
-  showPasswordRequirements.value = false
-
-  try {
-    const existingUser = RuserList.value.find(
-      (user: { userNum: string; UpassWord: string }) => user.userNum === registerUserNum.value
-    )
-
-    if (existingUser) {
-      registerError.value = "该用户名已存在"
-      return
-    }
-
-    const newUser = {
-      userNum: registerUserNum.value,
-      UpassWord: registerPassword.value
-    }
-
-    RuserList.value.push(newUser)
-    localStorage.setItem('RuserList', JSON.stringify(RuserList.value))
-
-    // 注册成功后处理 ✅
-    isLoginMode.value = true
-    registerUserNum.value = ""
-    registerPassword.value = ""
-    alert('注册成功，请登录')
-
-  } catch (error) {
-    registerError.value = '注册过程出现异常'
-    console.error(error)
-  }
-}
-
->>>>>>> c4022a552deb46845f080fd44d00c13a1cca188f
 const switchToRegister = () => {
   isLoginMode.value = false
   showPasswordRequirements.value = false

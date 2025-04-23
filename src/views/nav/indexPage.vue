@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/userStatus';
 import { ChevronDown } from 'lucide-vue-next';
 //调用store
 const authStore = useAuthStore()
-const { isLogin, currentUser } = storeToRefs(authStore)
+const { isLogin, currentUser,fetchUserDetails } = storeToRefs(authStore)
 // 路由相关
 const route = useRoute();
 const router = useRouter();
