@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore.ts'
+import { hasToken } from '@/utils/verifyToken.ts'
 
 const userStore = useUserStore()
+const currentUser = ref({
+  userName: '',
+  userPhoneNumber: '',
+  userEmail: ''
+})
 
-userStore.getUserInfo(userStore.userId)
-const currentUser = userStore.userInfo.data
+if (!!hasToken()) {
+  userStore.getUserInfo(userStore.userId)
+  currentUser.value = userStore.userInfo.data
+}
+
 </script>
 <template>
   <div>
-    <div class="flex justify-between items-center w-[100%] h-[8vh] border-b-2 border-[#D9D9D9]">
-      <div class="text-3xl ml-[2vw]">基本信息</div>
-      <a class="text-[#3370FF] mr-[2vw]">完成</a>
+    <div class="flex justify-between items-center w-[100%] h-20 px-6 border-b-2 border-[#D9D9D9]">
+      <h2 class="text-lg font-semibold">基本信息</h2>
+      <a class="text-[#3370FF] mr-[2vw]">编辑</a>
     </div>
 
     <div class="w-[100%] flex flex-col items-center space-y-10 mt-12">
@@ -26,7 +35,7 @@ const currentUser = userStore.userInfo.data
         <input
           type="text"
           class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
-          :value="currentUser.userName"
+          :value="currentUser?.userName||''"
         />
       </div>
 
@@ -35,7 +44,7 @@ const currentUser = userStore.userInfo.data
         <input
           type="text"
           class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
-          :value="currentUser.userPhoneNumber"
+          :value="currentUser?.userPhoneNumber||''"
         />
       </div>
 
@@ -44,7 +53,7 @@ const currentUser = userStore.userInfo.data
         <input
           type="text"
           class="border border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
-          :value="currentUser.userEmail"
+          :value="currentUser?.userEmail||''"
         />
       </div>
     </div>

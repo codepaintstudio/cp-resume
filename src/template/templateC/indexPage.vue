@@ -306,7 +306,7 @@ const props = defineProps<{
 }
 
 .avatar {
-  width: 200px;
+  width: 100px;
   margin: 10px;
 }
 
@@ -314,7 +314,7 @@ const props = defineProps<{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 2px solid var(--color-theme);
+  border: 1px solid var(--color-theme);
 }
 
 .card-title {

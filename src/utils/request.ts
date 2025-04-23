@@ -5,19 +5,19 @@ const service = axios.create({
   baseURL: 'http://47.109.193.161:8543',  // ✔ 把 /api 放到这里
   timeout: 50000,
 });
-
-
+let isRefreshing = false;
+let requestQueue:any = [];
 
 service.interceptors.request.use(config => {
   // 先从 localStorage 取
   let accessToken = localStorage.getItem('cp-accessToken');
   let refreshToken = localStorage.getItem('cp-refreshToken');
   // 登录接口不加 token
-  if (config.url.endsWith('/auth/login') && config.method === 'post') {
+  if (config?.url?.endsWith('/auth/login') && config.method === 'post') {
     return config;
   }
   // 刷新接口单独加刷新 Token
-  if (config.url.includes('/auth/refresh')) {
+  if (config?.url?.includes('/auth/refresh')) {
     config.headers['Authorization'] = `Bearer ${refreshToken}`;
   } else {
     config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -26,36 +26,8 @@ service.interceptors.request.use(config => {
 }, err => Promise.reject(err));
 
 
-let isRefreshing = false;
-let requestQueue = [];
-
-async function doRefresh() {
-  // 先从 localStorage 取
-  let accessToken = localStorage.getItem('cp-accessToken');
-  let refreshToken = localStorage.getItem('cp-refreshToken');
-  try {
-    const resp = await axios.get('http://47.109.193.161:8543/api/auth/refresh',{
-      params: {
-        refreshToken,
-      }
-    });
-    const { access_token: newAT, refresh_token: newRT } = resp.data.data;
-    // alert('Token 刷新成功');
-    console.log('Token 刷新成功', newAT, newRT);
-
-    // 更新本地存储与内存变量
-    localStorage.setItem('cp-accessToken', newAT);
-    // localStorage.setItem('cp-refreshToken', newRT);
-    return newAT;
-  } catch (e) {
-    alert('Token 刷新失败，请重新登录');
-    throw e;
-  }
-}
-
 service.interceptors.response.use(
   response => {
-    // 如果后端自定义 code 字段也代表 401，也可在这里再做一次检查
     return response.data;
   },
   async error => {
@@ -78,7 +50,7 @@ service.interceptors.response.use(
           console.error('刷新 Token 失败');
           localStorage.removeItem('cp-accessToken');
           localStorage.setItem('cp-refreshToken', '');
-          // router.replace('/login');
+          router.replace('/login');
           return Promise.reject(error);
         } finally {
           isRefreshing = false;
@@ -98,5 +70,23 @@ service.interceptors.response.use(
   }
 );
 
+async function doRefresh() {
+  // 先从 localStorage 取
+  let refreshToken = localStorage.getItem('cp-refreshToken');
+  try {
+    const resp = await axios.get('http://47.109.193.161:8543/api/auth/refresh',{
+      params: {
+        refreshToken,
+      }
+    });
+    const { access_token: newAT, refresh_token: newRT } = resp.data.data;
+    console.log('Token 刷新成功', newAT, newRT);
+    localStorage.setItem('cp-accessToken', newAT);
+    return newAT;
+  } catch (e) {
+    alert('Token 刷新失败，请重新登录');
+    throw e;
+  }
+}
 export default service;
 // export { baseURL: service.defaults.baseURL };

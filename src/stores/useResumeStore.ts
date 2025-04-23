@@ -157,7 +157,7 @@ const resumeTemplate = {
     university: '清华大学',
     politicalStatus: '共青团员',
     website: 'https://lihua.dev',
-    avatar: 'https://example.com/avatar.jpg',
+    avatar: '',
     major: '计算机科学与技术',
     age: '22',
     applicationPosition: '前端开发工程师'

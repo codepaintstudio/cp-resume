@@ -16,9 +16,12 @@ const setHovered = (id: number | null) => {
 </script>
 
 <template>
-  <div class="p-6 bg-gray-100">
-    <h2 class="text-lg font-semibold mb-4">我的云简历 ({{ resumes.length }}/4)</h2>
-    <div class="flex space-x-4 border-t-1 border-gray-300 pt-4">
+  <div class="">
+    <div class="flex justify-between items-center w-[100%] h-20 px-6 border-b-2 border-[#D9D9D9]">
+      <h2 class="text-lg font-semibold">我的云简历 ({{ resumes.length }}/4)</h2>
+    </div>
+
+    <div class="flex space-x-4 border-gray-300 px-6 pt-4">
       <div v-for="resume in resumes" :key="resume.id" class="relative cursor-pointer rounded-lg"
         @mouseenter="setHovered(resume.id)" @mouseleave="setHovered(null)">
 

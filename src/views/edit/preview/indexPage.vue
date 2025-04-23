@@ -52,10 +52,10 @@ watch(
 // 加载当前选中的模板组件
 const loadCurrentTemplate = () => {
   const selectedTemplate = templateStore.currentTemplate;
-  if (selectedTemplate?.folderPath) {
-    const folderName = selectedTemplate.folderPath;
+  if (selectedTemplate?.resumeTemplateContent.folderPath) {
+    const folderName = selectedTemplate.resumeTemplateContent.folderPath;
     if (!folderName) {
-      console.error('模板路径错误:', selectedTemplate.folderPath);
+      console.error('模板路径错误:', selectedTemplate.resumeTemplateContent.folderPath);
       return;
     }
     const importPath = `../../../template/${folderName}/indexPage.vue`;

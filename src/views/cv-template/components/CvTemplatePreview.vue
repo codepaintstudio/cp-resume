@@ -13,17 +13,17 @@ const props = defineProps({
   },
   cvTemplate: {
     type: Object as () => Template,
-    default: () => {
-      return {
-        id: '',
-        name: '标题',
-        folderPath: 'src/template/default/preview.png',
-        thumbnail: 'preview.png',
-        style: '风格',
-        industry: '行业',
-        color: '颜色',
-      }
-    }
+    // default: () => {
+    //   return {
+    //     id: '',
+    //     name: '标题',
+    //     folderPath: 'src/template/default/preview.png',
+    //     thumbnail: 'preview.png',
+    //     style: '风格',
+    //     industry: '行业',
+    //     color: '颜色',
+    //   }
+    // }
   },
   cvList: {
     type: Array as () => Template[],
@@ -78,20 +78,20 @@ const openDetail = (cvIndex: Template) => {
         ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img :src="`src/template/${cvTemplate.folderPath}/${cvTemplate.thumbnail}`" alt="简历预览"
+          <img :src="`src/template/${cvTemplate.resumeTemplateContent.folderPath}/${cvTemplate.resumeTemplateContent.thumbnail}`" alt="简历预览"
             class="rounded-lg shadow-[0px_0px_15px_-5px] w-[350px]" />
         </div>
 
         <!-- 右侧详情 -->
         <div class="space-y-5 mt-[50px]">
-          <h1 class="text-2xl font-bold">{{ cvTemplate.name }}</h1>
+          <h1 class="text-2xl font-bold">{{ cvTemplate.resumeTemplateName }}</h1>
           <div class="flex gap-2">
-            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.style }}</span>
-            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.industry }}</span>
-            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.color }}</span>
+            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.resumeTemplateContent.style }}</span>
+            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.resumeTemplateContent.industry }}</span>
+            <span class="px-2 py-1 text-sm bg-gray-200 rounded">{{ cvTemplate.resumeTemplateContent.color }}</span>
           </div>
 
-          <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.color }}</p>
+          <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.resumeTemplateContent.color }}</p>
 
           <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/${Date.now()}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
@@ -112,7 +112,7 @@ const openDetail = (cvIndex: Template) => {
       <div class="mt-8">
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <CvCard v-for="(i, index) in cvList" :key="i.id" @click="openDetail(cvList[index])" :cvTemplate="i"
+          <CvCard v-for="(i, index) in cvList" :key="i.resumeTemplateId" @click="openDetail(cvList[index])" :cvTemplate="i"
             custom-class="w-50 h-76"></CvCard>
         </div>
         <div v-if="!cvList.length" class="text-center my-12 pb-10 text-xl font-semibold mb-4 text-gray-500">

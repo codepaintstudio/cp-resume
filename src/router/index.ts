@@ -36,9 +36,9 @@ const router = createRouter({
               component: () => import('@/views/user/components/UserCv.vue'),
             },
             {
-              path: '/user/cvAdmn',
-              name: 'cvAdmn',
-              component: () => import('@/views/user/components/CvAdmn.vue'),
+              path: '/user/cvAdmin',
+              name: 'cvAdmin',
+              component: () => import('@/views/user/components/CvAdmin.vue'),
             }
           ]
         }
@@ -66,8 +66,3 @@ const router = createRouter({
 })
 
 export default router
-
-// 登录访问拦截
-// router.beforeEach((to) => {
-//   if (!userStore.isLogin && to.path.includes('/user')) return '/login'
-// })

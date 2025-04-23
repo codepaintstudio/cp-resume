@@ -21,7 +21,6 @@ export const useUserStore = defineStore('user', () => {
       accessToken.value = data.access_token
       refreshToken.value = data.refresh_token
       userId.value = String(data.userId)
-      console.log('userId', userId.value)
       localStorage.setItem('userId', userId.value)
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
@@ -42,10 +41,9 @@ export const useUserStore = defineStore('user', () => {
   // 用户信息
   const getUserInfo = async (userId: string) => {
     try {
-
       const data  = await getUserInfoApi(userId)
       console.log('用户信息', data)
-      // userInfo.value = data
+      userInfo.value = data
       localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error) {
       console.error('获取用户信息失败:', error)
