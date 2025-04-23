@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/userStatus'
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue'
+import { useUserStore } from '@/stores/useUserStore.ts'
 
 
-//调用useAuthStore
-const authStore = useAuthStore()
-//
+const userStore = useUserStore()
 const router = useRouter()
 const isLoginMode = ref(true)
 const showPasswordRequirements = ref(false)
@@ -29,15 +27,10 @@ const RuserList = ref(
   JSON.parse(localStorage.getItem('RuserList') || '[]') // 确保输入是字符串
 )
 onMounted(() => {
-  checkLoginStatus()
+
 })
 
-const checkLoginStatus = () => {
-  //如果存在currrentUser这个键且值不为空
-  const hasUser = !!localStorage.getItem('currrentUser')
-  authStore.setLoginStatus(hasUser)
-}
-
+// 注册时显示密码要求
 const validatePassword = (password: string): string => {
   if (password.length < 6 || password.length > 12) {
     return "密码长度必须为6-12位"
@@ -47,46 +40,8 @@ const validatePassword = (password: string): string => {
   if (!passwordRegex.test(password)) {
     return "密码必须包含字母和数字，可以包含特殊符号"
   }
-
   return ""
 }
-
-const handleLogin = () => {
-  loginError.value = "";
-
-  if (!loginUserNum.value || !loginUserPas.value) {
-    loginError.value = "用户名和密码不能为空";
-    return;
-  }
-
-  try {
-    const storedUsers = JSON.parse(localStorage.getItem('RuserList') || '[]');
-    const matchedUser = storedUsers.find(
-      user => user.userNum === loginUserNum.value &&
-              user.UpassWord === loginUserPas.value
-    );
-
-    if (matchedUser) {
-      // 1. 存储到 localStorage
-      localStorage.setItem('currentUser', JSON.stringify(matchedUser));
-
-      // 2. 更新 Pinia Store
-      authStore.setLoginStatus(true, matchedUser);
-
-      // 3. 调试输出
-      console.log('当前用户:', matchedUser);
-
-      // 4. 跳转页面
-      router.push('/user');
-    } else {
-      loginError.value = '用户名或密码错误';
-      loginUserPas.value = '';
-    }
-  } catch (error) {
-    loginError.value = '登录过程出现异常';
-    console.error(error);
-  }
-};
 
 const handleRegister = () => {
   registerError.value = ""
@@ -170,7 +125,7 @@ const switchToLogin = () => {
             placeholder="输入账户" v-model="loginUserNum">
           <input type="password"
             class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            placeholder="输入密码" v-model="loginUserPas" @keyup.enter="handleLogin">
+            placeholder="输入密码" v-model="loginUserPas" @keyup.enter="userStore.login(loginUserNum, loginUserPas)">
           <span
             class="absolute right-[-1rem] bottom-[1.5rem] text-[rgb(78,131,255)] text-[13px] cursor-pointer hover:underline"
             @click="switchToRegister">
@@ -207,7 +162,7 @@ const switchToLogin = () => {
         <div class="w-1/2 flex justify-around">
           <button
             class="text-[#79747E] border-1 border-[#79747E] w-[5rem] h-[2.2rem] rounded-sm hover:bg-[#3370FF] hover:border-0 hover:text-[#ffff]"
-            @click="isLoginMode ? handleLogin() : handleRegister()">
+            @click="isLoginMode ? userStore.login(loginUserNum, loginUserPas) : handleRegister()">
             确定
           </button>
           <button

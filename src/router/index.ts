@@ -1,17 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/userStatus';
-import Nav from '@/views/nav/indexPage.vue'
-import HomePage from '@/views/home/HomePage.vue';
-import CvTemplateView from '@/views/cv-template/indexPage.vue';
-import EditPage from '@/views/edit/indexPage.vue';
-
-import User from '@/views/user/indexPage.vue';
-import UserInformation from '@/views/user/components/UserInformation.vue';
-import UserCv from '@/views/user/components/UserCv.vue';
-import CvAdmn from '@/views/user/components/CvAdmn.vue';
-
-import LoginPage from '@/views/login/indexPage.vue';
-
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -19,39 +6,39 @@ const router = createRouter({
     {
       path: '/',
       name: 'Nav',
-      component: Nav,
+      component: () =>  import('@/views/nav/indexPage.vue'),
       redirect: '/home',
       children: [
         {
           path: '/home',
           name: 'home',
-          component: HomePage,
+          component: () => import('@/views/home/HomePage.vue'),
         },
         {
           path: '/cv',
           name: 'cvTemplate',
-          component: CvTemplateView
+          component: () => import('@/views/cv-template/indexPage.vue'),
         },
         {
           path: '/user',
           name: 'user',
-          component: User,
+          component: () => import('@/views/user/indexPage.vue'),
           redirect: '/user/cv',
           children: [
             {
               path: '/user/Information',
               name: 'userInformation',
-              component: UserInformation
+              component: () => import('@/views/user/components/UserInformation.vue'),
             },
             {
               path: '/user/cv',
               name: 'userCv',
-              component: UserCv
+              component: () => import('@/views/user/components/UserCv.vue'),
             },
             {
               path: '/user/cvAdmn',
               name: 'cvAdmn',
-              component: CvAdmn
+              component: () => import('@/views/user/components/CvAdmn.vue'),
             }
           ]
         }
@@ -60,12 +47,12 @@ const router = createRouter({
     {
       path: '/edit/:id',
       name: 'edit',
-      component: EditPage
+      component: () => import('@/views/edit/indexPage.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginPage
+      component: () => import('@/views/login/indexPage.vue'),
     }
 
   ],
@@ -81,7 +68,6 @@ const router = createRouter({
 export default router
 
 // 登录访问拦截
-router.beforeEach((to) => {
-  const userStore = useAuthStore()
-  if (!userStore.isLogin && to.path.includes('/user')) return '/login'
-})
+// router.beforeEach((to) => {
+//   if (!userStore.isLogin && to.path.includes('/user')) return '/login'
+// })
