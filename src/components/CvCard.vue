@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import type { Template } from '@/types/template'
 
-defineProps({
+const props = defineProps({
   isView: {
     type: Boolean,
     default: true,
   },
-  customClass: {
+  size: {
     type: String,
-    default: 'w-70 h-100',
+    default: '1',
   },
   cvTemplate: {
     type: Object as () => Template,
@@ -26,10 +26,22 @@ defineProps({
     }),
   },
 })
+
+const scale = computed(() => parseFloat(props.size))
+const customStyle = computed(() => {
+  const baseWidth = 280  // 对应 w-70，70 * 4 = 280px
+  const baseHeight = 400 // 对应 h-100，100 * 4 = 400px
+  return {
+    width: `${baseWidth * scale.value}px`,
+    height: `${baseHeight * scale.value}px`,
+  }
+})
+
 </script>
 <template>
   <div
-    :class="['bg-white rounded-lg shadow-[0px_0px_8px_-3px] hover:shadow-[0px_0px_15px_-5px] transition-shadow', customClass]">
+    :style="customStyle"
+    :class="['bg-white rounded-lg shadow-[0px_0px_8px_-3px] hover:shadow-[0px_0px_15px_-5px] transition-shadow']">
     <img :src="`src/template/${cvTemplate.resumeTemplateContent.folderPath}/${cvTemplate.resumeTemplateContent.thumbnail}`"
       :class="{ 'w-full object-cover object-top rounded-t-lg': true, 'h-3/4': isView, 'h-5/6': !isView }"
       :alt="`简历模板`" />

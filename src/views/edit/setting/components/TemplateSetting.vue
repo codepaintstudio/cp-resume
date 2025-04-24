@@ -29,12 +29,13 @@ const setTemplate = (template: Template) => {
     <div>模板选择</div>
     <div class="flex space-y-5 justify-between flex-wrap p-5 overflow-scroll overscroll-contain no-scrollbar">
       <div v-for="(template, index) in templates" :key="index" @click="setTemplate(template)">
-        <CvCard custom-class="w-60 h-84" :cv-template="template"></CvCard>
+        <CvCard size="0.9" :cv-template="template"></CvCard>
       </div>
-      <i class="w-60 h-84"></i>
-      <i class="w-60 h-84"></i>
-      <i class="w-60 h-84"></i>
-      <i class="w-60 h-84"></i>
+      <CvCard size="0.9"  class="opacity-0"></CvCard>
+      <CvCard size="0.9"  class="opacity-0"></CvCard>
+      <CvCard size="0.9"  class="opacity-0"></CvCard>
+      <CvCard size="0.9"  class="opacity-0"></CvCard>
+
     </div>
   </div>
 

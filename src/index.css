@@ -48,3 +48,39 @@
   transform: translateY(0);
 }
 
+/* 进入动画 */
+.fade-op-enter-active,
+.fade-op-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+/* 初始状态 */
+.fade-op-enter-from,
+.fade-op-leave-to {
+  opacity: 0;
+}
+
+/* 结束状态 */
+.fade-op-enter-to,
+.fade-op-leave-from {
+  opacity: 50%;
+}
+
+/* 进入动画 */
+.fade-op1-enter-active,
+.fade-op1-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+/* 初始状态 */
+.fade-op1-enter-from,
+.fade-op1-leave-to {
+  opacity: 0;
+}
+
+/* 结束状态 */
+.fade-op1-enter-to,
+.fade-op1-leave-from {
+  opacity: 1;
+}
+

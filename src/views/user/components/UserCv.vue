@@ -21,26 +21,36 @@ const setHovered = (id: number | null) => {
       <h2 class="text-lg font-semibold">我的云简历 ({{ resumes.length }}/4)</h2>
     </div>
 
-    <div class="flex space-x-4 border-gray-300 px-6 pt-4">
+    <div class="flex space-x-6 border-gray-300 px-10 pt-4">
       <div v-for="resume in resumes" :key="resume.id" class="relative cursor-pointer rounded-lg"
         @mouseenter="setHovered(resume.id)" @mouseleave="setHovered(null)">
 
-        <CvCard :is-view="false"></CvCard>
+        <CvCard :is-view="false" size="0.9" ></CvCard>
 
-        <div v-if="hoveredId === resume.id" class="absolute inset-0 rounded-lg bg-black opacity-50 ">
-        </div>
-        <div v-if="hoveredId === resume.id"
-          class="absolute inset-0 rounded-lg flex flex-col justify-center items-center space-y-2">
-          <RouterLink to="/edit/111" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
-          <button class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
-        </div>
+        <transition name="fade-op">
+          <div v-if="hoveredId === resume.id" class="absolute inset-0 rounded-lg bg-black opacity-50"></div>
+        </transition>
+
+        <transition name="fade-op1">
+          <div v-if="hoveredId === resume.id"
+               class="absolute inset-0 rounded-lg flex flex-col justify-center items-center space-y-2">
+            <RouterLink to="/edit/111" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
+            <button class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
+          </div>
+        </transition>
+
 
       </div>
 
       <!-- 添加简历按钮 -->
-      <div class="w-70 flex items-center justify-center bg-gray-200 rounded cursor-pointer">
-        <span class="text-4xl text-gray-500 hover:text-5xl transition-all duration-300">+</span>
-      </div>
+
+        <div class="w-66 flex items-center justify-center bg-gray-200  rounded cursor-pointer hover:bg-gray-300 transition-all duration-300">
+          <RouterLink class="block flex items-center justify-center w-full h-full" to="/cv">
+            <span class="text-4xl text-gray-500">+</span>
+          </RouterLink>
+        </div>
+
+
     </div>
   </div>
 </template>

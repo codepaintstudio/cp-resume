@@ -50,7 +50,7 @@ onMounted(() => {
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
         <div class="w-full flex justify-around items-center mt-6 mb-10">
-          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
+          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" size="0.8">
           </CvCard>
         </div>
         <span
@@ -68,7 +68,7 @@ onMounted(() => {
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
         <div class="w-full flex justify-around items-center mt-10 mb-10">
-          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" customClass="w-[12vw] h-[16vw]">
+          <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" size="0.8">
           </CvCard>
         </div>
         <RouterLink

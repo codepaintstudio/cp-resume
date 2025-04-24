@@ -113,7 +113,7 @@ const openDetail = (cvIndex: Template) => {
         <h2 class="text-xl font-semibold mb-4">更多推荐相似</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <CvCard v-for="(i, index) in cvList" :key="i.resumeTemplateId" @click="openDetail(cvList[index])" :cvTemplate="i"
-            custom-class="w-50 h-76"></CvCard>
+            size="0.8"></CvCard>
         </div>
         <div v-if="!cvList.length" class="text-center my-12 pb-10 text-xl font-semibold mb-4 text-gray-500">
           <h1>暂无相关推荐</h1>
