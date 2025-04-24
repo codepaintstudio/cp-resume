@@ -101,8 +101,54 @@ export const useAuthStore = defineStore('auth', () => {
     userPassword: string;
     userEmail: string;
     userPhoneNumber: string;
+    confirmPassword: string; // 添加确认密码字段
   }) => {
-    // ...原有实现
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.post(
+        'http://47.109.193.161:8543/api/usercenter',
+        {
+          userEmail: registerData.userEmail,
+          userPhoneNumber: registerData.userPhoneNumber,
+          userAuth: 1, // 默认权限
+          userResumeId: 0, // 初始值
+          userStatus: 1, // 激活状态
+          userEmailId: 0, // 初始值
+          lastLoginIp: window.location.hostname || '127.0.0.1',
+          createBy: 'frontend',
+          updateBy: 'frontend',
+          userName: registerData.userName,
+          userPassword: registerData.userPassword,
+          confirmPassword: registerData.confirmPassword // 添加确认密码
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.data.code === 200) {
+        return {
+          success: true,
+          data: response.data.data,
+          message: '注册成功'
+        };
+      } else {
+        throw new Error(response.data.message || '注册失败');
+      }
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : '注册请求失败';
+      return {
+        success: false,
+        message: error.value.includes('404')
+          ? '注册API路径错误，请联系管理员'
+          : error.value
+      };
+    } finally {
+      isLoading.value = false;
+    }
   };
 
   return {

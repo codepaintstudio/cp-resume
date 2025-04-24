@@ -18,7 +18,10 @@ const loginError = ref("")
 
 // 注册相关状态
 const registerUserNum = ref("")
+const registerEmail = ref("")
+const registerPhone = ref("")
 const registerPassword = ref("")
+const registerConfirmPassword = ref("")
 const registerError = ref("")
 
 onMounted(() => {
@@ -35,7 +38,7 @@ const validatePassword = (password: string): string => {
     return "密码长度必须为6-12位"
   }
 
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?！@#￥%……&*（）——+【】{}；’：“”、，。《》？]+$/
   if (!passwordRegex.test(password)) {
     return "密码必须包含字母和数字，可以包含特殊符号"
   }
@@ -43,7 +46,17 @@ const validatePassword = (password: string): string => {
   return ""
 }
 
-// 修改后的登录处理
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const validatePhone = (phone: string): boolean => {
+  const phoneRegex = /^1[3-9]\d{9}$/
+  return phoneRegex.test(phone)
+}
+
+// 登录处理
 const handleLogin = async () => {
   loginError.value = ""
 
@@ -53,14 +66,12 @@ const handleLogin = async () => {
   }
 
   try {
-    // 调用authStore的登录方法
     const result = await authStore.login({
       userName: loginUserNum.value,
       userPassword: loginUserPas.value
     })
 
     if (result.success) {
-      // 登录成功后跳转
       const returnUrl = router.currentRoute.value.query.redirect?.toString() || '/user'
       await router.push(returnUrl)
     } else {
@@ -73,47 +84,68 @@ const handleLogin = async () => {
   }
 }
 
-// 修改后的注册处理
-// 在您的组件中
+// 注册处理
 const handleRegister = async () => {
-  registerError.value = "";
+  registerError.value = ""
 
-  // 密码验证
-  const passwordError = validatePassword(registerPassword.value);
-  if (passwordError) {
-    registerError.value = passwordError;
-    return;
+  // 验证所有必填字段
+  if (!registerUserNum.value || !registerEmail.value || !registerPhone.value || !registerPassword.value || !registerConfirmPassword.value) {
+    registerError.value = "所有字段都是必填的"
+    return
   }
 
-  // 邮箱格式验证
-  if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(`${registerUserNum.value}@example.com`)) {
-    registerError.value = "请输入有效的用户名（将用作邮箱前缀）";
-    return;
+  // 验证邮箱格式
+  if (!validateEmail(registerEmail.value)) {
+    registerError.value = "请输入有效的邮箱地址"
+    return
+  }
+
+  // 验证手机号格式
+  if (!validatePhone(registerPhone.value)) {
+    registerError.value = "请输入有效的手机号码"
+    return
+  }
+
+  // 验证密码
+  const passwordError = validatePassword(registerPassword.value)
+  if (passwordError) {
+    registerError.value = passwordError
+    return
+  }
+
+  // 验证两次密码是否一致
+  if (registerPassword.value !== registerConfirmPassword.value) {
+    registerError.value = "两次输入的密码不一致"
+    return
   }
 
   try {
     const result = await authStore.register({
       userName: registerUserNum.value,
       userPassword: registerPassword.value,
-      userEmail: `${registerUserNum.value}@example.com`, // 根据用户名生成邮箱
-      userPhoneNumber: "138" + Math.floor(Math.random() * 100000000).toString().padStart(8, '0') // 示例手机号
-    });
+      userEmail: registerEmail.value,
+      userPhoneNumber: registerPhone.value,
+      confirmPassword: registerConfirmPassword.value // 确保传递确认密码
+    })
 
     if (result.success) {
       // 注册成功后处理
-      isLoginMode.value = true;
-      loginUserNum.value = registerUserNum.value;
-      registerUserNum.value = "";
-      registerPassword.value = "";
-      loginError.value = "注册成功，请登录";
+      isLoginMode.value = true
+      loginUserNum.value = registerUserNum.value
+      registerUserNum.value = ""
+      registerEmail.value = ""
+      registerPhone.value = ""
+      registerPassword.value = ""
+      registerConfirmPassword.value = ""
+      loginError.value = "注册成功，请登录"
     } else {
-      registerError.value = result.message;
+      registerError.value = result.message
     }
   } catch (error) {
-    registerError.value = '注册过程出现异常';
-    console.error('注册错误:', error);
+    registerError.value = '注册过程出现异常'
+    console.error('注册错误:', error)
   }
-};
+}
 
 const switchToRegister = () => {
   isLoginMode.value = false
@@ -128,7 +160,10 @@ const switchToLogin = () => {
   showPasswordRequirements.value = false
   registerError.value = ""
   registerUserNum.value = ""
+  registerEmail.value = ""
+  registerPhone.value = ""
   registerPassword.value = ""
+  registerConfirmPassword.value = ""
 }
 </script>
 
@@ -165,7 +200,7 @@ const switchToLogin = () => {
             class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
             placeholder="输入密码" v-model="loginUserPas" @keyup.enter="handleLogin">
           <span
-            class="absolute right-[-1rem] bottom-[1.5rem] text-[rgb(78,131,255)] text-[13px] cursor-pointer hover:underline"
+            class="absolute right-[-1rem] bottom-[0] text-[rgb(78,131,255)] text-[13px] cursor-pointer hover:underline"
             @click="switchToRegister">
             注册账户
           </span>
@@ -174,13 +209,26 @@ const switchToLogin = () => {
         <!-- 注册表单 -->
         <div v-if="!isLoginMode" class="relative w-1/2 h-1/2 flex justify-center items-center flex-col">
           <input type="text"
-            class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
+            class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
+            placeholder="输入邮箱" v-model="registerEmail">
+          <input type="text"
+            class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
+            placeholder="输入电话号码" v-model="registerPhone">
+          <input type="text"
+            class="w-[25rem] h-[2rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
             v-model="registerUserNum" placeholder="输入用户名">
           <input type="password"
-            class="w-[25rem] h-[2.8rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-            v-model="registerPassword" placeholder="输入密码" @keyup.enter="handleRegister">
+            class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
+            v-model="registerPassword" placeholder="输入密码"
+            @focus="showPasswordRequirements = true"
+            @blur="showPasswordRequirements = false"
+            @keyup.enter="handleRegister">
+          <input type="password"
+            class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
+            v-model="registerConfirmPassword" placeholder="确认密码" @keyup.enter="handleRegister">
+
           <!-- 动态显示密码要求 -->
-          <div v-if="showPasswordRequirements" class="w-[25rem] text-xs text-red-500 mb-3 px-2 py-2 rounded">
+          <div v-if="showPasswordRequirements" class="w-[25rem] text-xs text-gray-600 mb-3 px-2 py-2 rounded bg-gray-50">
             <div class="font-medium mb-1">密码要求:</div>
             <ul class="list-disc pl-4">
               <li>长度6-12位字符</li>
@@ -188,14 +236,14 @@ const switchToLogin = () => {
               <li>可以包含特殊符号</li>
             </ul>
           </div>
-          <span class="absolute right-[-1rem] bottom-[1.5rem] text-[rgb(145,145,145)] text-[13px]">
+
+          <span class="absolute right-[-1rem] bottom-0 text-[rgb(145,145,145)] text-[13px]">
             已有账户？
             <span class="text-[rgb(78,131,255)] cursor-pointer hover:underline" @click="switchToLogin">
               立即登录
             </span>
           </span>
         </div>
-
 
         <div class="w-1/2 flex justify-around">
           <button
