@@ -8,9 +8,9 @@ export const useTemplateStore = defineStore('templateStore', () => {
   const cvTitle = ref<string>(currentTemplate.value?.resumeTemplateName || '我的简历')
   const themeColor = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.themeColor || '#2b7fff')
   const fontColor = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.fontColor || '#ffffff' )
-  const lineSpacing = ref<number>(currentTemplate.value?.resumeTemplateContent.setting.lineSpacing || 20);
-  const blockSpacing = ref<number>(currentTemplate.value?.resumeTemplateContent.setting.blockSpacing || 21 );
-  const pageMargin = ref<number>(currentTemplate.value?.resumeTemplateContent.setting.pageMargin || 21 );
+  const lineSpacing = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.lineSpacing || '20');
+  const blockSpacing = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.blockSpacing || '21' );
+  const pageMargin = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.pageMargin || '21' );
   const fontId = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.fontFamily || '')
 
   const setTemplate = (template: Template) => {

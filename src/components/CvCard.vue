@@ -14,8 +14,7 @@ defineProps({
   cvTemplate: {
     type: Object as () => Template,
     default: () => ({
-      id: '',
-      name: '标题',
+      resumeTemplateName: '标题',
       resumeTemplateContent:{
         folderPath: 'default',
         thumbnail: 'preview.png',

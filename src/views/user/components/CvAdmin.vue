@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { createTemplate, deleteTemplate, updateTemplate, getTemplateList } from '@/api/resumeTemplate.ts'
+import { createTemplate, deleteTemplate, updateTemplate, getTemplateList, uploadFile } from '@/api/resumeTemplate.ts'
 import SingleSelect from '@/components/SingleSelect.vue'
-import * as constants from 'node:constants'
 
 // 模板列表状态
 const templateList = ref([])
@@ -14,6 +13,16 @@ const layoutOptions = [
   { label: '双栏', value: 'doubly' },
 ]
 
+const fontsOptions = [
+  { value: "", label: "默认" },
+  { value: "zql", label: "ZQL" },
+  { value: "SimSun", label: "宋体" },
+  { value: "KaiTi", label: "楷体" },
+  { value: "ZCOOLKuaiLe-Regular", label: "ZCOOLKuaiLe-Regular" },
+  { value: "ZhiMangXing-Regular", label: "ZhiMangXing-Regular" },
+  { value: "ZCOOL QingKe HuangYou", label: "ZCOOL QingKe HuangYou" },
+];
+
 // 对话框控制
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
@@ -21,6 +30,7 @@ const isEdit = ref(false)
 
 // 图片上传逻辑
 const imgUrl = ref('')
+const file = ref<File | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null) // input 的引用
 
 // 点击图片 -> 触发 input 点击
@@ -32,10 +42,8 @@ const triggerFileInput = () => {
 const onSelectFile = (e: Event) => {
   const files = (e.target as HTMLInputElement).files
   if (files && files[0]) {
-    const file = files[0]
-    imgUrl.value = URL.createObjectURL(file) // 预览图
-    formData.value.resumeTemplateContent.thumbnail = file
-    console.log("上传图片",formData.value.resumeTemplateContent.thumbnail)
+    file.value = files[0]
+    imgUrl.value = URL.createObjectURL(file.value) // 预览图
   }
 }
 
@@ -46,7 +54,7 @@ const formData = ref({
   resumeTemplateContent: {
     description: '',
     folderPath: '',
-    thumbnail: constants,
+    thumbnail: '',
     layout: 'classical',
     style: '简约',
     industry: '互联网',
@@ -78,10 +86,28 @@ const handleAdd = () => {
   isEdit.value = false
   dialogTitle.value = '新增模板'
   dialogVisible.value = true
+  imgUrl.value = ''
+  file.value = null
   formData.value = {
-    id: '',
+    resumeTemplateId: '',
     resumeTemplateName: '',
-    resumeTemplateContent: { /* 默认值 */ }
+    resumeTemplateContent: {
+      description: '',
+      folderPath: '',
+      thumbnail: '',
+      layout: 'classical',
+      style: '简约',
+      industry: '互联网',
+      color: '蓝色',
+      setting: {
+        themeColor: '#2b7fff',
+        fontColor: '#ffffff',
+        fontFamily: 'zql',
+        lineSpacing: '21',
+        blockSpacing: '21',
+        pageMargin: '21'
+      }
+    }
   }
 }
 
@@ -91,6 +117,7 @@ const handleEdit = (row: any) => {
   dialogTitle.value = '编辑模板'
   dialogVisible.value = true
   formData.value = JSON.parse(JSON.stringify(row))
+  imgUrl.value = formData.value.resumeTemplateContent.thumbnail
 }
 
 // 删除模板
@@ -244,25 +271,94 @@ const closeMenu = () => {
 
               </div>
 
-              <div class="mt-5">
-                <label class="mb-2 mr-1">缩略图</label>
-                <div class="w-30 h-35">
-                  <img
-                    :src="formData.resumeTemplateContent.thumbnail"
-                    @click="triggerFileInput"
-                    class="w-full h-full object-cover object-top"
-                  />
+              <div class="mt-5 flex justify-center items-center space-x-30">
+                <div>
+                  <label class="mb-2 mr-1">缩略图</label>
+                  <div class="w-30 h-36 border">
+                    <img
+                      :src="imgUrl"
+                      alt="预览图"
+                      @click="triggerFileInput"
+                      class="w-full h-full object-cover object-top"
+                    />
 
-                  <input
-                    ref="fileInput"
-                    type="file"
-                    accept="image/*"
-                    @change="onSelectFile"
-                    style="display: none"
-                  />
+                    <input
+                      ref="fileInput"
+                      type="file"
+                      accept="image/*"
+                      @change="onSelectFile"
+                      style="display: none"
+                    />
+                  </div>
+                </div>
+
+                <!-- Setting 配置项 -->
+                <div class="mt-10">
+                  <div class="grid grid-cols-3 gap-y-5 gap-x-3">
+                    <div class="flex items-center">
+                      <label class="mr-1">主题色</label>
+                      <input
+                        v-model="formData.resumeTemplateContent.setting.themeColor"
+                        type="color"
+                        class="rounded-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div class="flex items-center">
+                      <label class="mr-1">标题色</label>
+                      <input
+                        v-model="formData.resumeTemplateContent.setting.fontColor"
+                        type="color"
+                        class="rounded-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="mr-1">字体</label>
+                      <SingleSelect :options="fontsOptions" v-model="formData.resumeTemplateContent.setting.fontFamily" />
+                    </div>
+
+                    <div>
+                      <label class="mr-1">行间距</label>
+                      <input
+                        v-model="formData.resumeTemplateContent.setting.lineSpacing"
+                        type="number"
+                        min="0"
+                        max="50"
+                        class="border w-25 border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
+                        placeholder="21"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="mr-1">块间距</label>
+                      <input
+                        v-model="formData.resumeTemplateContent.setting.blockSpacing"
+                        type="number"
+                        min="0"
+                        max="50"
+                        class="border w-25 border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
+                        placeholder="21"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="mr-1">页边距</label>
+                      <input
+                        v-model="formData.resumeTemplateContent.setting.pageMargin"
+                        type="number"
+                        min="0"
+                        max="50"
+                        class="border w-25 border-gray-400 rounded-sm focus:outline-none focus:border-blue-500 py-1.5 px-4"
+                        placeholder="21"
+                      />
+                    </div>
+                  </div>
                 </div>
 
               </div>
+
+
 
               <div class="mt-10">
                 <label class="block mb-2">描述</label>

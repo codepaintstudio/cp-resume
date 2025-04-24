@@ -1,5 +1,16 @@
 import request from '@/utils/request.ts'
 
+// 上传文件（图片） /api/upload
+export const uploadFile = (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return request.post('/api/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
 // 创建模板 /api/resumetemplate/
 export const createTemplate = (resumeTemplateName: string, resumeTemplateContent:any) => {
   return request.post('/api/resumetemplate/', {

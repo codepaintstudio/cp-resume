@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', () => {
   const userId = ref<string>(localStorage.getItem('userId') || '0')
   const accessToken  = ref(localStorage.getItem('cp-accessToken') || '')
   const refreshToken = ref(localStorage.getItem('cp-refreshToken') || '')
-  let userInfo =  ref(JSON.parse(localStorage.getItem('userInfo') || '{}'))
+  let userInfo =  ref({})
   const router = useRouter()
 
   // 根据 accessToken 是否存在来判断登录状态
@@ -41,10 +41,8 @@ export const useUserStore = defineStore('user', () => {
   // 用户信息
   const getUserInfo = async (userId: string) => {
     try {
-      const data  = await getUserInfoApi(userId)
-      console.log('用户信息', data)
-      userInfo.value = data
-      localStorage.setItem('userInfo', JSON.stringify(data))
+      const res  = await getUserInfoApi(userId)
+      userInfo.value = res.data
     } catch (error) {
       console.error('获取用户信息失败:', error)
     }

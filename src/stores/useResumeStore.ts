@@ -307,7 +307,6 @@ export const useResumeStore = defineStore('resume', {
     // 从 localStorage 获取保存的数据
     const savedResumeData = localStorage.getItem('resumeData');
     const savedCurrentId = localStorage.getItem('currentId');
-    const isFirstVisit = localStorage.getItem('isFirstVisit') === null; // 是否首次访问
     const savedSections = localStorage.getItem('sections');
 
     const currentId = savedCurrentId && !isNaN(Number(savedCurrentId))
@@ -315,17 +314,12 @@ export const useResumeStore = defineStore('resume', {
       : 1;
     const resumeData = savedResumeData ? JSON.parse(savedResumeData) : resumeTemplate;
 
-    // 首次访问标记并自动填充数据
-    if (isFirstVisit) {
-      localStorage.setItem('isFirstVisit', 'false');
-    }
 
     const sections = savedSections ? JSON.parse(savedSections) : sectionsDefault;
 
     return {
       ...resumeData,
       currentId,
-      isFirstVisit, // 添加到state中
       sections
     };
   },
