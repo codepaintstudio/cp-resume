@@ -3,6 +3,7 @@ import { defineProps, defineEmits, ref } from "vue";
 import CvCard from "@/components/CvCard.vue";
 import type { Template } from "@/types/template";
 import { useTemplateStore } from '@/stores/useTemplateStore.ts'
+import cvImg from '/default_cv.png'
 
 const templateStore = useTemplateStore()
 // 接收父组件传递的控制菜单显示状态的 props
@@ -13,17 +14,6 @@ const props = defineProps({
   },
   cvTemplate: {
     type: Object as () => Template,
-    // default: () => {
-    //   return {
-    //     id: '',
-    //     name: '标题',
-    //     folderPath: 'src/template/default/preview.png',
-    //     thumbnail: 'preview.png',
-    //     style: '风格',
-    //     industry: '行业',
-    //     color: '颜色',
-    //   }
-    // }
   },
   cvList: {
     type: Array as () => Template[],
@@ -74,11 +64,11 @@ const openDetail = (cvIndex: Template) => {
         class="fixed z-10 top-1/2 right-24 w-10 h-10 bg-[url(@/assets/img/cv-template/navigate_next.webp)] bg-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:-translate-y-0.5"></button>
 
       <!-- 简历详情 -->
-      <div class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6 mb-10"
+      <div v-if="cvTemplate" class="flex mt-[1rem] justify-center md:flex-row items-center md:items-start gap-6 mb-10"
         ref="detailSectionRef">
         <!-- 左侧简历预览 -->
         <div class="mr-[8rem]">
-          <img :src="`src/template/${cvTemplate.resumeTemplateContent.folderPath}/${cvTemplate.resumeTemplateContent.thumbnail}`" alt="简历预览"
+          <img :src="cvTemplate.resumeTemplateContent.thumbnail || cvImg" alt="简历预览"
             class="rounded-lg shadow-[0px_0px_15px_-5px] w-[350px]" />
         </div>
 
@@ -93,7 +83,7 @@ const openDetail = (cvIndex: Template) => {
 
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.resumeTemplateContent.color }}</p>
 
-          <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/${Date.now()}`"
+          <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/new-${cvTemplate.resumeTemplateId}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
             <span>使用此模板</span>
             <span>→</span>
@@ -106,6 +96,10 @@ const openDetail = (cvIndex: Template) => {
 
 
         </div>
+      </div>
+
+      <div v-else>
+        <h1 class="h-50 text-center text-xl font-semibold mt-4">加载中...</h1>
       </div>
 
       <!-- 推荐简历列表 -->

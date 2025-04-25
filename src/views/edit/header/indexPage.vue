@@ -21,12 +21,12 @@ const handleExport = () => {
 
       <!--撤销与云端 -->
       <div class="ml-18 flex items-center space-x-6">
-        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">
-          <span class="icon-[la--undo] text-xl"></span>
-        </button>
-        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">
-          <span class="icon-[la--redo] text-xl"></span>
-        </button>
+<!--        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">-->
+<!--          <span class="icon-[la&#45;&#45;undo] text-xl"></span>-->
+<!--        </button>-->
+<!--        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">-->
+<!--          <span class="icon-[la&#45;&#45;redo] text-xl"></span>-->
+<!--        </button>-->
         <button
           class="text-gray-600 hover:text-blue-500 ml-2 hover:scale-105 active:scale-100 transition-all duration-200">
           <span class="icon-[solar--cloud-download-outline] text-xl"></span>

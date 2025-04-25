@@ -22,12 +22,12 @@ onMounted(async () => {
 </script>
 <template>
   <div>
-    <div class="flex justify-between items-center w-[100%] h-20 px-6 border-b-2 border-[#D9D9D9]">
+    <div class="flex justify-between items-center w-[100%] h-1/8 px-6 border-b-2 border-[#D9D9D9]">
       <h2 class="text-lg font-semibold">基本信息</h2>
       <a class="text-[#3370FF] mr-[2vw]">编辑</a>
     </div>
 
-    <div class="w-[100%] flex flex-col items-center space-y-10 mt-12">
+    <div class="w-[100%] h-7/8 flex flex-col items-center space-y-10 mt-12">
       <div class="flex h-[12vh] items-center">
         <div class="w-30 h-30 bg-[rgb(135,135,135)] rounded-[50%] flex justify-center items-center">
           编辑

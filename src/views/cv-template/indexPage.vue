@@ -4,7 +4,6 @@ import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
 import MultiCheck from "./components/MultiCheck.vue";
 import type { Template } from "@/types/template";
-import { getTemplates } from "@/utils/getTemplates";
 import { getTemplateList } from "@/api/resumeTemplate.ts";
 
 const templates = ref<Template[]>([]);

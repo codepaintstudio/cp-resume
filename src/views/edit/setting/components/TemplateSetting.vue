@@ -1,20 +1,31 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getTemplates } from '@/utils/getTemplates';
 import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import CvCard from '@/components/CvCard.vue';
+import { getTemplateList } from "@/api/resumeTemplate.ts";
 
 const templateStore = useTemplateStore();
 const templates = ref<Template[]>([]);
+
+const currentPage = ref<number>(1); // 当前页码
+const pageSize = ref<number>(10); // 每页显示的模板数量
+const total = ref<number>(0); // 总模板数量
 // 获取并初始化模板列表
 onMounted(async () => {
-  try {
-    templates.value = await getTemplates();
-  } catch (error) {
-    console.error('获取模板列表失败:', error);
-  }
+  fetchTemplateList()
 });
+
+// 获取列表数据
+const fetchTemplateList = async () => {
+  try {
+    const res = await getTemplateList(currentPage.value, pageSize.value)
+    templates.value = res.data.items
+    total.value = res.data.total
+  } catch (error) {
+    alert('获取模板列表失败')
+  }
+}
 
 const emit = defineEmits(['setActiveIndex']);
 const setTemplate = (template: Template) => {

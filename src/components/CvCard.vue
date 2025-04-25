@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
 import type { Template } from '@/types/template'
+import cvImg from '/default_cv.png'
 
 const props = defineProps({
   isView: {
@@ -16,8 +17,8 @@ const props = defineProps({
     default: () => ({
       resumeTemplateName: '标题',
       resumeTemplateContent:{
-        folderPath: 'default',
-        thumbnail: 'preview.png',
+        folderPath: 'templateA',
+        thumbnail: '',
         style: '风格',
         industry: '行业',
         color: '颜色',
@@ -42,7 +43,7 @@ const customStyle = computed(() => {
   <div
     :style="customStyle"
     :class="['bg-white rounded-lg shadow-[0px_0px_8px_-3px] hover:shadow-[0px_0px_15px_-5px] transition-shadow']">
-    <img :src="`src/template/${cvTemplate.resumeTemplateContent.folderPath}/${cvTemplate.resumeTemplateContent.thumbnail}`"
+    <img :src="cvTemplate.resumeTemplateContent.thumbnail || cvImg"
       :class="{ 'w-full object-cover object-top rounded-t-lg': true, 'h-3/4': isView, 'h-5/6': !isView }"
       :alt="`简历模板`" />
     <div class="p-3">

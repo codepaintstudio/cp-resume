@@ -23,7 +23,6 @@ export interface ResumeState {
 
 
   currentId: number;
-  isFirstVisit: boolean;
   sections: section[];
 }
 

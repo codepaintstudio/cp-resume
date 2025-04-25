@@ -137,6 +137,9 @@ const handleDelete = async (id: string) => {
 const handleSubmit = async () => {
   try {
     if (isEdit.value) {
+      if(imgUrl.value !== formData.value.resumeTemplateContent.thumbnail) {
+        formData.value.resumeTemplateContent.thumbnail = imgUrl.value
+      }
       await updateTemplate(
         formData.value.resumeTemplateId,
         formData.value.resumeTemplateName,
@@ -274,13 +277,16 @@ const closeMenu = () => {
               <div class="mt-5 flex justify-center items-center space-x-30">
                 <div>
                   <label class="mb-2 mr-1">缩略图</label>
-                  <div class="w-30 h-36 border">
+                  <span class="border text-xs px-2 bg-gray-200 hover:bg-gray-300 cursor-pointer " @click="imgUrl=''">清空</span>
+                  <div @click="triggerFileInput" class="mt-2 w-30 h-36 border border-gray-400 flex justify-center items-center">
                     <img
+                      v-if="imgUrl"
                       :src="imgUrl"
                       alt="预览图"
-                      @click="triggerFileInput"
                       class="w-full h-full object-cover object-top"
                     />
+
+                    <span v-else class="text-gray-400 text-4xl font-bold">+</span>
 
                     <input
                       ref="fileInput"
