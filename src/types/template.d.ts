@@ -37,15 +37,16 @@ export interface Template {
     color: string;
     style: string;
     industry: string;
+    description: string;
     setting: {
       fontColor: string;
       fontFamily: string;
-      pageMargin: string;
+      pageMargin: number;
       themeColor: string;
-      lineSpacing: string;
-      blockSpacing: string;
+      lineSpacing: number;
+      blockSpacing: number;
     };
   }
-  resumeTemplateCreateTime: string,
-  resumeTemplateUpdateTime: string
+  resumeTemplateCreateTime?: string,
+  resumeTemplateUpdateTime?: string
  }

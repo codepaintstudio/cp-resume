@@ -3,7 +3,7 @@ import { useTemplateStore } from "@/stores/useTemplateStore";
 import { ref } from "vue";
 
 const templateStore = useTemplateStore();
-const selectedFont = ref(templateStore.fontId); // 绑定选中的字体 ID
+const selectedFont = ref(templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily); // 绑定选中的字体 ID
 
 const fonts = [
   { fontId: "", name: "默认" },
@@ -18,7 +18,6 @@ const fonts = [
 // 更新字体到 store
 const setFont = (fontId: string) => {
   selectedFont.value = fontId;
-  templateStore.fontId = fontId; // 同步到 Pinia Store
 };
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, defineAsyncComponent, computed } from 'vue'
+import { ref, onMounted, watch, defineAsyncComponent, computed, shallowRef } from 'vue'
 import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import { useResumeStore } from '@/stores/useResumeStore';
@@ -11,17 +11,19 @@ const route = useRoute();
 const resumeStore = useResumeStore();
 const templateStore = useTemplateStore();
 
+
+
 // 动态导入所有模板组件
 const templateModules = import.meta.glob('../../../template/**/indexPage.vue');
 
 // 当前渲染的组件
-const currentComponent = ref();
+const currentComponent = shallowRef();
 const [sourceType, realId] = (route.params.id as string).split('-')
 
 const fetchTemplate = async (id: string) => {
   try {
     const res = await getTemplateDetail(id);
-    templateStore.currentTemplate = res.data;
+    templateStore.setTemplate(res.data);
   } catch (error) {
     console.error('获取模板失败:', error);
   }
@@ -29,7 +31,11 @@ const fetchTemplate = async (id: string) => {
 const fetchResume = async (id: string) => {
   try {
     const res = await getResumeDetail(id);
-    resumeStore.$state = res.data.resumeContent;
+    resumeStore.setResumeData(res.data.resumeContent);
+    const res1 = await getTemplateDetail(res.data.resumeContent.resumeTemplateId);
+    res1.data.resumeTemplateContent.setting = res?.data?.resumeContent.setting;
+    res1.data.resumeTemplateName = res?.data?.resumeContent.resumeTemplateName;
+    templateStore.setTemplate(res1.data);
   } catch (error) {
     console.error('获取简历失败:', error);
   }
@@ -101,7 +107,7 @@ const loadCurrentTemplate = () => {
 // 设定样式变量
 const colorStyles = computed(() => {
   return {
-    '--page-margin': `${templateStore.pageMargin}px`,
+    '--page-margin': `${templateStore.currentTemplate.resumeTemplateContent.setting.pageMargin}px`,
   };
 });
 </script>

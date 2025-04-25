@@ -2,28 +2,41 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Template } from "../types/template";
 
+const resumeTemplate  = {
+  resumeTemplateId: "202503",
+  resumeTemplateName: "简洁模板-c",
+  resumeTemplateContent: {
+    color: "黑色",
+    style: "简约",
+    layout: "classical",
+    setting: {
+      themeColor: "#000000",
+      fontColor: "#000000",
+      fontFamily: "",
+      lineSpacing: 20,
+      blockSpacing: 21,
+      pageMargin: 21
+    },
+    industry: "IT",
+    thumbnail: "preview.png",
+    folderPath: "templateC",
+    description: "简约而不简单的简历模板。"
+  }
+};
+
 
 export const useTemplateStore = defineStore('templateStore', () => {
-  const currentTemplate = ref<Template | null>(null)
-  const cvTitle = ref<string>(currentTemplate.value?.resumeTemplateName || '我的简历')
-  const themeColor = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.themeColor || '#2b7fff')
-  const fontColor = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.fontColor || '#ffffff' )
-  const lineSpacing = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.lineSpacing || '20');
-  const blockSpacing = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.blockSpacing || '21' );
-  const pageMargin = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.pageMargin || '21' );
-  const fontId = ref<string>(currentTemplate.value?.resumeTemplateContent.setting.fontFamily || '')
+  const currentTemplate = ref<Template>(resumeTemplate)
+
 
   const setTemplate = (template: Template) => {
     currentTemplate.value = template
-    cvTitle.value = template.resumeTemplateName
-    themeColor.value = template.resumeTemplateContent.setting.themeColor
-    fontColor.value = template.resumeTemplateContent.setting.fontColor
-    lineSpacing.value = template.resumeTemplateContent.setting.lineSpacing
-    blockSpacing.value = template.resumeTemplateContent.setting.blockSpacing
-    pageMargin.value = template.resumeTemplateContent.setting.pageMargin
-    fontId.value = template.resumeTemplateContent.setting.fontFamily
+    // 转换为数字
+    currentTemplate.value.resumeTemplateContent.setting.lineSpacing = Number(currentTemplate.value.resumeTemplateContent.setting.lineSpacing)
+    currentTemplate.value.resumeTemplateContent.setting.blockSpacing = Number(currentTemplate.value.resumeTemplateContent.setting.blockSpacing)
+    currentTemplate.value.resumeTemplateContent.setting.pageMargin = Number(currentTemplate.value.resumeTemplateContent.setting.pageMargin)
   }
-  return { currentTemplate, themeColor, fontColor, setTemplate, lineSpacing, blockSpacing, pageMargin, fontId, cvTitle }
+  return { currentTemplate, setTemplate}
 },
   {
     persist: true

@@ -17,11 +17,9 @@ export const useUserStore = defineStore('user', () => {
   const login = async (userName: string, userPassword: string) => {
     try {
       const { data } = await userLogin(userName, userPassword)
-      console.log('登录成功', data)
       accessToken.value = data.access_token
       refreshToken.value = data.refresh_token
       userId.value = String(data.userId)
-      localStorage.setItem('userId', userId.value)
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
       router.push('/')
