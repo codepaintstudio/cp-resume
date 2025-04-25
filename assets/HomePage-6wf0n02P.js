@@ -1,4 +1,4 @@
-import{d as g,r as i,o as h,c as o,b as e,F as c,p as v,e as u,f as d,u as w,R as x,k,m as s,h as f}from"./index-CMwTFN8X.js";import{_ as b}from"./CvCard.vue_vue_type_script_setup_true_lang-CQflSwRg.js";import{s as y}from"./tool-hpifTAZt.js";import{c as _}from"./createLucideIcon-B4lpCchT.js";/**
+import{d as g,r as i,o as h,c as o,b as e,F as c,p as v,e as u,f as d,u as w,R as x,k,m as s,h as f}from"./index-DXLgdIXG.js";import{_ as b}from"./CvCard.vue_vue_type_script_setup_true_lang-C9P9zaH1.js";import{s as y}from"./tool-hpifTAZt.js";import{c as _}from"./createLucideIcon-BNoOItqZ.js";/**
  * @license lucide-vue-next v0.477.0 - ISC
  *
  * This source code is licensed under the ISC license.
