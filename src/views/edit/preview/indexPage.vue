@@ -1,28 +1,64 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, defineAsyncComponent, computed } from 'vue'
+import { ref, onMounted, watch, defineAsyncComponent, computed, shallowRef } from 'vue'
 import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
-import { getTemplates } from '@/utils/getTemplates';
 import { useResumeStore } from '@/stores/useResumeStore';
+import { getResumeDetail } from '@/api/resume.ts'
+import { getTemplateDetail  } from '@/api/resumeTemplate.ts'
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const resumeStore = useResumeStore();
-
 const templateStore = useTemplateStore();
+
+
+
 // 动态导入所有模板组件
 const templateModules = import.meta.glob('../../../template/**/indexPage.vue');
-// 模板列表
-const templates = ref<Template[]>([]);
+
 // 当前渲染的组件
-const currentComponent = ref();
+const currentComponent = shallowRef();
+const [sourceType, realId] = (route.params.id as string).split('-')
+
+const fetchTemplate = async (id: string) => {
+  try {
+    const res = await getTemplateDetail(id);
+    templateStore.setTemplate(res.data);
+  } catch (error) {
+    console.error('获取模板失败:', error);
+  }
+};
+const fetchResume = async (id: string) => {
+  try {
+    const res = await getResumeDetail(id);
+    resumeStore.setResumeData(res.data.resumeContent);
+    const res1 = await getTemplateDetail(res.data.resumeContent.resumeTemplateId);
+    res1.data.resumeTemplateContent.setting = res?.data?.resumeContent.setting;
+    res1.data.resumeTemplateName = res?.data?.resumeContent.resumeTemplateName;
+    templateStore.setTemplate(res1.data);
+  } catch (error) {
+    console.error('获取简历失败:', error);
+  }
+};
+
+
+// if (sourceType === 'template') {
+//   // 从模板拉取信息，初始化新简历
+//   fetchTemplate(realId)
+// } else if (sourceType === 'resume') {
+//   // 读取已有简历
+//   fetchResume(realId)
+// }
 
 // 获取并初始化模板列表
 onMounted(async () => {
   try {
-    templates.value = await getTemplates();
-    // 如果 Pinia 中有已选中的模板，则恢复
-
-    if (templates.value.length > 0 && !templateStore.currentTemplate) {
-      templateStore.currentTemplate = templates.value[0];
+    if(sourceType === 'new') {
+      // 从模板拉取信息，初始化新简历
+      await fetchTemplate(realId);
+    } else if (sourceType === 'resume') {
+      // 读取已有简历
+      await fetchResume(realId);
     }
     loadCurrentTemplate();
   } catch (error) {
@@ -51,11 +87,11 @@ watch(
 
 // 加载当前选中的模板组件
 const loadCurrentTemplate = () => {
-  const selectedTemplate = templateStore.currentTemplate;
-  if (selectedTemplate?.folderPath) {
-    const folderName = selectedTemplate.folderPath;
+  const selectedTemplate = templateStore.currentTemplate
+  if (selectedTemplate?.resumeTemplateContent.folderPath) {
+    const folderName = selectedTemplate.resumeTemplateContent.folderPath;
     if (!folderName) {
-      console.error('模板路径错误:', selectedTemplate.folderPath);
+      console.error('模板路径错误:', selectedTemplate.resumeTemplateContent.folderPath);
       return;
     }
     const importPath = `../../../template/${folderName}/indexPage.vue`;
@@ -71,7 +107,7 @@ const loadCurrentTemplate = () => {
 // 设定样式变量
 const colorStyles = computed(() => {
   return {
-    '--page-margin': `${templateStore.pageMargin}px`,
+    '--page-margin': `${templateStore.currentTemplate.resumeTemplateContent.setting.pageMargin}px`,
   };
 });
 </script>

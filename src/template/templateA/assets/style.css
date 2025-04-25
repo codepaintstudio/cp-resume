@@ -48,7 +48,7 @@ p {
 .personal-details {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 4px 0px;
+  gap: 15px 0px;
   flex: 1 1 60%;
   min-width: 50px;
 }

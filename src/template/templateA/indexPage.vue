@@ -7,12 +7,12 @@ import { useTemplateStore } from '@/stores/useTemplateStore';
 const templateStore = useTemplateStore();
 const ShadesStyle = computed(() => {
   return {
-    '--color-theme': templateStore.themeColor,
-    '--color-font': templateStore.fontColor,
-    '--line-spacing': `${templateStore.lineSpacing}px`,
-    '--block-spacing': `${templateStore.blockSpacing}px`,
-    '--page-margin': `${templateStore.pageMargin}px`,
-    '--font-family': templateStore.fontId,
+    '--color-theme':templateStore.currentTemplate.resumeTemplateContent.setting.themeColor,
+    '--color-font': templateStore.currentTemplate.resumeTemplateContent.setting.fontColor,
+    '--line-spacing': `${templateStore.currentTemplate.resumeTemplateContent.setting.lineSpacing}px`,
+    '--block-spacing': `${templateStore.currentTemplate.resumeTemplateContent.setting.blockSpacing}px`,
+    '--page-margin': `${templateStore.currentTemplate.resumeTemplateContent.setting.pageMargin}px`,
+    '--font-family': templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily,
   };
 });
 

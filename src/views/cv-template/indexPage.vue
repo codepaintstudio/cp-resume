@@ -4,43 +4,38 @@ import Menu from './components/CvTemplatePreview.vue';
 import CvCard from "@/components/CvCard.vue";
 import MultiCheck from "./components/MultiCheck.vue";
 import type { Template } from "@/types/template";
-import { getTemplates } from "@/utils/getTemplates";
+import { getTemplateList } from "@/api/resumeTemplate.ts";
 
 const templates = ref<Template[]>([]);
+const currentPage = ref<number>(1); // 当前页码
+const pageSize = ref<number>(10); // 每页显示的模板数量
+const total = ref<number>(0); // 总模板数量
 // 获取并初始化模板列表
 onMounted(async () => {
-  try {
-    templates.value = await getTemplates();
-  } catch (error) {
-    console.error('获取模板列表失败:', error);
-  }
+  fetchTemplateList()
 });
-// //模拟数据：总模板
-// const mockData = [
-//   { id: '1', name: '商务风简历', folderPath: 'templateA', style: '商务', industry: '金融', color: '深蓝', size: '210*297' },
-//   { id: '2', name: '简约设计', folderPath: 'templateA', style: '极简', industry: '互联网', color: '白色', size: '210*285' },
-//   { id: '3', name: '创意模板', folderPath: 'templateA', style: '创意', industry: '设计', color: '紫色', size: '215*297' },
-//   { id: '4', name: '学术风格', folderPath: 'templateA', style: '学术', industry: '教育', color: '黑色', size: '210*290' },
-//   { id: '5', name: '现代时尚', folderPath: 'templateA', style: '现代', industry: '广告', color: '灰色', size: '220*300' },
-//   { id: '6', name: '正式简历', folderPath: 'templateA', style: '正式', industry: '行政', color: '深灰', size: '210*297' },
-//   { id: '7', name: '科技风格', folderPath: 'templateA', style: '科技', industry: 'IT', color: '蓝绿', size: '230*310' },
-//   { id: '8', name: '医疗专用', folderPath: 'templateA', style: '严谨', industry: '医疗', color: '天蓝', size: '210*297' },
-//   { id: '9', name: '自由职业', folderPath: 'templateA', style: '随性', industry: '自由职业', color: '米色', size: '215*295' },
-//   { id: '10', name: '艺术风', folderPath: 'templateA', style: '艺术', industry: '设计', color: '红色', size: '210*280' },
-//   { id: '11', name: '工程师专用', folderPath: 'templateA', style: '工程', industry: '建筑', color: '钢蓝', size: '225*315' },
-//   { id: '12', name: '实习生简历', folderPath: 'templateA', style: '实习', industry: '大学生', color: '青色', size: '210*290' }
-// ];
-//模拟数据：推荐模板10个
+
+// 获取列表数据
+const fetchTemplateList = async () => {
+  try {
+    const res = await getTemplateList(currentPage.value, pageSize.value)
+    templates.value = res.data.items
+    total.value = res.data.total
+    console.log(templates.value)
+  } catch (error) {
+    alert('获取模板列表失败')
+  }
+}
 const recommendData = (id: string, style: string, industry: string, color: string) => {
   return templates.value.filter(item => {
 
-    const machesId = id !== item.id;
+    const machesId = id !== item.resumeTemplateId;
     // 筛选条件
-    const matchesStyle = style === item.style;
+    const matchesStyle = style === item.resumeTemplateContent.style;
 
-    const matchesIndustry = industry === item.industry;
+    const matchesIndustry = industry === item.resumeTemplateContent.industry;
 
-    const matchesColor = color === item.color;
+    const matchesColor = color === item.resumeTemplateContent.color;
 
     // 组合所有条件
     return (matchesStyle || matchesIndustry || matchesColor) && machesId;
@@ -98,8 +93,8 @@ const handleSelectionChange3 = (newSelection: string[]) => {
   selectedColor.value = newSelection;
 };
 // 提取唯一值的方法
-const uniqueValues = (key: keyof typeof templates.value[0]) => {
-  return [...new Set(templates.value.map(item => item[key]))];
+const uniqueValues = (key: keyof Template["resumeTemplateContent"]) => {
+  return [...new Set(templates.value.map(item => item.resumeTemplateContent[key]))];
 };
 
 // 计算属性 - 过滤唯一值
@@ -120,20 +115,20 @@ const filteredData = computed(() => {
   return templates.value.filter(item => {
     // 搜索条件
     const matchesSearch = !searchText.value ||
-      item.name.toLowerCase().includes(query) ||
-      item.style.toLowerCase().includes(query) ||
-      item.industry.toLowerCase().includes(query) ||
-      item.color.toLowerCase().includes(query);
+      item.resumeTemplateName.toLowerCase().includes(query) ||
+      item.resumeTemplateContent.style.toLowerCase().includes(query) ||
+      item.resumeTemplateContent.industry.toLowerCase().includes(query) ||
+      item.resumeTemplateContent.color.toLowerCase().includes(query);
 
     // 筛选条件
     const matchesStyle = selectedStyle.value.length === 0 ||
-      selectedStyle.value.includes(item.style);
+      selectedStyle.value.includes(item.resumeTemplateContent.style);
 
     const matchesIndustry = selectedIndustry.value.length === 0 ||
-      selectedIndustry.value.includes(item.industry);
+      selectedIndustry.value.includes(item.resumeTemplateContent.industry);
 
     const matchesColor = selectedColor.value.length === 0 ||
-      selectedColor.value.includes(item.color);
+      selectedColor.value.includes(item.resumeTemplateContent.color);
 
     // 组合所有条件
     return matchesSearch && matchesStyle && matchesIndustry && matchesColor;
@@ -170,7 +165,7 @@ const filteredData = computed(() => {
 
       <!-- 模板 -->
       <div class="flex justify-between flex-wrap gap-y-[1.5rem]">
-        <CvCard v-for="(i, index) in filteredData" :key="i.id" :cvTemplate="i" @click="toggleMenu(index)"></CvCard>
+        <CvCard v-for="(i, index) in filteredData" :key="i.resumeTemplateId" :cvTemplate="i" @click="toggleMenu(index)"></CvCard>
         <i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i class="w-[279px]"></i><i
           class="w-[279px]"></i>
       </div>
@@ -184,7 +179,7 @@ const filteredData = computed(() => {
     <!-- 模板详情菜单 -->
     <Menu class="fixed overflow-auto overscroll-contain no-scrollbar h-full z-9  top-0 left-0 right-0"
       :cvTemplate="selectedTemplate"
-      :cv-list="recommendData(filteredData[selectedIndex]?.id, filteredData[selectedIndex]?.style, filteredData[selectedIndex]?.industry, filteredData[selectedIndex]?.color)"
+      :cv-list="recommendData(filteredData[selectedIndex]?.resumeTemplateId, filteredData[selectedIndex]?.resumeTemplateContent.style, filteredData[selectedIndex]?.resumeTemplateContent.industry, filteredData[selectedIndex]?.resumeTemplateContent.color)"
       :isVisible="showMenu" @update:isVisible="showMenu = $event" @child-next="nextCv" @child-prev="prevCv"
       @update-cv-list="updateCv">
     </Menu>

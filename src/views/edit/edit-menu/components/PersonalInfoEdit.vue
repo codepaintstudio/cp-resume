@@ -94,7 +94,11 @@ const genderOptions = [
 
     <!-- 头像上传区域 -->
     <div class="col-span-2 flex flex-col">
-      <label class="text-sm text-gray-700 mb-1">头像上传：</label>
+      <div class="mb-2">
+        <label class="text-sm text-gray-700 mb-1">头像上传：</label>
+        <span class="border text-xs px-2 bg-gray-200 hover:bg-gray-300 cursor-pointer " @click="resume.personalInfo.avatar=''">清空</span>
+      </div>
+
       <div class="relative w-24 h-24 border border-gray-400 rounded-md flex items-center justify-center cursor-pointer"
         @click="fileInput?.click()">
         <!-- 预览头像 -->

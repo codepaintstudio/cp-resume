@@ -1,11 +1,54 @@
 <script setup lang="ts">
 import { exportToPDF } from "@/utils/exportToPdf.ts";
 import { useTemplateStore } from '@/stores/useTemplateStore';
+import { useResumeStore } from '@/stores/useResumeStore';
+import { updateResume, createResume } from '@/api/resume.ts'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router';
+import router from '@/router'
 
+const route = useRoute();
 const templateStore = useTemplateStore();
 // 触发 PDF 导出
 const handleExport = () => {
-  exportToPDF("resume-container", templateStore.cvTitle);
+  exportToPDF("resume-container", templateStore.currentTemplate.resumeTemplateName);
+};
+
+const resumeStore = useResumeStore();
+const sourceType = computed(() => (route.params.id as string).split('-')[0]);
+const realId = computed(() => (route.params.id as string).split('-')[1]);
+
+
+const saveResume = async () => {
+  if(sourceType.value === 'resume') {
+    try {
+      let resume = {
+        resumeContent: resumeStore.$state,
+      };
+      resume.resumeContent.resumeTemplateId = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateId : resume.resumeContent.resumeTemplateId;
+      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.getTemplateForExport().resumeTemplateContent.setting : resume.resumeContent.setting;
+      resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
+      await updateResume(realId.value, resume);
+      alert('简历编辑成功');
+    } catch (error) {
+      console.error('保存简历失败:', error);
+    }
+  } else {
+    try {
+      let resume = {
+        resumeContent: resumeStore.$state,
+      };
+      resume.resumeContent.resumeTemplateId = realId.value
+      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.getTemplateForExport().resumeTemplateContent.setting : resume.resumeContent.setting;
+      resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
+      const res = await createResume(resume);
+      router.replace(`/edit/resume-${res.data.resumeId}`);
+      alert('简历保存成功');
+    } catch (error) {
+      console.error('保存简历失败:', error);
+    }
+  }
+
 };
 </script>
 <template>
@@ -21,13 +64,14 @@ const handleExport = () => {
 
       <!--撤销与云端 -->
       <div class="ml-18 flex items-center space-x-6">
-        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">
-          <span class="icon-[la--undo] text-xl"></span>
-        </button>
-        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">
-          <span class="icon-[la--redo] text-xl"></span>
-        </button>
+<!--        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">-->
+<!--          <span class="icon-[la&#45;&#45;undo] text-xl"></span>-->
+<!--        </button>-->
+<!--        <button class="text-gray-600 hover:text-blue-500 hover:scale-107 active:scale-100 transition-all duration-200">-->
+<!--          <span class="icon-[la&#45;&#45;redo] text-xl"></span>-->
+<!--        </button>-->
         <button
+          @click="saveResume"
           class="text-gray-600 hover:text-blue-500 ml-2 hover:scale-105 active:scale-100 transition-all duration-200">
           <span class="icon-[solar--cloud-download-outline] text-xl"></span>
         </button>

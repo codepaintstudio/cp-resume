@@ -1,116 +1,128 @@
 [
   {
-    "id": "202501",
-    "name": "简洁模板-a",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateA",
-    "thumbnail": "preview.png",
-    "layout": "classical",
-    "style": "简约",
-    "industry": "互联网",
-    "color": "蓝色",
-    "setting": {
-      "themeColor":"#2b7fff",
-      "fontColor":"#ffffff",
-      "fontFamily":"zql",
-      "lineSpacing": "21",
-      "blockSpacing":"21",
-      "pageMargin": "21"
+    "resumeTemplateId": "202501",
+    "resumeTemplateName": "简洁模板-a",
+    "resumeTemplateContent": {
+      "color": "蓝色",
+      "style": "简约",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#2b7fff",
+        "fontColor": "#ffffff",
+        "fontFamily": "zql",
+        "lineSpacing": "21",
+        "blockSpacing": "21",
+        "pageMargin": "21"
+      },
+      "industry": "互联网",
+      "thumbnail": "preview.png",
+      "folderPath": "templateA",
+      "description": "简约而不简单的简历模板。"
     }
   },
   {
-    "id": "202502",
-    "name": "简洁模板-b",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateB",
-    "thumbnail": "preview.png",
-    "layout": "classical",
-    "style": "简约",
-    "industry": "IT",
-    "color": "红色",
-    "setting": {
-      "themeColor":"#e46767",
-      "fontColor":"#ff0a0a",
-      "fontFamily":"",
-      "lineSpacing": "20",
-      "blockSpacing":"21",
-      "pageMargin": "21"
+    "resumeTemplateId": "202502",
+    "resumeTemplateName": "简洁模板-b",
+    "resumeTemplateContent": {
+      "color": "红色",
+      "style": "简约",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#e46767",
+        "fontColor": "#ff0a0a",
+        "fontFamily": "",
+        "lineSpacing": "20",
+        "blockSpacing": "21",
+        "pageMargin": "21"
+      },
+      "industry": "IT",
+      "thumbnail": "preview.png",
+      "folderPath": "templateB",
+      "description": "简约而不简单的简历模板。"
     }
   },
   {
-    "id": "202503",
-    "name": "简洁模板-c",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateC",
-    "thumbnail": "preview.png",
-    "layout": "classical",
-    "style": "简约",
-    "industry": "IT",
-    "color": "黑色",
-    "setting": {
-      "themeColor":"#000000",
-      "fontColor":"#000000",
-      "fontFamily":"",
-      "lineSpacing": "20",
-      "blockSpacing":"21",
-      "pageMargin": "21"
+    "resumeTemplateId": "202503",
+    "resumeTemplateName": "简洁模板-c",
+    "resumeTemplateContent": {
+      "color": "黑色",
+      "style": "简约",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#000000",
+        "fontColor": "#000000",
+        "fontFamily": "",
+        "lineSpacing": "20",
+        "blockSpacing": "21",
+        "pageMargin": "21"
+      },
+      "industry": "IT",
+      "thumbnail": "preview.png",
+      "folderPath": "templateC",
+      "description": "简约而不简单的简历模板。"
     }
   },
   {
-    "id": "202504",
-    "name": "简洁模板-c",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateA",
-    "thumbnail": "preview1.png",
-    "layout": "classical",
-    "style": "简洁",
-    "industry": "互联网",
-    "color": "黑色",
-    "setting": {
-      "themeColor":"#000000",
-      "fontColor":"#ffffff",
-      "fontFamily":"zql",
-      "lineSpacing": "21",
-      "blockSpacing":"21",
-      "pageMargin": "25"
+    "resumeTemplateId": "202504",
+    "resumeTemplateName": "简洁模板-c",
+    "resumeTemplateContent": {
+      "color": "黑色",
+      "style": "简洁",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#000000",
+        "fontColor": "#ffffff",
+        "fontFamily": "zql",
+        "lineSpacing": "21",
+        "blockSpacing": "21",
+        "pageMargin": "25"
+      },
+      "industry": "互联网",
+      "thumbnail": "preview1.png",
+      "folderPath": "templateA",
+      "description": "简约而不简单的简历模板。"
     }
   },
   {
-    "id": "202505",
-    "name": "简洁模板-d",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateB",
-    "thumbnail": "preview1.png",
-    "layout": "classical",
-    "style": "简洁",
-    "industry": "IT",
-    "color": "黄色",
-    "setting": {
-      "themeColor":"#bdb600",
-      "fontColor":"#bdb600",
-      "fontFamily":"zql",
-      "lineSpacing": "20",
-      "blockSpacing":"21",
-      "pageMargin": "24"
+    "resumeTemplateId": "202505",
+    "resumeTemplateName": "简洁模板-d",
+    "resumeTemplateContent": {
+      "color": "黄色",
+      "style": "简洁",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#bdb600",
+        "fontColor": "#bdb600",
+        "fontFamily": "zql",
+        "lineSpacing": "20",
+        "blockSpacing": "21",
+        "pageMargin": "24"
+      },
+      "industry": "IT",
+      "thumbnail": "preview1.png",
+      "folderPath": "templateB",
+      "description": "简约而不简单的简历模板。"
     }
   },
   {
-    "id": "202506",
-    "name": "简洁模板-e",
-    "description": "简约而不简单的简历模板。",
-    "folderPath": "templateC",
-    "thumbnail": "preview1.png",
-    "layout": "classical",
-    "style": "简洁",
-    "industry": "IT",
-    "color": "蓝色",
-    "setting": {
-      "themeColor":"#2b7fff",
-      "fontColor":"#2b7fff",
-      "fontFamily":"",
-      "lineSpacing": "20",
-      "blockSpacing":"21",
-      "pageMargin": "21"
+    "resumeTemplateId": "202506",
+    "resumeTemplateName": "简洁模板-e",
+    "resumeTemplateContent": {
+      "color": "蓝色",
+      "style": "简洁",
+      "layout": "classical",
+      "setting": {
+        "themeColor": "#2b7fff",
+        "fontColor": "#2b7fff",
+        "fontFamily": "",
+        "lineSpacing": "20",
+        "blockSpacing": "21",
+        "pageMargin": "21"
+      },
+      "industry": "IT",
+      "thumbnail": "preview1.png",
+      "folderPath": "templateC",
+      "description": "简约而不简单的简历模板。"
     }
   }
 ]

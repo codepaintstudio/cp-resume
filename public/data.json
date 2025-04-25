@@ -1,0 +1,124 @@
+{
+  "personalInfo": {
+    "age": "22",
+    "name": "李华31",
+    "email": "lihua@example.com",
+    "major": "计算机科学与技术",
+    "phone": "13800138000",
+    "avatar": "/default_avatar.png",
+    "gender": "男",
+    "website": "https: //lihua.dev",
+    "university": "清华大学",
+    "politicalStatus": "共青团员",
+    "applicationPosition": "前端开发工程师"
+  },
+  "jobIntention": {
+    "city": "北京",
+    "type": "全职",
+    "salary": "15k-20k",
+    "status": "正在找工作",
+    "position": "前端开发工程师"
+  },
+  "education": [
+    {
+      "id": 1,
+      "major": "计算机科学与技术",
+      "degree": "本科",
+      "school": "清华大学",
+      "endDate": "2023-07",
+      "startDate": "2019-09"
+    }
+  ],
+  "campusExperience": [
+    {
+      "id": 1,
+      "title": "学生会技术部部长",
+      "endDate": "2021-06",
+      "startDate": "2020-09",
+      "description": "带领5人团队开发学生会网站，实现活动报名、信息公告等功能，提高工作效率60%。",
+      "responsibility": "负责校园活动平台开发与维护，组织技术培训"
+    }
+  ],
+  "internship": [
+    {
+      "id": 1,
+      "company": "字节跳动",
+      "endDate": "2022-09",
+      "position": "前端实习生",
+      "startDate": "2022-07",
+      "description": "参与字节跳动教育产品的前端开发，负责小程序组件的开发与优化。使用Vue3 + TypeScript开发页面组件，提升页面渲染速度约30%。"
+    }
+  ],
+  "workExperience": [
+    {
+      "id": 2,
+      "company": "腾讯",
+      "endDate": "至今",
+      "position": "前端开发工程师",
+      "startDate": "2023-08",
+      "description": "参与微信小程序及H5页面开发，负责前端架构优化与组件封装，提升用户体验与代码复用性。"
+    }
+  ],
+  "skills": [
+    { "id": 3, "skillName": "JavaScript / TypeScript" },
+    { "id": 4, "skillName": "Vue3 / React" },
+    { "id": 5, "skillName": "HTML / CSS / Sass" },
+    { "id": 6, "skillName": "Git / Webpack / Vite" }
+  ],
+  "projects": [
+    {
+      "id": 4,
+      "role": "前端开发",
+      "endDate": "2023-06",
+      "startDate": "2023-03",
+      "description": "开发一个在线简历编辑与导出平台，用户可可视化编辑内容、实时预览并导出为PDF。",
+      "projectName": "简历生成平台",
+      "briefIntroduction": "Vue3 + Pinia + TailwindCSS，前端渲染性能优化，支持本地存储自动保存。"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 1,
+      "url": "https://lihua.dev/blog",
+      "name": "个人博客系统",
+      "description": "基于Nuxt3和Markdown的技术博客系统，支持动态路由、标签分类与暗黑模式切换。"
+    }
+  ],
+  "honors": [
+    {
+      "id": 5,
+      "date": "2022-08",
+      "honorName": "全国大学生计算机设计大赛一等奖",
+      "description": "开发智能校园助手小程序，涵盖课表查询、成绩提醒等功能，获得评委一致好评。"
+    }
+  ],
+  "summary": "热爱前端开发，注重用户体验与代码质量，具备良好的团队协作与学习能力。熟悉现代前端框架，能够独立完成从开发到上线的全过程。",
+  "hobbies": "编程、羽毛球、摄影、技术写作",
+  "customize": "开源贡献者：为多个GitHub开源项目提交过PR，包括UI组件库、开发工具插件等。",
+  "currentId": 26,
+  "sections": [
+    { "label": "基本信息", "key": "personalInfo", "value": true },
+    { "label": "求职意向", "key": "jobIntention", "value": true },
+    { "label": "教育经历", "key": "education", "value": true },
+    { "label": "校园经历", "key": "campusExperience", "value": true },
+    { "label": "实习经历", "key": "internship", "value": true },
+    { "label": "工作经验", "key": "workExperience", "value": true },
+    { "label": "技能特长", "key": "skills", "value": true },
+    { "label": "项目经验", "key": "projects", "value": true },
+    { "label": "作品展示", "key": "portfolio", "value": true },
+    { "label": "荣誉奖项", "key": "honors", "value": true },
+    { "label": "自我评价", "key": "summary", "value": true },
+    { "label": "兴趣爱好", "key": "hobbies", "value": true },
+    { "label": "自定义", "key": "customize", "value": true }
+  ],
+  "setting": {
+    "themeColor": "#000000",
+    "fontColor": "#ffffff",
+    "fontFamily": "zql",
+    "lineSpacing": "21",
+    "blockSpacing": "21",
+    "pageMargin": "25"
+  },
+  "resumeTemplateId": "202503",
+  "resumeTemplateName": "简历3"
+}

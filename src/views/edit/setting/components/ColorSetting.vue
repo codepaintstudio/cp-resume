@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTemplateStore } from '@/stores/useTemplateStore';
 const templateStore = useTemplateStore()
+const setting = templateStore.currentTemplate.resumeTemplateContent.setting
 
 </script>
 <template>
@@ -8,11 +9,11 @@ const templateStore = useTemplateStore()
   <div class="flex flex-col items-center space-y-4">
     <div class="flex items-center space-x-1">
       <label class="text-xs text-nowrap pr-[1em]">主题颜色:</label>
-      <input class="changeColor" type="color" v-model="templateStore.themeColor" />
+      <input class="changeColor" type="color" v-model="setting.themeColor" />
     </div>
     <div class="flex items-center space-x-1">
       <label class="text-xs text-nowrap pr-[1em]">字体颜色:</label>
-      <input class="changeColor" type="color" v-model="templateStore.fontColor" />
+      <input class="changeColor" type="color" v-model="setting.fontColor" />
     </div>
   </div>
 
