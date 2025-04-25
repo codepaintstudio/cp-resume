@@ -3,7 +3,6 @@ import { useTemplateStore } from "@/stores/useTemplateStore";
 import { ref } from "vue";
 
 const templateStore = useTemplateStore();
-const selectedFont = ref(templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily); // 绑定选中的字体 ID
 
 const fonts = [
   { fontId: "", name: "默认" },
@@ -17,7 +16,7 @@ const fonts = [
 
 // 更新字体到 store
 const setFont = (fontId: string) => {
-  selectedFont.value = fontId;
+  templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily = fontId;
 };
 </script>
 
@@ -27,10 +26,10 @@ const setFont = (fontId: string) => {
     <div class="flex flex-col space-y-2 bg-gray-100 p-2 rounded-lg overflow-y-scroll overscroll-contain no-scrollbar">
       <button v-for="font in fonts" :key="font.fontId" :style="{ fontFamily: font.fontId }"
         class="w-full text-sm py-1.5 px-4 text-center rounded-md transition-all relative"
-        :class="selectedFont === font.fontId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'"
+        :class="templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily === font.fontId ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-200'"
         @click="setFont(font.fontId)">
         简历制作
-        <span v-if="selectedFont === font.fontId"
+        <span v-if="templateStore.currentTemplate.resumeTemplateContent.setting.fontFamily === font.fontId"
           class="icon-[proicons--checkmark-starburst] text-xl absolute right-4 top-1/2 transform -translate-y-1/2"></span>
       </button>
     </div>

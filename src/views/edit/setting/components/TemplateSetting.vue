@@ -4,7 +4,10 @@ import type { Template } from '@/types/template';
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import CvCard from '@/components/CvCard.vue';
 import { getTemplateList } from "@/api/resumeTemplate.ts";
+import router from '@/router'
+import { useRoute } from 'vue-router'
 
+const route = useRoute();
 const templateStore = useTemplateStore();
 const templates = ref<Template[]>([]);
 
@@ -27,9 +30,16 @@ const fetchTemplateList = async () => {
   }
 }
 
+const [sourceType] = (route.params.id as string).split('-')
 const emit = defineEmits(['setActiveIndex']);
 const setTemplate = (template: Template) => {
-  templateStore.setTemplate(template);
+  if(sourceType === 'new') {
+    templateStore.setTemplate(template);
+    router.replace(`/edit/new-${template.resumeTemplateId}`);
+  } else {
+    templateStore.setTemplate(template);
+  }
+
   //传值给父组件activeIndex = null
   emit('setActiveIndex', null);
 };

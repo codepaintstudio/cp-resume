@@ -2,9 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { createTemplate, deleteTemplate, updateTemplate, getTemplateList, uploadFile } from '@/api/resumeTemplate.ts'
 import SingleSelect from '@/components/SingleSelect.vue'
+import type { Template } from '@/types/template'
 
 // 模板列表状态
-const templateList = ref([])
+const templateList = ref<Template[]>([])
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)

@@ -20,6 +20,7 @@ export const useUserStore = defineStore('user', () => {
       accessToken.value = data.access_token
       refreshToken.value = data.refresh_token
       userId.value = String(data.userId)
+      localStorage.setItem('userId', userId.value)
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
       router.push('/')

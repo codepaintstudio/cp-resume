@@ -3,7 +3,9 @@ import { exportToPDF } from "@/utils/exportToPdf.ts";
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import { useResumeStore } from '@/stores/useResumeStore';
 import { updateResume, createResume } from '@/api/resume.ts'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router';
+import router from '@/router'
 
 const route = useRoute();
 const templateStore = useTemplateStore();
@@ -13,18 +15,20 @@ const handleExport = () => {
 };
 
 const resumeStore = useResumeStore();
-const [sourceType, realId] = (route.params.id as string).split('-')
+const sourceType = computed(() => (route.params.id as string).split('-')[0]);
+const realId = computed(() => (route.params.id as string).split('-')[1]);
 
 
 const saveResume = async () => {
-  if(sourceType === 'resume') {
+  if(sourceType.value === 'resume') {
     try {
       let resume = {
         resumeContent: resumeStore.$state,
       };
+      resume.resumeContent.resumeTemplateId = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateId : resume.resumeContent.resumeTemplateId;
       resume.resumeContent.setting = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateContent.setting : resume.resumeContent.setting;
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
-      await updateResume(realId, resume);
+      await updateResume(realId.value, resume);
       alert('简历编辑成功');
     } catch (error) {
       console.error('保存简历失败:', error);
@@ -34,10 +38,11 @@ const saveResume = async () => {
       let resume = {
         resumeContent: resumeStore.$state,
       };
-      resume.resumeContent.resumeTemplateId = realId
+      resume.resumeContent.resumeTemplateId = realId.value
       resume.resumeContent.setting = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateContent.setting : resume.resumeContent.setting;
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
-      await createResume(resume);
+      const res = await createResume(resume);
+      router.replace(`/edit/resume-${res.data.resumeId}`);
       alert('简历保存成功');
     } catch (error) {
       console.error('保存简历失败:', error);
