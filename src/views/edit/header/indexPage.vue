@@ -26,7 +26,7 @@ const saveResume = async () => {
         resumeContent: resumeStore.$state,
       };
       resume.resumeContent.resumeTemplateId = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateId : resume.resumeContent.resumeTemplateId;
-      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateContent.setting : resume.resumeContent.setting;
+      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.getTemplateForExport().resumeTemplateContent.setting : resume.resumeContent.setting;
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
       await updateResume(realId.value, resume);
       alert('简历编辑成功');
@@ -39,7 +39,7 @@ const saveResume = async () => {
         resumeContent: resumeStore.$state,
       };
       resume.resumeContent.resumeTemplateId = realId.value
-      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateContent.setting : resume.resumeContent.setting;
+      resume.resumeContent.setting = templateStore.currentTemplate? templateStore.getTemplateForExport().resumeTemplateContent.setting : resume.resumeContent.setting;
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
       const res = await createResume(resume);
       router.replace(`/edit/resume-${res.data.resumeId}`);

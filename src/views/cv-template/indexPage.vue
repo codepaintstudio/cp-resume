@@ -93,7 +93,7 @@ const handleSelectionChange3 = (newSelection: string[]) => {
   selectedColor.value = newSelection;
 };
 // 提取唯一值的方法
-const uniqueValues = (key: keyof typeof templates.value[0]) => {
+const uniqueValues = (key: keyof Template["resumeTemplateContent"]) => {
   return [...new Set(templates.value.map(item => item.resumeTemplateContent[key]))];
 };
 

@@ -51,6 +51,9 @@ const openDetail = (cvIndex: Template) => {
   scrollToDetail();
 };
 
+const setTemplate = (cvTemplate: Template) => {
+  templateStore.setTemplate(cvTemplate)
+}
 
 </script>
 
@@ -83,7 +86,7 @@ const openDetail = (cvIndex: Template) => {
 
           <p class="text-gray-600 text-sm color-[#595b5e]">颜色：{{ cvTemplate.resumeTemplateContent.color }}</p>
 
-          <RouterLink @click="()=>{templateStore.setTemplate(cvTemplate)}" :to="`/edit/new-${cvTemplate.resumeTemplateId}`"
+          <RouterLink @click="setTemplate(cvTemplate)" :to="`/edit/new-${cvTemplate.resumeTemplateId}`"
             class="mt-[40px] w-[15rem] bg-blue-500 text-white px-6 py-2 rounded-md flex items-center gap-2 hover:bg-blue-600 justify-center">
             <span>使用此模板</span>
             <span>→</span>
