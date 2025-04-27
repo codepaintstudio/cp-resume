@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/useUserStore.ts'
-import { hasToken } from '@/utils/verifyToken.ts'
 
 const userStore = useUserStore()
 const currentUser = ref<any>({
@@ -11,12 +10,8 @@ const currentUser = ref<any>({
 })
 
 onMounted(async () => {
-  // 检查是否有 token
-  if (!!hasToken()) {
     await userStore.getUserInfo(userStore.userId)
     currentUser.value = userStore.userInfo
-  }
-
 })
 
 </script>
