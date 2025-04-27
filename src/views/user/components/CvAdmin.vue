@@ -3,8 +3,10 @@ import { ref, onMounted } from 'vue'
 import { createTemplate, deleteTemplate, updateTemplate, getTemplateList, uploadFile } from '@/api/resumeTemplate.ts'
 import SingleSelect from '@/components/SingleSelect.vue'
 import type { Template } from '@/types/template'
+import { useUserStore } from '@/stores/useUserStore.ts'
 
 // 模板列表状态
+const userStore = useUserStore()
 const templateList = ref<Template[]>([])
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -171,7 +173,10 @@ const closeMenu = () => {
 </script>
 
 <template>
-  <div class="p-6 bg-white rounded-lg min-h-[500px]">
+  <div v-if="userStore.userId !== '7'" class="text-2xl flex justify-center items-center">
+    <h1 class="text-2xl text-red-500">您不是管理员(cpadmin)，无权管理！</h1>
+  </div>
+  <div v-else class="p-6 bg-white rounded-lg min-h-[500px]">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-xl font-bold">简历模板管理</h2>
       <button

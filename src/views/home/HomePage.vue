@@ -2,7 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import CvCard from '@/components/CvCard.vue'
+import { useUserStore } from '@/stores/useUserStore.ts'
 
+const userStore = useUserStore()
 // 引入图标
 import { ArrowUp } from 'lucide-vue-next'
 const router = useRouter()
@@ -15,6 +17,7 @@ const toTopRef = ref<HTMLElement | null>(null)
 // 返回顶部
 import { scrollToTop } from '../../utils/tool'
 
+// const hasCv = ref(true)
 // 在组件挂载后添加事件监听器
 onMounted(() => {
   if (toTopRef.value) {
@@ -67,9 +70,15 @@ onMounted(() => {
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
-        <div class="w-full flex justify-around items-center mt-10 mb-10">
+        <div v-if="userStore.isLoggedIn" class="w-full flex justify-around items-center mt-10 mb-10">
           <CvCard v-for="(box, index) in boxes" :key="index" :is-view="false" size="0.8">
           </CvCard>
+        </div>
+        <div v-else>
+          <div  class ="text-center">
+            暂无历史简历，点击<a href="" class="text-[#3370FF]">开始制作</a>
+          </div>
+
         </div>
         <RouterLink
           class="absolute right-0 top-[20%] w-[10vw] h-[2vw] -translate-y-1/2 flex justify-center items-center flex-row "

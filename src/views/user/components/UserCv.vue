@@ -2,7 +2,9 @@
 import { ref, onMounted } from "vue";
 import CvCard from "@/components/CvCard.vue";
 import { getResumeList, deleteResume } from '@/api/resume.ts'
+import { useUserStore} from '@/stores/useUserStore.ts'
 
+const userStore = useUserStore()
 const resumes = ref<Array<any>>([]);
 
 const currentPage = ref<number>(1); // 当前页码
@@ -18,6 +20,7 @@ const fetchResumeList = async () => {
   try {
     const res = await getResumeList(currentPage.value, pageSize.value)
     resumes.value = res.data.items
+    resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userId)
     total.value = res.data.total
   } catch (error) {
     alert('获取简历列表失败')

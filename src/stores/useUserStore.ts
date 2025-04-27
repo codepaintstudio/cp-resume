@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { userLogin, getUserInfoApi } from '@/api/user.ts'
+import { userLogin, getUserInfoApi, userRegister } from '@/api/user.ts'
 import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
@@ -23,9 +23,21 @@ export const useUserStore = defineStore('user', () => {
       localStorage.setItem('userId', userId.value)
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
-      router.push('/')
+      await getUserInfo(userId.value)
+      router.replace('/')
     } catch (error) {
       console.error('Login failed:', error)
+    }
+  }
+
+  // 用户注册
+  const register = async (userName: string, userEmail: string, userPassword: string, confirmPassword:string) => {
+    try {
+      const res = await userRegister(userName, userEmail, userPassword, confirmPassword)
+      console.log('注册成功ress',res)
+      return res
+    } catch (error) {
+      console.error('Register failed:', error)
     }
   }
 
@@ -33,8 +45,10 @@ export const useUserStore = defineStore('user', () => {
   const logout = () => {
     accessToken.value = ''
     refreshToken.value = ''
+    userId.value = ''
     localStorage.removeItem('cp-accessToken')
     localStorage.removeItem('cp-refreshToken')
+    localStorage.removeItem('userId')
     router.push('/login')
   }
   // 用户信息
@@ -54,6 +68,7 @@ export const useUserStore = defineStore('user', () => {
     userInfo,
     getUserInfo,
     login,
+    register,
     logout
   }
 })
