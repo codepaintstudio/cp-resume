@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useUserStore } from '@/stores/useUserStore'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -66,3 +67,15 @@ const router = createRouter({
 })
 
 export default router
+
+router.beforeEach((to) => {
+  const userStore = useUserStore()
+  if(to.path.includes('/user')  && !userStore.isLoggedIn) {
+    alert('当前未登录')
+    return { name: 'login' }
+  }
+  if(to.path.includes('/edit')  && !userStore.isLoggedIn) {
+    alert('当前未登录')
+    return { name: 'login' }
+  }
+})

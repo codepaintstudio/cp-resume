@@ -23,6 +23,7 @@ export const useUserStore = defineStore('user', () => {
       localStorage.setItem('userId', userId.value)
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
+      await getUserInfo(userId.value)
       router.replace('/')
     } catch (error) {
       console.error('Login failed:', error)
