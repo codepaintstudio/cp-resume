@@ -41,15 +41,6 @@ const fetchResume = async (id: string) => {
   }
 };
 
-
-// if (sourceType === 'template') {
-//   // 从模板拉取信息，初始化新简历
-//   fetchTemplate(realId)
-// } else if (sourceType === 'resume') {
-//   // 读取已有简历
-//   fetchResume(realId)
-// }
-
 // 获取并初始化模板列表
 onMounted(async () => {
   try {

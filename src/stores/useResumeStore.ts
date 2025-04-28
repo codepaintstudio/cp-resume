@@ -166,35 +166,6 @@ const resumeTemplate = {
 };
 
 
-const sectionsDefault = ref([
-  { label: "基本信息", key: "personalInfo", value: true },
-  { label: "求职意向", key: "jobIntention", value: true },
-  { label: "教育经历", key: "education", value: true },
-  { label: "校园经历", key: "campusExperience", value: true },
-  { label: "实习经历", key: "internship", value: true },
-  { label: "工作经验", key: "workExperience", value: true },
-  { label: "技能特长", key: "skills", value: true },
-  { label: "项目经验", key: "projects", value: true },
-  { label: "作品展示", key: "portfolio", value: false },
-  { label: "荣誉奖项", key: "honors", value: true },
-  { label: "自我评价", key: "summary", value: true },
-  { label: "兴趣爱好", key: "hobbies", value: false },
-  { label: "自定义", key: "customize", value: false }
-]);
-
-// 请求默认JSON数据 /data.json
-const fetchDefaultData = async () => {
-  try {
-    const response = await fetch('/data.json');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching default data:', error);
-    return null;
-  }
-};
-
-
 export const useResumeStore = defineStore('resume', {
   state: (): ResumeState => {
 
@@ -230,9 +201,10 @@ export const useResumeStore = defineStore('resume', {
 
     // 保存localStorage
     saveToLocalStorage() {
-      localStorage.setItem('resumeData', JSON.stringify(this.$state));
-      localStorage.setItem('currentId', JSON.stringify(this.currentId));
-      localStorage.setItem('sections', JSON.stringify(this.sections));
+      // localStorage.setItem('resumeData', JSON.stringify(this.$state));
+      // localStorage.setItem('currentId', JSON.stringify(this.currentId));
+      // localStorage.setItem('sections', JSON.stringify(this.sections));
+      sessionStorage.setItem('resumeData', JSON.stringify(this.$state));
     },
     // 初始化时检查最大 id，后面新增id是递增的
     initializeCurrentId() {

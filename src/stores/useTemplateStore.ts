@@ -49,7 +49,5 @@ export const useTemplateStore = defineStore('templateStore', () => {
   };
 
   return { currentTemplate, setTemplate, getTemplateForExport };
-}, {
-  persist: true
 });
 

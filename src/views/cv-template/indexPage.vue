@@ -21,7 +21,7 @@ const fetchTemplateList = async () => {
     const res = await getTemplateList(currentPage.value, pageSize.value)
     templates.value = res.data.items
     total.value = res.data.total
-    console.log(templates.value)
+    // console.log(templates.value)
   } catch (error) {
     alert('获取模板列表失败')
   }

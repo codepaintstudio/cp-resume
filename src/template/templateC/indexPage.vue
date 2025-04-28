@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useResumeStore } from '@/stores/useResumeStore';
-import { computed } from 'vue';
-import { useTemplateStore } from '@/stores/useTemplateStore';
+import { useResumeStore } from '@/stores/useResumeStore'
+import { computed } from 'vue'
+import { useTemplateStore } from '@/stores/useTemplateStore'
 
-const templateStore = useTemplateStore();
+const templateStore = useTemplateStore()
 // Dynamically generate CSS variables
 const colorStyles = computed(() => {
   return {
@@ -15,67 +15,69 @@ const colorStyles = computed(() => {
     '--page-margin': `${templateStore.currentTemplate.resumeTemplateContent.setting.pageMargin}px`,
     '--text-color': '#333',
     '--background-color': '#fff',
-  };
-});
+  }
+})
 
 // Referenced store
-const resumeStore = useResumeStore();
+const resumeStore = useResumeStore()
 
 // Get data from store
-const resume = computed(() => resumeStore.$state);
+const resume = computed(() => resumeStore.$state)
 
 // 计算属性获取 label
 const selectedLabel = computed({
-  get: () => resumeStore.sections.find(item => item.key === props.module)?.label || "",
+  get: () => resumeStore.sections.find((item) => item.key === props.module)?.label || '',
   set: (newLabel: string) => {
-    const section = resumeStore.sections.find(item => item.key === props.module);
+    const section = resumeStore.sections.find((item) => item.key === props.module)
     if (section) {
-      section.label = newLabel;
+      section.label = newLabel
     }
   },
-});
+})
 
 const props = defineProps<{
-  module: string;
-}>();
+  module: string
+}>()
 </script>
 
 <template>
   <div class="resume-container" :style="colorStyles">
     <!-- Personal Information -->
     <section class="card personal-card" v-if="resume.personalInfo && module === 'personalInfo'">
-      <div class="card-header">
-        <h1 class="name">{{ resume.personalInfo.name }}</h1>
-        <div class="avatar" v-if="resume.personalInfo.avatar">
-          <img :src="resume.personalInfo.avatar" alt="Profile Photo" />
+      <div class="personal-left">
+        <div class="card-header">
+          <h3 class="name">{{ resume.personalInfo.name }}</h3>
+        </div>
+        <div class="card-content-p">
+          <div class="info-row" v-if="resume.personalInfo.gender">
+            {{ resume.personalInfo.gender }} |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.age">{{ resume.personalInfo.age }}岁 |&nbsp</div>
+          <div class="info-row" v-if="resume.personalInfo.politicalStatus">
+            {{ resume.personalInfo.politicalStatus }} |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.phone">
+            {{ resume.personalInfo.phone }} |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.university">
+            {{ resume.personalInfo.university }} |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.major">
+            {{ resume.personalInfo.major }} |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.website">
+            <a :href="resume.personalInfo.website" target="_blank">{{
+                resume.personalInfo.website
+              }}</a>  |&nbsp
+          </div>
+          <div class="info-row" v-if="resume.personalInfo.email">
+            {{ resume.personalInfo.email }}
+          </div>
         </div>
       </div>
-      <div class="card-content">
-        <div class="info-row" v-if="resume.personalInfo.gender">
-          <span class="label">性别:</span> {{ resume.personalInfo.gender }}
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.age">
-          <span class="label">年龄:</span> {{ resume.personalInfo.age }}岁
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.politicalStatus">
-          <span class="label">政治面貌:</span> {{ resume.personalInfo.politicalStatus }}
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.phone">
-          <span class="label">电话:</span> {{ resume.personalInfo.phone }}
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.university">
-          <span class="label">学校:</span> {{ resume.personalInfo.university }}
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.major">
-          <span class="label">专业:</span> {{ resume.personalInfo.major }}
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.website">
-          <span class="label">网站:</span>
-          <a :href="resume.personalInfo.website" target="_blank">{{ resume.personalInfo.website }}</a>
-        </div>
-        <div class="info-row" v-if="resume.personalInfo.email">
-          <span class="label">邮箱:</span> {{ resume.personalInfo.email }}
-        </div>
+
+      <div class="avatar" v-if="resume.personalInfo.avatar">
+        <img :src="resume.personalInfo.avatar" alt="Profile Photo" />
       </div>
     </section>
 
@@ -113,9 +115,7 @@ const props = defineProps<{
         <div v-if="resume.jobIntention.type">
           {{ resume.jobIntention.type }}
         </div>
-        <div>
-
-        </div>
+        <div></div>
       </div>
     </section>
 
@@ -162,7 +162,7 @@ const props = defineProps<{
     <section class="card" v-if="resume.internship.length && module === 'internship'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <div  v-for="intern in resume.internship" :key="intern.id">
+        <div v-for="intern in resume.internship" :key="intern.id">
           <div class="flex-card">
             <h3>{{ intern.position }}</h3>
             <p>{{ intern.company }}</p>
@@ -189,7 +189,9 @@ const props = defineProps<{
           </div>
           <p>{{ project.briefIntroduction }}</p>
           <ul>
-            <li v-for="(desc, index) in project.description.split('\n')" :key="index">{{ desc }}</li>
+            <li v-for="(desc, index) in project.description.split('\n')" :key="index">
+              {{ desc }}
+            </li>
           </ul>
         </div>
       </div>
@@ -218,11 +220,8 @@ const props = defineProps<{
       <div class="card-content">
         <ul>
           <li v-for="honor in resume.honors" :key="honor.id">
-
-              <span>{{ honor.honorName }}</span>
-              <span style="margin-left: 55%">{{ honor.date }}</span>
-
-
+            <span>{{ honor.honorName }}</span>
+            <span style="margin-left: 55%">{{ honor.date }}</span>
           </li>
         </ul>
       </div>
@@ -234,7 +233,9 @@ const props = defineProps<{
       <div class="card-content">
         <div v-for="work in resume.portfolio" :key="work.id">
           <div style="margin-top: 15px" class="flex-card">
-            <h3><a :href="work.url" target="_blank">{{ work.name }}</a></h3>
+            <h3>
+              <a :href="work.url" target="_blank">{{ work.name }}</a>
+            </h3>
             <a :href="work.url" target="_blank">{{ work.url }}</a>
           </div>
 
@@ -292,21 +293,30 @@ const props = defineProps<{
   align-items: center;
 }
 
+.personal-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .card-header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 }
 
 .name {
-  font-size: 28px;
+  font-size: 18px;
   font-weight: 700;
+  color: #444;
+  margin-bottom: 10px;
   color: var(--color-font);
 }
 
 .avatar {
   width: 100px;
+  height: 110px;
   margin: 10px;
 }
 
@@ -314,7 +324,7 @@ const props = defineProps<{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 1px solid var(--color-theme);
+  //border: 1px solid var(--color-theme);
 }
 
 .card-title {
@@ -323,7 +333,7 @@ const props = defineProps<{
   color: var(--color-theme);
   margin-bottom: 10px;
   border-bottom: 2px solid var(--color-theme);
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .grid-2x5 {
@@ -340,9 +350,18 @@ const props = defineProps<{
   font-size: 14px;
   color: #444;
 }
+.card-content-p {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
 
 .info-row {
-  display: flex;
+  //display: flex;
   margin-bottom: 8px;
 }
 
@@ -353,7 +372,6 @@ const props = defineProps<{
 }
 
 .flex-card {
-
   display: flex;
   justify-content: space-between;
 }
@@ -389,12 +407,12 @@ ul li {
 }
 
 ul li::before {
-  content: "• ";
+  content: '• ';
   color: var(--color-theme);
   left: 0;
 }
 
 .skill-list li::before {
-  content: "✓ ";
+  content: '✓ ';
 }
 </style>

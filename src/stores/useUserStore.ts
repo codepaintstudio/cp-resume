@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', () => {
   const register = async (userName: string, userEmail: string, userPassword: string, confirmPassword:string) => {
     try {
       const res = await userRegister(userName, userEmail, userPassword, confirmPassword)
-      console.log('注册成功ress',res)
+      // console.log('注册成功res',res)
       return res
     } catch (error) {
       console.error('Register failed:', error)

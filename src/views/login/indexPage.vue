@@ -121,7 +121,7 @@ const handleRegister = async () => {
   try {
     const result = await authStore.register(registerUserNum.value, registerEmail.value, registerPassword.value, registerConfirmPassword.value)
     // 注册成功后处理
-    console.log('注册结果3:', result)
+    // console.log('注册结果3:', result)
     if (result) {
       isLoginMode.value = true
       loginUserNum.value = registerUserNum.value

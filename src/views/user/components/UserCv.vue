@@ -41,6 +41,20 @@ const hoveredId = ref<number | null>(null);
 const setHovered = (id: number | null) => {
   hoveredId.value = id;
 };
+
+// 返回一个cvTemplate对象
+const getCvTemplate = (resumeTemplateName: string, thumbnail?:string) => {
+  return {
+    resumeTemplateName,
+    resumeTemplateContent: {
+      folderPath: '',
+      thumbnail,
+      style: '风格',
+      industry: '行业',
+      color: '颜色',
+    },
+  };
+};
 </script>
 
 <template>
@@ -53,7 +67,7 @@ const setHovered = (id: number | null) => {
       <div v-for="resume in resumes" :key="resume.resumeId" class="relative h-90 cursor-pointer rounded-lg"
         @mouseenter="setHovered(resume.resumeId)" @mouseleave="setHovered(null)">
 
-        <CvCard :is-view="false" size="0.9" ></CvCard>
+        <CvCard :is-view="false" size="0.9" :cv-template="getCvTemplate(resume.resumeContent.resumeTemplateName)"  ></CvCard>
 
         <transition name="fade-op">
           <div v-if="hoveredId === resume.resumeId" class="absolute h-full inset-0 rounded-lg bg-black opacity-50"></div>
@@ -62,7 +76,7 @@ const setHovered = (id: number | null) => {
         <transition name="fade-op1">
           <div v-if="hoveredId === resume.resumeId"
                class="absolute inset-0 rounded-lg flex flex-col justify-center items-center space-y-2">
-            <RouterLink :to="`/edit/resume-${resume.resumeId}`" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
+            <RouterLink target="_blank" :to="`/edit/resume-${resume.resumeId}`" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
             <button @click="deleteCv(resume.resumeId)" class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
           </div>
         </transition>
