@@ -28,7 +28,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@iconify/json": "^2.2.317",
+    "@iconify/json": "^2.2.332",
     "@iconify/tailwind": "^1.2.0",
     "@iconify/tailwind4": "^1.0.6",
     "@tsconfig/node22": "^22.0.0",
