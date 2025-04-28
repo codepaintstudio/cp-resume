@@ -3,6 +3,17 @@ import { defineProps, computed } from 'vue'
 import type { Template } from '@/types/template'
 import cvImg from '/default_cv.png'
 
+interface cvTemplate {
+  resumeTemplateName: string
+  resumeTemplateContent: {
+    folderPath: string
+    thumbnail: string | undefined
+    style: string
+    industry: string
+    color: string
+  }
+}
+
 const props = defineProps({
   isView: {
     type: Boolean,
@@ -13,7 +24,7 @@ const props = defineProps({
     default: '1',
   },
   cvTemplate: {
-    type: Object as () => Template,
+    type: Object as () => cvTemplate,
     default: () => ({
       resumeTemplateName: '标题',
       resumeTemplateContent:{
