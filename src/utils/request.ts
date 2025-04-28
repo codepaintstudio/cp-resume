@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 
 const service = axios.create({
-  baseURL: 'http://47.109.193.161:8543', // ✔ 把 /api 放到这里
+  baseURL: 'https://cp-center-server.hub.feashow.cn', // ✔ 把 /api 放到这里
   timeout: 50000,
 })
 let isRefreshing = false

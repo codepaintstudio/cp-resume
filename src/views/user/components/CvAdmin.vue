@@ -141,7 +141,12 @@ const handleSubmit = async () => {
   try {
     if (isEdit.value) {
       if(imgUrl.value !== formData.value.resumeTemplateContent.thumbnail) {
-        formData.value.resumeTemplateContent.thumbnail = imgUrl.value
+        if(!imgUrl.value) {
+          formData.value.resumeTemplateContent.thumbnail = ''
+        } else if (file.value) {
+          let res = await uploadFile(file.value)
+          formData.value.resumeTemplateContent.thumbnail = 'https://cp-center-server.hub.feashow.cn' + res.data.url
+        }
       }
       await updateTemplate(
         formData.value.resumeTemplateId,
@@ -173,8 +178,8 @@ const closeMenu = () => {
 </script>
 
 <template>
-  <div v-if="userStore.userId !== '7'" class="text-2xl flex justify-center items-center">
-    <h1 class="text-2xl text-red-500">您不是管理员(cpadmin)，无权管理！</h1>
+  <div v-if="userStore.userId !== '3'" class="text-2xl flex justify-center items-center">
+    <h1 class="text-2xl text-red-500">您不是管理员，无权管理！</h1>
   </div>
   <div v-else class="p-6 bg-white rounded-lg min-h-[500px]">
     <div class="flex justify-between items-center mb-6">
