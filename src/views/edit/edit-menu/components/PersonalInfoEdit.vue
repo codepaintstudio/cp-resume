@@ -3,11 +3,13 @@ import { useResumeStore } from '@/stores/useResumeStore'
 import { ref } from 'vue'
 import SingleSelect from '@/components/SingleSelect.vue'
 import { uploadFile } from '@/api/resumeTemplate.ts'
+import { showMessage } from '@/utils/message.ts'
 
 const resume = useResumeStore()
 const fileInput = ref<HTMLInputElement | null>(null)
 const imgUrl = ref<string>(resume.personalInfo.avatar)
 const file = ref<File | null>(null)
+const loading = ref(false)
 
 // 处理头像上传 (base64)
 const handleAvatarChange = (event: Event) => {
@@ -19,18 +21,33 @@ const handleAvatarChange = (event: Event) => {
 };
 
 const submit = async () => {
+  loading.value = true
   try {
     if(imgUrl.value !== resume.personalInfo.avatar ) {
       if(!imgUrl.value) {
         resume.personalInfo.avatar = ''
-        alert('清空成功！')
+        loading.value = false
+        showMessage({
+          type: 'success',
+          message: '已清空'
+        })
       } else if (file.value) {
         const res = await uploadFile(file.value)
         resume.personalInfo.avatar = 'https://cp-center-server.hub.feashow.cn' + res.data.url
-        alert('上传成功!')
+        loading.value = false
+        showMessage({
+          type: 'success',
+          message: '头像上传成功'
+        })
       }
     }
+    loading.value = false
   } catch (err) {
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '头像上传失败'
+    })
     console.error('头像上传失败:', err)
   }
 
@@ -54,6 +71,7 @@ const genderOptions = [
 </script>
 
 <template>
+  <LoadingSpinner v-if="loading"></LoadingSpinner>
   <div class="grid grid-cols-2 gap-y-8 p-10 px-14 overflow-scroll overscroll-contain no-scrollbar">
 
     <div class="text-sm text-gray-700">

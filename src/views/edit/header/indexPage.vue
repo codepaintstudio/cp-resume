@@ -3,9 +3,10 @@ import { exportToPDF } from "@/utils/exportToPdf.ts";
 import { useTemplateStore } from '@/stores/useTemplateStore';
 import { useResumeStore } from '@/stores/useResumeStore';
 import { updateResume, createResume } from '@/api/resume.ts'
-import { computed } from 'vue'
+import { computed,ref } from 'vue'
 import { useRoute } from 'vue-router';
 import router from '@/router'
+import { showMessage } from '@/utils/message.ts'
 
 const route = useRoute();
 const templateStore = useTemplateStore();
@@ -17,9 +18,10 @@ const handleExport = () => {
 const resumeStore = useResumeStore();
 const sourceType = computed(() => (route.params.id as string).split('-')[0]);
 const realId = computed(() => (route.params.id as string).split('-')[1]);
-
+const loading = ref(false)
 
 const saveResume = async () => {
+  loading.value = true
   if(sourceType.value === 'resume') {
     try {
       let resume = {
@@ -29,9 +31,17 @@ const saveResume = async () => {
       resume.resumeContent.setting = templateStore.currentTemplate? templateStore.getTemplateForExport().resumeTemplateContent.setting : resume.resumeContent.setting;
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
       await updateResume(realId.value, resume);
-      alert('简历编辑成功');
+      loading.value = false
+      showMessage({
+        type: 'success',
+        message: '简历保存成功'
+      })
     } catch (error) {
-      console.error('保存简历失败:', error);
+      loading.value = false
+      showMessage({
+        type: 'error',
+        message: '简历保存失败'
+      })
     }
   } else {
     try {
@@ -43,15 +53,24 @@ const saveResume = async () => {
       resume.resumeContent.resumeTemplateName = templateStore.currentTemplate? templateStore.currentTemplate.resumeTemplateName : resume.resumeContent.resumeTemplateName;
       const res = await createResume(resume);
       router.replace(`/edit/resume-${res.data.resumeId}`);
-      alert('简历保存成功');
+      loading.value = false
+      showMessage({
+        type: 'success',
+        message: '简历创建成功'
+      })
     } catch (error) {
-      console.error('保存简历失败:', error);
+      loading.value = false
+      showMessage({
+        type: 'error',
+        message: '简历创建失败'
+      })
     }
   }
 
 };
 </script>
 <template>
+  <LoadingSpinner v-if="loading"></LoadingSpinner>
   <header class="fixed z-10  top-0 flex w-full justify-between items-center px-10 bg-white shadow-md h-18">
 
     <div class="flex items-center space-x-2">

@@ -5,7 +5,9 @@ import CvCard from "@/components/CvCard.vue";
 import MultiCheck from "./components/MultiCheck.vue";
 import type { Template } from "@/types/template";
 import { getTemplateList } from "@/api/resumeTemplate.ts";
+import { showMessage } from '@/utils/message.ts'
 
+const loading = ref(true)
 const templates = ref<Template[]>([]);
 const currentPage = ref<number>(1); // 当前页码
 const pageSize = ref<number>(10); // 每页显示的模板数量
@@ -21,9 +23,14 @@ const fetchTemplateList = async () => {
     const res = await getTemplateList(currentPage.value, pageSize.value)
     templates.value = res.data.items
     total.value = res.data.total
+    loading.value = false
     // console.log(templates.value)
   } catch (error) {
-    alert('获取模板列表失败')
+    showMessage({
+      type: 'error',
+      message: '获取简历模板列表失败'
+    })
+    loading.value = false
   }
 }
 const recommendData = (id: string, style: string, industry: string, color: string) => {
@@ -137,7 +144,10 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="relative min-h-screen">
+  <LoadingSpinner v-if="loading" />
+
+
+  <div v-else class="relative min-h-screen">
 
     <div class="mx-20 pt-12">
 

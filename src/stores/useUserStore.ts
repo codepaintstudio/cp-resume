@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { userLogin, getUserInfoApi, userRegister } from '@/api/user.ts'
 import { useRouter } from 'vue-router'
+import { showMessage } from '@/utils/message.ts'
 
 export const useUserStore = defineStore('user', () => {
   const userId = ref<string>(localStorage.getItem('userId') || '0')
@@ -11,7 +12,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
 
   // 根据 accessToken 是否存在来判断登录状态
-  const isLoggedIn = computed(() => !!accessToken.value)
+  const isLoggedIn = computed(() => !!refreshToken.value)
 
   // 用户登录
   const login = async (userName: string, userPassword: string) => {
@@ -34,9 +35,16 @@ export const useUserStore = defineStore('user', () => {
   const register = async (userName: string, userEmail: string, userPassword: string, confirmPassword:string) => {
     try {
       const res = await userRegister(userName, userEmail, userPassword, confirmPassword)
-      // console.log('注册成功res',res)
+      showMessage({
+        message: '注册成功',
+        type: 'success'
+      })
       return res
     } catch (error) {
+      showMessage({
+        message: '注册失败',
+        type: 'error'
+      })
       console.error('Register failed:', error)
     }
   }
@@ -57,9 +65,14 @@ export const useUserStore = defineStore('user', () => {
       const res  = await getUserInfoApi(userId)
       userInfo.value = res.data
     } catch (error) {
-      console.error('获取用户信息失败:', error)
+      showMessage({
+        message: '获取用户信息失败',
+        type: 'error'
+      })
     }
   }
+
+
   return {
     accessToken,
     refreshToken,

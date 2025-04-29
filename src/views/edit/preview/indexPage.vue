@@ -6,11 +6,13 @@ import { useResumeStore } from '@/stores/useResumeStore';
 import { getResumeDetail } from '@/api/resume.ts'
 import { getTemplateDetail  } from '@/api/resumeTemplate.ts'
 import { useRoute } from 'vue-router';
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { showMessage } from '@/utils/message.ts'
 
 const route = useRoute();
 const resumeStore = useResumeStore();
 const templateStore = useTemplateStore();
-
+const loading = ref(true)
 
 
 // 动态导入所有模板组件
@@ -24,8 +26,14 @@ const fetchTemplate = async (id: string) => {
   try {
     const res = await getTemplateDetail(id);
     templateStore.setTemplate(res.data);
+    loading.value = false
   } catch (error) {
     console.error('获取模板失败:', error);
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '获取模板失败'
+    })
   }
 };
 const fetchResume = async (id: string) => {
@@ -36,8 +44,14 @@ const fetchResume = async (id: string) => {
     res1.data.resumeTemplateContent.setting = res?.data?.resumeContent.setting;
     res1.data.resumeTemplateName = res?.data?.resumeContent.resumeTemplateName;
     templateStore.setTemplate(res1.data);
+    loading.value = false
   } catch (error) {
     console.error('获取简历失败:', error);
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '获取简历失败'
+    })
   }
 };
 
@@ -83,6 +97,10 @@ const loadCurrentTemplate = () => {
     const folderName = selectedTemplate.resumeTemplateContent.folderPath;
     if (!folderName) {
       console.error('模板路径错误:', selectedTemplate.resumeTemplateContent.folderPath);
+      showMessage({
+        type: 'error',
+        message: '模板配置错误'
+      })
       return;
     }
     const importPath = `../../../template/${folderName}/indexPage.vue`;
@@ -90,6 +108,10 @@ const loadCurrentTemplate = () => {
     if (importFunc) {
       currentComponent.value = defineAsyncComponent(() => importFunc() as Promise<typeof import('*.vue')['default']>);
     } else {
+      showMessage({
+        type: 'error',
+        message: '未找到该模板'
+      })
       console.error(`未找到路径为 ${importPath} 的组件`);
     }
   }
@@ -103,8 +125,12 @@ const colorStyles = computed(() => {
 });
 </script>
 <template>
+  <div v-if="loading" class="w-200">
+    <LoadingSpinner></LoadingSpinner>
+  </div>
 
-  <div :style="colorStyles" id="resume-container" class="bg-white rounded-lg w-200 space-y-4">
+
+  <div v-else :style="colorStyles" id="resume-container" class="bg-white rounded-lg w-200 space-y-4">
     <component v-for="(item, index) in resumeStore.sections" :is="currentComponent" :module="item.key" :key="index"
       v-show="item.value" />
   </div>

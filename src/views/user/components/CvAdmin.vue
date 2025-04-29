@@ -4,8 +4,11 @@ import { createTemplate, deleteTemplate, updateTemplate, getTemplateList, upload
 import SingleSelect from '@/components/SingleSelect.vue'
 import type { Template } from '@/types/template'
 import { useUserStore } from '@/stores/useUserStore.ts'
+import { showMessage } from '@/utils/message'
+import { showConfirm } from '@/utils/confirm.ts'
 
 // 模板列表状态
+const loading = ref(true)
 const userStore = useUserStore()
 const templateList = ref<Template[]>([])
 const currentPage = ref(1)
@@ -79,8 +82,13 @@ const fetchTemplateList = async () => {
     const res = await getTemplateList(currentPage.value, pageSize.value)
     templateList.value = res.data.items
     total.value = res.data.total
+    loading.value = false
   } catch (error) {
-    alert('获取模板列表失败')
+    loading.value = false
+    showMessage({
+    type: 'error',
+      message: '获取模板列表失败'
+    })
   }
 }
 
@@ -125,19 +133,37 @@ const handleEdit = (row: any) => {
 
 // 删除模板
 const handleDelete = async (id: string) => {
-  if (confirm('确认删除该模板吗？')) {
     try {
+      loading.value = true
       await deleteTemplate(id)
-      alert('删除成功')
+      loading.value = false
+      showMessage({
+      type: 'success',
+        message: '删除成功'
+      })
       fetchTemplateList()
     } catch (error) {
-      alert('删除失败')
+      loading.value = false
+      showMessage({
+        type: 'error',
+        message: '删除失败'
+      })
     }
+
+}
+
+async function onDelete (id: string) {
+  try {
+    await showConfirm({ message: '确定要删除吗？' })
+    await handleDelete(id)
+  } catch {
+    console.log('用户取消了操作')
   }
 }
 
 // 提交表单
 const handleSubmit = async () => {
+  loading.value = true
   try {
     if (isEdit.value) {
       if(imgUrl.value !== formData.value.resumeTemplateContent.thumbnail) {
@@ -153,18 +179,30 @@ const handleSubmit = async () => {
         formData.value.resumeTemplateName,
         formData.value.resumeTemplateContent
       )
-      alert('更新成功')
+      loading.value = false
+      showMessage({
+        type:'success',
+        message: '更新成功'
+      })
     } else {
       await createTemplate(
         formData.value.resumeTemplateName,
         formData.value.resumeTemplateContent
       )
-      alert('创建成功')
+      loading.value = false
+      showMessage({
+      type: 'success',
+        message: '创建成功'
+      })
     }
     dialogVisible.value = false
     fetchTemplateList()
   } catch (error) {
-    alert(isEdit.value ? '更新失败' : '创建失败')
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '操作失败'
+    })
   }
 }
 
@@ -191,6 +229,8 @@ const closeMenu = () => {
         新增模板
       </button>
     </div>
+
+    <LoadingSpinner v-if="loading"></LoadingSpinner>
 
     <table class="w-full border-collapse border border-gray-300">
       <thead>
@@ -219,7 +259,7 @@ const closeMenu = () => {
           </button>
           <button
             class="text-red-500 hover:text-red-700"
-            @click="handleDelete(item.resumeTemplateId)"
+            @click="onDelete(item.resumeTemplateId)"
           >
             删除
           </button>

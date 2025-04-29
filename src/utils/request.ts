@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+import { showMessage } from '@/utils/message.ts'
 
 const service = axios.create({
   baseURL: 'https://cp-center-server.hub.feashow.cn', // ✔ 把 /api 放到这里
@@ -34,10 +35,16 @@ service.interceptors.response.use(
     const { config, response } = error
     // 如果是/auth/login并且是401就返回登录失败
     if (config?.url?.endsWith('/auth/login') && response && response.status === 401) {
-      alert('登录失败')
+      showMessage({
+        message: '用户名或密码错误',
+        type: 'error',
+      })
       return Promise.reject('登录失败')
     } else if (config?.url?.endsWith('/auth/login') && response && response.status === 500){
-      alert('请输入正确的用户名')
+      showMessage({
+        message: '用户名或密码错误',
+        type: 'error',
+      })
       return Promise.reject('登录失败')
     }
 
@@ -76,17 +83,19 @@ service.interceptors.response.use(
 async function doRefresh() {
   let refreshToken = localStorage.getItem('cp-refreshToken')
   try {
-    const resp = await axios.get('http://47.109.193.161:8543/api/auth/refresh', {
+    const resp = await axios.get('https://cp-center-server.hub.feashow.cn/api/auth/refresh', {
       params: {
         refreshToken,
       },
     })
     const { access_token: newAT, refresh_token: newRT } = resp.data.data
-    console.log('Token 刷新成功', newAT, newRT)
     localStorage.setItem('cp-accessToken', newAT)
     return newAT
   } catch (e) {
-    alert('当前未登录！')
+    showMessage({
+      message: '登录已失效',
+      type: 'error',
+    })
     router.replace('/login')
     throw e
   }

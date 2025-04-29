@@ -3,10 +3,12 @@ import { ref, onMounted } from "vue";
 import CvCard from "@/components/CvCard.vue";
 import { getResumeList, deleteResume } from '@/api/resume.ts'
 import { useUserStore} from '@/stores/useUserStore.ts'
+import { showMessage } from '@/utils/message.ts'
+import { showConfirm } from '@/utils/confirm.ts'
 
 const userStore = useUserStore()
 const resumes = ref<Array<any>>([]);
-
+const loading = ref(true)
 const currentPage = ref<number>(1); // 当前页码
 const pageSize = ref<number>(10); // 每页显示的模板数量
 const total = ref<number>(0); // 总模板数量
@@ -22,18 +24,43 @@ const fetchResumeList = async () => {
     resumes.value = res.data.items
     resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userId)
     total.value = res.data.total
+    loading.value = false
   } catch (error) {
-    alert('获取简历列表失败')
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '获取简历列表失败'
+    })
   }
 }
 
 // 删除简历
 const deleteCv = async (resumeId: string) => {
+  loading.value = true
   try {
     await deleteResume(resumeId)
     resumes.value = resumes.value.filter((resume) => resume.resumeId !== resumeId)
+    loading.value = false
+    showMessage({
+      type: 'success',
+      message: '删除简历成功'
+    })
   } catch (error) {
-    alert('删除简历失败')
+    loading.value = false
+    showMessage({
+      type: 'error',
+      message: '删除简历失败'
+    })
+  }
+}
+
+async function onDelete(id:string) {
+  try {
+    await showConfirm({ message: '确定要删除这份记录简历？' })
+    await deleteCv(id)
+    // 执行删除逻辑
+  } catch {
+    console.log('用户取消了操作')
   }
 }
 
@@ -58,10 +85,12 @@ const getCvTemplate = (resumeTemplateName: string, thumbnail?:string) => {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div class="flex justify-between items-center w-[100%] h-1/8 px-6 border-b-2 border-[#D9D9D9]">
       <h2 class="text-lg font-semibold">我的云简历 ({{ resumes.length }}/10)</h2>
     </div>
+
+    <LoadingSpinner v-if="loading"></LoadingSpinner>
 
     <div class="flex flex-wrap space-x-6 space-y-5 border-gray-300 px-10 pt-4 h-7/8  no-scrollbar overflow-scroll">
       <div v-for="resume in resumes" :key="resume.resumeId" class="relative h-90 cursor-pointer rounded-lg"
@@ -77,7 +106,7 @@ const getCvTemplate = (resumeTemplateName: string, thumbnail?:string) => {
           <div v-if="hoveredId === resume.resumeId"
                class="absolute inset-0 rounded-lg flex flex-col justify-center items-center space-y-2">
             <RouterLink target="_blank" :to="`/edit/resume-${resume.resumeId}`" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">编辑</RouterLink>
-            <button @click="deleteCv(resume.resumeId)" class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
+            <button @click="onDelete(resume.resumeId)" class="px-4 py-2 bg-white hover:bg-gray-200 text-black rounded">删除</button>
           </div>
         </transition>
 

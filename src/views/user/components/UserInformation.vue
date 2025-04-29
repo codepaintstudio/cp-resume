@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/useUserStore.ts'
 
 const userStore = useUserStore()
+const loading = ref(true)
 const currentUser = ref<any>({
   userName: '',
   userPhoneNumber: '',
@@ -12,6 +13,7 @@ const currentUser = ref<any>({
 onMounted(async () => {
     await userStore.getUserInfo(userStore.userId)
     currentUser.value = userStore.userInfo
+    loading.value = false
 })
 
 </script>
@@ -22,6 +24,7 @@ onMounted(async () => {
       <a class="text-[#3370FF] mr-[2vw]">编辑</a>
     </div>
 
+    <LoadingSpinner v-if="loading"></LoadingSpinner>
     <div class="w-[100%] h-7/8 flex flex-col items-center space-y-10 mt-12">
       <div class="flex h-[12vh] items-center">
         <div class="w-30 h-30 bg-[rgb(135,135,135)] rounded-[50%] flex justify-center items-center">
