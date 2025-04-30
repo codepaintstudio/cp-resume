@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { userLogin, getUserInfoApi, userRegister } from '@/api/user.ts'
+import { userLogin, getUserInfoApi, userRegister,userUpdate } from '@/api/user.ts'
+import type { userInfoUpdate } from '@/api/user.ts';
 import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
@@ -60,6 +61,14 @@ export const useUserStore = defineStore('user', () => {
       console.error('获取用户信息失败:', error)
     }
   }
+  const updateUserInfo = async (userId:string,data:userInfoUpdate) =>{
+    try{
+      const res = await userUpdate(userId,data);
+      console.log('成功更新数据')
+    }catch(error){
+      console.error('更新用户信息失败',error)
+    }
+  }
   return {
     accessToken,
     refreshToken,
@@ -67,6 +76,7 @@ export const useUserStore = defineStore('user', () => {
     userId,
     userInfo,
     getUserInfo,
+    updateUserInfo,
     login,
     register,
     logout
