@@ -99,10 +99,10 @@ p {
 }
 
 .profile-image img {
-  width: 90px;
+  width: 82px;
   height: auto;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 2px solid #f0f0f0;
 }
 

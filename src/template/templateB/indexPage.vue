@@ -282,16 +282,14 @@ const props = defineProps<{
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 82px;
   margin-left: 30px;
   flex-shrink: 0;
 }
 
 .avatar img {
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  border: #999999 1px solid;
   object-fit: cover;
 }
 

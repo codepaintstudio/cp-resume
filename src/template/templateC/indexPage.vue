@@ -206,7 +206,7 @@ const props = defineProps<{
             <h3>{{ exp.title }}</h3>
             <span class="duration">{{ exp.startDate }} - {{ exp.endDate }}</span>
           </div>
-          <p>主要职责: {{ exp.responsibility }}</p>
+          <p>{{ exp.responsibility }}</p>
           <ul>
             <li v-for="(desc, index) in exp.description.split('\n')" :key="index">{{ desc }}</li>
           </ul>
@@ -218,12 +218,11 @@ const props = defineProps<{
     <section class="card" v-if="resume.honors.length && module === 'honors'">
       <h2 class="card-title">{{ selectedLabel }}</h2>
       <div class="card-content">
-        <ul>
-          <li v-for="honor in resume.honors" :key="honor.id">
-            <span>{{ honor.honorName }}</span>
-            <span style="margin-left: 55%">{{ honor.date }}</span>
-          </li>
-        </ul>
+
+          <div class="flex-card" v-for="honor in resume.honors" :key="honor.id">
+            <span>&nbsp • {{ honor.honorName }}</span>
+            <span style="margin-right: 1% ;font-size: 12px;color: #888888;">{{ honor.date }}</span>
+          </div>
       </div>
     </section>
 
@@ -307,7 +306,7 @@ const props = defineProps<{
 }
 
 .name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #444;
   margin-bottom: 10px;
@@ -315,9 +314,9 @@ const props = defineProps<{
 }
 
 .avatar {
-  width: 100px;
-  height: 110px;
+  width: 82px;
   margin: 10px;
+  border: #999999 1px solid;
 }
 
 .avatar img {
@@ -328,12 +327,12 @@ const props = defineProps<{
 }
 
 .card-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--color-theme);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   border-bottom: 2px solid var(--color-theme);
-  padding-bottom: 15px;
+  padding-bottom: 11px;
 }
 
 .grid-2x5 {
@@ -377,7 +376,7 @@ const props = defineProps<{
 }
 
 .flex-card h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-theme);
   margin-bottom: 5px;
