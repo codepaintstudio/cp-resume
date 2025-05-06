@@ -1,264 +1,214 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/useUserStore.ts'
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue'
+import { userLogin, userRegister, getUserInfoApi } from '@/api/user.ts'
+import { ElMessage } from 'element-plus'
 
-onMounted(() => {
-  // 检查用户是否已登录
-  if (authStore.isLoggedIn) {
-    router.push('/')
-  }
-})
-
-const authStore = useUserStore()
+// 用户状态
+const userStore = useUserStore()
 const router = useRouter()
 
+// 定义登录/注册模式
+enum FormType {
+  Login = 'login',
+  Register = 'register',
+}
+
 // 登录/注册模式切换
-const isLoginMode = ref(true)
-const showPasswordRequirements = ref(false)
+const formType = ref<FormType>(FormType.Login)
 
 // 登录相关状态
-const loginUserNum = ref("")
-const loginUserPas = ref("")
-const loginError = ref("")
+const loginForm = ref({
+  username: '',
+  password: '',
+})
 
 // 注册相关状态
-const registerUserNum = ref("")
-const registerEmail = ref("")
-// const registerPhone = ref("")
-const registerPassword = ref("")
-const registerConfirmPassword = ref("")
-const registerError = ref("")
-
-// 密码必须包含大小写字母和数字，可以包含特殊符号
-const validatePassword = (password: string): string => {
-  if (password.length < 6 || password.length > 12) {
-    return "密码长度必须为6-12位";
-  }
-  // 至少一个小写字母、一个大写字母、一个数字
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?！@#￥%……&*（）——+【】{}；’：“”、，。《》？]+$/;
-
-  if (!passwordRegex.test(password)) {
-    return "密码必须包含大小写字母和数字，可以包含特殊符号";
-  }
-  return "";
-}
-
-
-// 用户名长度应在 4 到 20 个字符之间
-const validateUsername = (username: string): boolean => {
-  const usernameRegex = /^[a-zA-Z0-9]{4,20}$/
-  return usernameRegex.test(username)
-}
-
-const validateEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-// const validatePhone = (phone: string): boolean => {
-//   const phoneRegex = /^1[3-9]\d{9}$/
-//   return phoneRegex.test(phone)
-// }
+const registerForm = ref({
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+})
 
 // 登录处理
 const handleLogin = async () => {
-  loginError.value = ""
-  if (!loginUserNum.value.trim() || !loginUserPas.value.trim()) {
-    loginError.value = "用户名和密码不能为空"
+  if (!loginForm.value.username.trim() || !loginForm.value.password.trim()) {
+    ElMessage.error('请输入用户名和密码')
     return
   }
   try {
-    await authStore.login(loginUserNum.value, loginUserPas.value)
+    // 登录
+    const data = await userLogin(loginForm.value.username, loginForm.value.password)
+    userStore.userStatus.accessToken = data.data.access_token
+    // 获取用户信息
+    const userInfo = await getUserInfoApi(data.data.userId)
+    // 更新用户状态
+    userStore.userStatus = {
+      userId: data.data.userId,
+      accessToken: data.data.access_token,
+      isLoggedIn: true,
+      userInfo: userInfo.data,
+    }
+    // 存储用户状态
+    localStorage.setItem('userId', data.data.userId)
+    // 跳转到首页
+    ElMessage.success('登录成功')
+    router.push('/')
   } catch (error) {
-    loginError.value = '登录过程中出现错误'
-    console.error('登录错误:', error)
+    ElMessage.error('登录失败，请检查用户名和密码')
   }
 }
 
 // 注册处理
 const handleRegister = async () => {
-  registerError.value = ""
-
-  // 验证所有必填字段
-  if (!registerUserNum.value || !registerEmail.value || !registerPassword.value || !registerConfirmPassword.value) {
-    registerError.value = "所有字段都是必填的"
-    return
-  }
-
-   // 验证用户名
-  if (!validateUsername(registerUserNum.value)) {
-    registerError.value = "用户名长度应在4到20个字符之间"
-    return
-  }
-
-  // 验证邮箱格式
-  if (!validateEmail(registerEmail.value)) {
-    registerError.value = "请输入有效的邮箱地址"
-    return
-  }
-
-  // 验证手机号格式
-  // if (!validatePhone(registerPhone.value)) {
-  //   registerError.value = "请输入有效的手机号码"
-  //   return
-  // }
-
-  // 验证密码
-  const passwordError = validatePassword(registerPassword.value)
-  if (passwordError) {
-    registerError.value = passwordError
-    return
-  }
-
-  // 验证两次密码是否一致
-  if (registerPassword.value !== registerConfirmPassword.value) {
-    registerError.value = "两次输入的密码不一致"
-    return
-  }
-
   try {
-    const result = await authStore.register(registerUserNum.value, registerEmail.value, registerPassword.value, registerConfirmPassword.value)
-    // 注册成功后处理
-    // console.log('注册结果3:', result)
-    if (result) {
-      isLoginMode.value = true
-      loginUserNum.value = registerUserNum.value
-      registerUserNum.value = ""
-      registerEmail.value = ""
-      // registerPhone.value = ""
-      registerPassword.value = ""
-      registerConfirmPassword.value = ""
-      loginError.value = "注册成功，请登录"
-    } else {
-      loginError.value = "注册失败"
-    }
-
+    await userRegister(
+      registerForm.value.username,
+      registerForm.value.email,
+      registerForm.value.password,
+      registerForm.value.confirmPassword,
+    )
+    ElMessage.success('注册成功')
+    // 切换到登录模式
+    formType.value = FormType.Login
   } catch (error) {
-    registerError.value = '注册过程出现异常'
-    console.error('注册错误:', error)
+    ElMessage.error('注册失败，请检查信息')
   }
-}
-
-const switchToRegister = () => {
-  isLoginMode.value = false
-  showPasswordRequirements.value = false
-  loginError.value = ""
-  loginUserNum.value = ""
-  loginUserPas.value = ""
-}
-
-const switchToLogin = () => {
-  isLoginMode.value = true
-  showPasswordRequirements.value = false
-  registerError.value = ""
-  registerUserNum.value = ""
-  registerEmail.value = ""
-  registerPassword.value = ""
-  registerConfirmPassword.value = ""
 }
 </script>
 
 <template>
   <div class="relative w-screen h-screen overflow-hidden">
-    <BackgroundAnimation class="absolute inset-0 top-[-5vh] -z-10"></BackgroundAnimation>
+    <BackgroundAnimation class="absolute inset-0 top-[-5vh] -z-10" />
     <div class="flex justify-center items-center w-full h-full flex-col">
+      <!-- Logo -->
       <div class="w-[40vw] h-[5vw] relative flex justify-center items-center mb-[1.5vw]">
-        <div class="w-[5vw] h-[5vw] mr-[1vw] bg-[url(@/assets/img/Login/Logo2.png)] bg-contain bg-no-repeat"></div>
-        <span class="text-[2vw]">CP-ResumeTools</span>
+        <img src="@/assets/img/Login/Logo2.png" class="w-[5vw] h-[5vw] mr-[1vw]" alt="" />
+        <h2 class="text-6xl font-bold">CP-ResumeTools</h2>
       </div>
 
+      <!-- Form -->
       <div
-        class="relative bg-[rgb(255,255,255)] w-[45rem] h-[30rem] shadow-2xl flex justify-center items-center flex-col">
-        <span class="absolute left-[5rem] top-[3rem] text-[25px] font-bold">
-          {{ isLoginMode ? '登录' : '注册' }}
-        </span>
+        class="bg-white w-[45rem] h-[30rem] p-[2rem] shadow-2xl flex justify-between items-center flex-col"
+      >
+        <!-- Title -->
+        <h2 class="text-4xl font-bold">
+          {{ formType === FormType.Login ? '登录' : '注册' }}
+        </h2>
 
-        <div v-if="isLoginMode && loginError"
-             class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded">
-          {{ loginError }}
+        <!-- Login Form -->
+        <el-form
+          :model="loginForm"
+          v-if="formType === FormType.Login"
+          label-position="left"
+          label-width="80px"
+          class="p-[2rem] w-full flex flex-col justify-center items-center"
+        >
+          <el-form-item
+            label="用户名"
+            prop="username"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]"
+          >
+            <el-input type="text" placeholder="输入用户名" v-model="loginForm.username" />
+          </el-form-item>
+          <el-form-item
+            label="密码"
+            prop="password"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+          >
+            <el-input
+              type="password"
+              placeholder="输入密码"
+              v-model="loginForm.password"
+              show-password
+            />
+          </el-form-item>
+        </el-form>
+        <!-- Register Form -->
+        <el-form
+          v-if="formType === FormType.Register"
+          :model="registerForm"
+          label-position="left"
+          label-width="80px"
+          class="p-[2rem] w-full flex flex-col justify-center"
+        >
+          <el-form-item
+            label="用户名"
+            prop="username"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]"
+          >
+            <el-input type="text" placeholder="输入用户名" v-model="registerForm.username" />
+          </el-form-item>
+          <el-form-item
+            label="邮箱"
+            prop="email"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入邮箱', trigger: 'blur' }]"
+          >
+            <el-input type="text" placeholder="输入邮箱" v-model="registerForm.email" />
+          </el-form-item>
+          <el-form-item
+            label="密码"
+            prop="password"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
+          >
+            <el-input
+              type="password"
+              placeholder="输入密码"
+              v-model="registerForm.password"
+              show-password
+            />
+          </el-form-item>
+          <el-form-item
+            label="确认密码"
+            prop="confirmPassword"
+            class="w-full flex items-center"
+            :rules="[{ required: true, message: '请输入确认密码', trigger: 'blur' }]"
+          >
+            <el-input
+              type="password"
+              placeholder="确认密码"
+              v-model="registerForm.confirmPassword"
+              show-password
+            />
+          </el-form-item>
+        </el-form>
+        <!-- info -->
+        <div class="w-4/5 mt-[1rem] mb-[1rem] flex justify-end items-center text-sm">
+          {{ formType === FormType.Login ? '没有账户？' : '已经有账户？' }}
+          <el-button
+            type="text"
+            @click="
+              formType === FormType.Login
+                ? (formType = FormType.Register)
+                : (formType = FormType.Login)
+            "
+          >
+            {{ formType === FormType.Login ? '立即注册' : '立即登录' }}
+          </el-button>
         </div>
-        <div v-if="!isLoginMode && registerError"
-             class="absolute top-[4.5rem] text-red-500 text-sm bg-red-50 px-4 py-2 rounded">
-          {{ registerError }}
-        </div>
-
-        <!-- 登录表单 -->
-        <div v-if="isLoginMode" class="relative w-1/2 h-1/2 flex justify-center items-center flex-col">
-          <input type="text"
-                 class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 placeholder="输入账户" v-model="loginUserNum">
-          <input type="password"
-                 class="w-[25rem] h-[2.8rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 placeholder="输入密码" v-model="loginUserPas" @keyup.enter="handleLogin">
-          <span
-            class="absolute right-[-1rem] bottom-[0] text-[rgb(78,131,255)] text-[13px] cursor-pointer hover:underline"
-            @click="switchToRegister">
-            注册账户
-          </span>
-        </div>
-
-        <!-- 注册表单 -->
-        <div v-if="!isLoginMode" class="relative w-1/2 h-1/2 flex justify-center items-center flex-col">
-          <input type="text"
-                 class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 v-model="registerUserNum" placeholder="输入用户名">
-          <input type="text"
-                 class="w-[25rem] h-[2rem] mb-3 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 placeholder="输入邮箱" v-model="registerEmail">
-          <input type="password"
-                 class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 v-model="registerPassword" placeholder="输入密码"
-                 @focus="showPasswordRequirements = true"
-                 @blur="showPasswordRequirements = false"
-                 @keyup.enter="handleRegister">
-          <input type="password"
-                 class="w-[25rem] h-[2rem] mb-1 border-[reg(121,116,126)] border-1 rounded-sm pl-[1.8rem] text-[#79747E] text-[15px]"
-                 v-model="registerConfirmPassword" placeholder="确认密码" @keyup.enter="handleRegister">
-
-          <!-- 动态显示密码要求 -->
-          <div v-if="showPasswordRequirements" class="w-[25rem] text-xs text-gray-600 mb-3 px-2 py-2 rounded bg-gray-50">
-            <div class="font-medium mb-1">密码要求:</div>
-            <ul class="list-disc pl-4">
-              <li>长度6-12位字符</li>
-              <li>必须包含字母和数字</li>
-              <li>可以包含特殊符号</li>
-            </ul>
-          </div>
-
-          <span class="absolute right-[-1rem] bottom-0 text-[rgb(145,145,145)] text-[13px]">
-            已有账户？
-            <span class="text-[rgb(78,131,255)] cursor-pointer hover:underline" @click="switchToLogin">
-              立即登录
-            </span>
-          </span>
-        </div>
-
-        <div class="w-1/2 flex justify-around">
-          <button
-            class="text-[#79747E] border-1 border-[#79747E] w-[5rem] h-[2.2rem] rounded-sm hover:bg-[#3370FF] hover:border-0 hover:text-[#ffff]"
-            @click="isLoginMode ? handleLogin() : handleRegister()">
-            确定
-          </button>
-          <button
-            class="text-[#79747E] border-1 border-[#79747E] w-[5rem] h-[2.2rem] rounded-sm hover:bg-[#3370FF] hover:border-0 hover:text-[#ffff]"
-            @click="isLoginMode ? router.push('/') : switchToLogin()">
+        <!-- Buttons -->
+        <div class="w-4/5 flex justify-between">
+          <el-button
+            type="primary"
+            size="large"
+            class="w-1/3"
+            @click="formType === FormType.Login ? handleLogin() : handleRegister()"
+          >
+            {{ formType === FormType.Login ? '登录' : '注册' }}
+          </el-button>
+          <el-button type="default" size="large" class="w-1/3" @click="router.push('/')">
             取消
-          </button>
+          </el-button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-
-input:focus {
-  outline: 2px solid #3370FF;
-  border-color: transparent;
-}
-</style>

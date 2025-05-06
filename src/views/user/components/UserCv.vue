@@ -20,7 +20,7 @@ const fetchResumeList = async () => {
   try {
     const res = await getResumeList(currentPage.value, pageSize.value)
     resumes.value = res.data.items
-    resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userId)
+    resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userStatus.userInfo.userId)
     total.value = res.data.total
   } catch (error) {
     alert('获取简历列表失败')

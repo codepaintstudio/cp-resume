@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useUserStore } from '@/stores/useUserStore'
+import { ElMessage } from 'element-plus';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -70,12 +71,12 @@ export default router
 
 router.beforeEach((to) => {
   const userStore = useUserStore()
-  if(to.path.includes('/user')  && !userStore.isLoggedIn) {
-    alert('当前未登录')
+  if(to.path.includes('/user')  && !userStore.userStatus.isLoggedIn) {
+    ElMessage.error('当前未登录')
     return { name: 'login' }
   }
-  if(to.path.includes('/edit')  && !userStore.isLoggedIn) {
-    alert('当前未登录')
+  if(to.path.includes('/edit')  && !userStore.userStatus.isLoggedIn) {
+    ElMessage.error('当前未登录')
     return { name: 'login' }
   }
 })

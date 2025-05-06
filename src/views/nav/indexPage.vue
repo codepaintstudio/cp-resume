@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia'
 import BackgroundAnimation from '@/components/BackgroundAnimation.vue';
 import { useUserStore } from '@/stores/useUserStore.ts'
 import { ChevronDown } from 'lucide-vue-next';
-import { verifyToken} from '@/api/user.ts'
 
 
 
@@ -127,7 +125,7 @@ onUnmounted(() => {
     </div>
     <div class="absolute right-0 mr-[3vw] top-1/2 transform -translate-y-1/2">
       <!-- 登录状态显示带下拉菜单的用户中心 -->
-      <div v-if="userStore.isLoggedIn"
+      <div v-if="userStore.userStatus.isLoggedIn"
       class="relative"
       >
         <div class="text-[0.8vw] text-[#4F4F4F] no-underline cursor-pointer flex justify-between items-center" >
