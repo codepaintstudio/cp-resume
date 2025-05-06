@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/useUserStore.ts'
-
+import { getUserInfoApi, userUpdate } from '@/api/user.ts'
 
 const userStore = useUserStore()
 const currentUser = ref<any>({
@@ -11,18 +11,19 @@ const currentUser = ref<any>({
 })
 
 onMounted(async () => {
-    await userStore.getUserInfo(userStore.userId)
-    currentUser.value = userStore.userInfo
+    await getUserInfoApi(userStore.userStatus.userInfo.userId)
+    currentUser.value = userStore.userStatus.userInfo
 })
-function updateInfo(){
-    userStore.updateUserInfo(userStore.userId,{
+
+async function updateInfo(){
+    await userUpdate(userStore.userStatus.userInfo.userId,{
       userName:currentUser.value.userName,
       userPhoneNumber:currentUser.value.userPhoneNumber,
       userEmail:currentUser.value.userEmail
     })
 }
-
 </script>
+
 <template>
   <div>
     <div class="flex justify-between items-center w-[100%] h-1/8 px-6 border-b-2 border-[#D9D9D9]">

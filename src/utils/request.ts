@@ -1,22 +1,22 @@
 import axios from 'axios'
-import router from '@/router'
+import { useUserStore } from '@/stores/useUserStore'
+import { ElMessage } from 'element-plus'
 
 const service = axios.create({
-  baseURL: 'https://cp-center-server.hub.feashow.cn', // ✔ 把 /api 放到这里
+  baseURL: 'https://cp-center-server.hub.feashow.cn',
   timeout: 50000,
 })
-let isRefreshing = false
-let requestQueue: Array<(newAT: string) => void> = []
+
+const userStore = useUserStore()
 
 service.interceptors.request.use(
   (config) => {
-    let accessToken = localStorage.getItem('cp-accessToken')
-    let refreshToken = localStorage.getItem('cp-refreshToken')
+    let accessToken = userStore.userStatus.accessToken
     if (config?.url?.endsWith('/auth/login') && config.method === 'post') {
       return config
     }
     if (config?.url?.includes('/auth/refresh')) {
-      config.headers['Authorization'] = `Bearer ${refreshToken}`
+      config.headers['Authorization'] = `Bearer ${accessToken}`
     } else {
       config.headers['Authorization'] = `Bearer ${accessToken}`
     }
@@ -29,66 +29,18 @@ service.interceptors.response.use(
   (response) => {
     return response.data
   },
-
-  async (error) => {
-    const { config, response } = error
-    // 如果是/auth/login并且是401就返回登录失败
-    if (config?.url?.endsWith('/auth/login') && response && response.status === 401) {
-      alert('登录失败')
-      return Promise.reject('登录失败')
-    } else if (config?.url?.endsWith('/auth/login') && response && response.status === 500){
-      alert('请输入正确的用户名')
-      return Promise.reject('登录失败')
-    }
-
+  (error) => {
+    const { response } = error
+    console.log('response', response)
     if (response && response.status === 401) {
-      if (!isRefreshing) {
-        isRefreshing = true
-        try {
-          const newAT = await doRefresh()
-          requestQueue.forEach((cb: (newAT: string) => void) => cb(newAT))
-          requestQueue = []
-          config.headers['Authorization'] = `Bearer ${newAT}`
-          console.log('重试请求', config)
-          return service.request(config)
-        } catch (_) {
-          console.error('刷新 Token 失败')
-          localStorage.removeItem('cp-accessToken')
-          localStorage.setItem('cp-refreshToken', '')
-          router.replace('/login')
-          return Promise.reject(error)
-        } finally {
-          isRefreshing = false
-        }
-      } else {
-        return new Promise((resolve) => {
-          requestQueue.push((newAT: string) => {
-            config.headers['Authorization'] = `Bearer ${newAT}`
-            resolve(service.request(config))
-          })
-        })
-      }
+      ElMessage.error('登录过期，请重新登录')
+      userStore.logout()
+      return Promise.reject(error)
+    } else if (response && response.status === 500) {
+      ElMessage.error('服务器错误，请稍后再试')
+      return Promise.reject(error)
     }
     return Promise.reject(error)
   },
 )
-
-async function doRefresh() {
-  let refreshToken = localStorage.getItem('cp-refreshToken')
-  try {
-    const resp = await axios.get('http://47.109.193.161:8543/api/auth/refresh', {
-      params: {
-        refreshToken,
-      },
-    })
-    const { access_token: newAT, refresh_token: newRT } = resp.data.data
-    console.log('Token 刷新成功', newAT, newRT)
-    localStorage.setItem('cp-accessToken', newAT)
-    return newAT
-  } catch (e) {
-    alert('当前未登录！')
-    router.replace('/login')
-    throw e
-  }
-}
 export default service
