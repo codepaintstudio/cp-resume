@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { userLogin, getUserInfoApi, userRegister } from '@/api/user.ts'
+import { userLogin, getUserInfoApi, userRegister,userUpdate,uploadAvatar } from '@/api/user.ts'
 import { useRouter } from 'vue-router'
 import { showMessage } from '@/utils/message.ts'
 
@@ -71,6 +71,37 @@ export const useUserStore = defineStore('user', () => {
       })
     }
   }
+  const updateUserInfo = async (userId: string, data: userInfoUpdate) => {
+    try {
+      const res = await userUpdate(userId, data)
+      userInfo.value = { ...userInfo.value, ...data }
+      return res
+    } catch (error) {
+      console.error('更新用户信息失败', error)
+      throw error
+    }
+  }
+  // 新增：使用FormData更新用户信息（含头像）
+  const updateUserInfoWithAvatar = async (file: File) => {
+    try {
+      // 上传头像
+      const avatarUrl = await uploadAvatar(file);
+
+      // 更新用户信息
+      await updateUserInfo(userId.value, {
+        avatar: avatarUrl
+      });
+
+      // 刷新用户数据
+      await getUserInfo(userId.value);
+
+      return avatarUrl;
+    } catch (error) {
+      console.error('更新用户头像失败', error);
+      throw error;
+    }
+  }
+
 
 
   return {
@@ -80,6 +111,8 @@ export const useUserStore = defineStore('user', () => {
     userId,
     userInfo,
     getUserInfo,
+    updateUserInfo,
+    updateUserInfoWithAvatar,
     login,
     register,
     logout

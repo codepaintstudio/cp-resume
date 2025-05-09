@@ -2,6 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 import { showMessage } from '@/utils/message.ts'
 
+
 const service = axios.create({
   baseURL: 'https://cp-center-server.hub.feashow.cn', // ✔ 把 /api 放到这里
   timeout: 50000,
