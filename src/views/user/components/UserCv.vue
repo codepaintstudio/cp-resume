@@ -69,13 +69,13 @@ const setHovered = (id: number | null) => {
   hoveredId.value = id;
 };
 
-// 返回一个cvTemplate对象
-const getCvTemplate = (resumeTemplateName: string, thumbnail?:string) => {
+// 返回一个cvTemplate对象（保持与HomePage.vue一致）
+const getCvTemplate = (resumeTemplateName: string, thumbnail?: string) => {
   return {
     resumeTemplateName,
     resumeTemplateContent: {
       folderPath: '',
-      thumbnail,
+      thumbnail, // 关键：保留 thumbnail 参数
       style: '风格',
       industry: '行业',
       color: '颜色',

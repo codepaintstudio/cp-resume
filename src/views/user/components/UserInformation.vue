@@ -35,7 +35,7 @@ const updateInfo = async () => {
       userName: currentUser.value.userName,
       userPhoneNumber: currentUser.value.userPhoneNumber,
       userEmail: currentUser.value.userEmail
-      // 注意：这里不传avatar，因为我们要单独处理
+      
     })
     alert('信息更新成功')
   } catch (error) {
