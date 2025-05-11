@@ -239,14 +239,14 @@ onMounted(() => {
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Left2.png')] bg-contain bg-no-repeat left-0 top-[3vh] -translate-y-1/2"></span>
           <span
-            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]">历史简历{{resumes.length }}</span>
+            class="absolute w-[10vw] h-[4vw] left-1/2 top-[3vh] -translate-x-[40%] -translate-y-1/2 text-[2vw]">历史简历</span>
           <span
             class="absolute block w-[10vw] h-[4vw] bg-[url('@/assets/img/Home/Right1.png')] bg-contain bg-no-repeat right-0 top-[3vh] -translate-y-1/2"></span>
         </div>
 
         <div v-if="userStore.isLoggedIn && resumes.length > 0"
           class="w-full flex justify-around items-center mt-10 mb-10">
-          <CvCard v-for="resume in resumes.slice(0, 5)" :key="resume.resumeId" :cvTemplate="template" :is-view="false" @mouseenter="setHovered(resume.resumeId)" @mouseleave="setHovered(null)" @click=resumeEdit(resume.resumeId)
+          <CvCard v-for="resume in resumes.slice(0, 5)" :key="resume.resumeId" :cvTemplate="getCvTemplate(resume.resumeContent.resumeTemplateName)" :is-view="false" @mouseenter="setHovered(resume.resumeId)" @mouseleave="setHovered(null)" @click=resumeEdit(resume.resumeId)
             size="0.8" class="hover:shadow-lg transition-shadow duration-300" />
         </div>
         <div v-else>

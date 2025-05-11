@@ -69,7 +69,7 @@ const setHovered = (id: number | null) => {
   hoveredId.value = id;
 };
 
-// 返回一个cvTemplate对象（保持与HomePage.vue一致）
+// 返回一个cvTemplate对象
 const getCvTemplate = (resumeTemplateName: string, thumbnail?: string) => {
   return {
     resumeTemplateName,
