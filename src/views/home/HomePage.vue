@@ -26,10 +26,10 @@ const resumes = ref<Array<any>>([]);
 const totalResumes = ref<number>(0); // 总模板数量
 const loadingResume = ref(true)
 const currentPageRes = ref<number>(1); // 当前页码
-const pageSizeRes = ref<number>(10); // 每页显示的模板数量
+const pageSizeRes = ref<number>(10000); // 每页显示的模板数量
 // 模板详情相关状态
 const selectedIndex = ref<number>(0);
-const selectedTemplate = ref<Template | Resume>();
+const selectedTemplate = ref<Template>();
 const showMenu = ref<boolean>(false);
 const isViewingTemplate = ref(true); // 当前查看的是模板(true)还是用户简历(false)
 
@@ -99,7 +99,7 @@ const fetchResumeList = async () => {
     const res = await getResumeList(currentPageRes.value, pageSizeRes.value)
     resumes.value = res.data.items
     resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userId)
-    totalResumes.value = res.data.total
+    totalResumes.value = resumes.value.length
     loadingResume.value = false
   } catch (error) {
     loadingResume.value = false
@@ -113,35 +113,12 @@ const fetchResumeList = async () => {
 const toggleMenu = async (index: number, isUserResume = false) => {
   isViewingTemplate.value = !isUserResume;
 
-  if (isUserResume) {
-    const resume = userResumes.value[index];
-    // 如果简历没有完整内容，先获取详情
-    if (!resume.content) {
-      const details = await fetchResumeDetails(resume.id);
-      if (details) {
-        userResumes.value[index] = {
-          ...resume,
-          ...details,
-          resumeTemplateContent: {
-            ...details.content,
-            style: details.style || 'classic',
-            industry: details.industry || 'general',
-            color: details.color || 'blue'
-          }
-        };
-      }
-    }
-    selectedTemplate.value = userResumes.value[index];
-  } else {
-    selectedTemplate.value = recommendedTemplates.value[index];
-  }
-
   selectedIndex.value = index;
   showMenu.value = true;
 };
 
 // 更新cv列表
-const updateCv = (newValue: Template | Resume) => {
+const updateCv = (newValue: Template ) => {
   selectedTemplate.value = newValue;
 };
 
@@ -149,23 +126,17 @@ const updateCv = (newValue: Template | Resume) => {
 const prevCv = () => {
   if (selectedIndex.value > 0) {
     selectedIndex.value--;
-    selectedTemplate.value = isViewingTemplate.value
-      ? recommendedTemplates.value[selectedIndex.value]
-      : userResumes.value[selectedIndex.value];
+    selectedTemplate.value = recommendedTemplates.value[selectedIndex.value]
   }
 };
 
 // 切换下一张
 const nextCv = () => {
-  const maxIndex = isViewingTemplate.value
-    ? recommendedTemplates.value.length - 1
-    : userResumes.value.length - 1;
+  const maxIndex =  recommendedTemplates.value.length - 1
 
   if (selectedIndex.value < maxIndex) {
     selectedIndex.value++;
-    selectedTemplate.value = isViewingTemplate.value
-      ? recommendedTemplates.value[selectedIndex.value]
-      : userResumes.value[selectedIndex.value];
+    selectedTemplate.value = recommendedTemplates.value[selectedIndex.value]
   }
 };
 
@@ -245,8 +216,8 @@ onMounted(() => {
         </div>
 
         <div v-if="userStore.isLoggedIn && resumes.length > 0"
-          class="w-full flex justify-around items-center mt-10 mb-10">
-          <CvCard v-for="resume in resumes.slice(0, 5)" :key="resume.resumeId" :cvTemplate="getCvTemplate(resume.resumeContent.resumeTemplateName)" :is-view="false" @mouseenter="setHovered(resume.resumeId)" @mouseleave="setHovered(null)" @click=resumeEdit(resume.resumeId)
+          class="w-full flex justify-center items-center gap-4 mt-10 mb-10">
+          <CvCard v-for="resume in recommendedHisTemplates.slice(0, 5)" :key="resume.resumeId" :cvTemplate="getCvTemplate(resume.resumeContent.resumeTemplateName)" :is-view="false" @mouseenter="setHovered(resume.resumeId)" @mouseleave="setHovered(null)" @click=resumeEdit(resume.resumeId)
             size="0.8" class="hover:shadow-lg transition-shadow duration-300" />
         </div>
         <div v-else>
@@ -283,7 +254,7 @@ onMounted(() => {
     <button @click="scrollToTop"
       class="fixed w-12 h-12 bg-white rounded-full right-[10%] bottom-[5%] shadow-md flex justify-center items-center cursor-pointer hover:shadow-lg transition-all duration-300 group"
       aria-label="返回顶部">
-      <ArrowUp class="text-gray-600 group-hover:text-[#3370FF] transition-colors" size="24" />
+      <ArrowUp class="text-gray-600 group-hover:text-[#3370FF] transition-colors" />
     </button>
   </div>
 </template>
