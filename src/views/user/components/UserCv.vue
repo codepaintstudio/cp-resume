@@ -10,8 +10,7 @@ const userStore = useUserStore()
 const resumes = ref<Array<any>>([]);
 const loading = ref(true)
 const currentPage = ref<number>(1); // 当前页码
-const pageSize = ref<number>(10); // 每页显示的模板数量
-const total = ref<number>(0); // 总模板数量
+const pageSize = ref<number>(10000); // 每页显示的模板数量
 
 onMounted(() => {
   fetchResumeList()
@@ -23,7 +22,7 @@ const fetchResumeList = async () => {
     const res = await getResumeList(currentPage.value, pageSize.value)
     resumes.value = res.data.items
     resumes.value = resumes.value.filter(item => String(item.resumeUserId) === userStore.userId)
-    total.value = res.data.total
+    userStore.userCvTotal = resumes.value.length
     loading.value = false
   } catch (error) {
     loading.value = false
@@ -87,7 +86,7 @@ const getCvTemplate = (resumeTemplateName: string, thumbnail?: string) => {
 <template>
   <div>
     <div class="flex justify-between items-center w-[100%] h-1/8 px-6 border-b-2 border-[#D9D9D9]">
-      <h2 class="text-lg font-semibold">我的云简历 ({{ resumes.length }}/10)</h2>
+      <h2 class="text-lg font-semibold">我的云简历 ({{ userStore.userCvTotal }}/10)</h2>
     </div>
 
     <LoadingSpinner v-if="loading"></LoadingSpinner>
@@ -115,7 +114,7 @@ const getCvTemplate = (resumeTemplateName: string, thumbnail?: string) => {
 
       <!-- 添加简历按钮 -->
 
-        <div class="w-63 h-90 flex items-center justify-center bg-gray-200  rounded cursor-pointer hover:bg-gray-300 transition-all duration-300">
+        <div v-if="userStore.userCvTotal<=10" class="w-63 h-90 flex items-center justify-center bg-gray-200  rounded cursor-pointer hover:bg-gray-300 transition-all duration-300">
           <RouterLink class="block flex items-center justify-center w-full h-full" to="/cv">
             <span class="text-4xl text-gray-500">+</span>
           </RouterLink>

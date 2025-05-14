@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { userLogin, getUserInfoApi, userRegister,userUpdate,uploadAvatar } from '@/api/user.ts'
+import {getResumeList} from '@/api/resume.ts'
 import { useRouter } from 'vue-router'
 import { showMessage } from '@/utils/message.ts'
 
@@ -15,6 +16,7 @@ export const useUserStore = defineStore('user', () => {
   const userId = ref<string>(localStorage.getItem('userId') || '0')
   const accessToken  = ref(localStorage.getItem('cp-accessToken') || '')
   const refreshToken = ref(localStorage.getItem('cp-refreshToken') || '')
+  const userCvTotal = ref(0)
   let userInfo =  ref<UserInfo>({
     userName: '',
     userPhoneNumber: '',
@@ -37,6 +39,7 @@ export const useUserStore = defineStore('user', () => {
       localStorage.setItem('cp-accessToken', accessToken.value)
       localStorage.setItem('cp-refreshToken', refreshToken.value)
       await getUserInfo(userId.value)
+
       router.replace('/')
     } catch (error) {
       console.error('Login failed:', error)
@@ -93,6 +96,17 @@ export const useUserStore = defineStore('user', () => {
       throw error
     }
   }
+
+  const getUserCvTotal = async (userId: string) => {
+    try {
+      const res = await getResumeList(1, 10000)
+      userCvTotal.value = res.data.items.filter((item: {resumeUserId: number}) => String(item.resumeUserId) === userId).length
+    } catch (error) {
+      console.error('获取用户简历数量失败', error)
+      throw error
+    }
+  }
+
   // 新增：使用FormData更新用户信息（含头像）
   const updateUserInfoWithAvatar = async (file: File) => {
     try {
@@ -122,6 +136,7 @@ export const useUserStore = defineStore('user', () => {
     isLoggedIn,
     userId,
     userInfo,
+    userCvTotal,
     getUserInfo,
     updateUserInfo,
     updateUserInfoWithAvatar,

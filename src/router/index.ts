@@ -80,4 +80,13 @@ router.beforeEach(async (to) => {
       return false
     }
   }
+  if(to.path.includes('/edit') && userStore.userCvTotal>10) {
+    try {
+      await showConfirm({ message: '当前简历数量已达上限，是否前往简历管理？' })
+      return { path: '/user/cvAdmin' }
+    } catch {
+      // 用户点击取消
+      return false
+    }
+  }
 })
