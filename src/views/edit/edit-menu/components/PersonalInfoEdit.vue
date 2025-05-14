@@ -23,8 +23,8 @@ const handleAvatarChange = (event: Event) => {
 const submit = async () => {
   loading.value = true
   try {
-    if(imgUrl.value !== resume.personalInfo.avatar ) {
-      if(!imgUrl.value) {
+    if (imgUrl.value !== resume.personalInfo.avatar) {
+      if (!imgUrl.value) {
         resume.personalInfo.avatar = ''
         loading.value = false
         showMessage({
@@ -131,20 +131,20 @@ const genderOptions = [
     <div class="col-span-2 gap-2 w-30 flex flex-col justify-center items-center">
       <div class="mb-1">
         <label class="text-sm text-gray-700 mb-1">头像上传：</label>
-        <span class="border text-xs px-2 bg-gray-200 hover:bg-gray-300 cursor-pointer " @click="imgUrl=''">清空</span>
+        <span class="border text-xs px-2 bg-gray-200 hover:bg-gray-300 cursor-pointer " @click="imgUrl = ''">清空</span>
       </div>
 
       <div class="relative w-25 h-25 border border-gray-400 rounded-md flex items-center justify-center cursor-pointer"
         @click="fileInput?.click()">
         <!-- 预览头像 -->
-        <img v-if="imgUrl" :src="imgUrl" alt="头像"
-          class="w-full h-full object-cover rounded-md">
+        <img v-if="imgUrl" :src="imgUrl" alt="头像" class="w-full h-full object-cover rounded-md">
         <!-- 未上传时的加号 -->
         <span v-else class="text-gray-400 text-4xl font-bold">+</span>
         <!-- 隐藏的文件选择框 -->
         <input type="file" ref="fileInput" @change="handleAvatarChange" accept="image/*" class="hidden" />
       </div>
-      <span class="text-white bg-green-400 w-20 h-7 text-sm flex justify-center items-center rounded cursor-pointer hover:bg-green-500">
+      <span
+        class="text-white bg-green-400 w-20 h-7 text-sm flex justify-center items-center rounded cursor-pointer hover:bg-green-500">
         <span class="icon-[material-symbols--upload] text-lg"></span>
         <span @click="submit">上传</span>
       </span>

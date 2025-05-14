@@ -4,11 +4,23 @@ import { userLogin, getUserInfoApi, userRegister,userUpdate,uploadAvatar } from 
 import { useRouter } from 'vue-router'
 import { showMessage } from '@/utils/message.ts'
 
+interface UserInfo {
+  userName: string;
+  userPhoneNumber: string;
+  userEmail: string;
+  avatar: string;
+}
+
 export const useUserStore = defineStore('user', () => {
   const userId = ref<string>(localStorage.getItem('userId') || '0')
   const accessToken  = ref(localStorage.getItem('cp-accessToken') || '')
   const refreshToken = ref(localStorage.getItem('cp-refreshToken') || '')
-  let userInfo =  ref({})
+  let userInfo =  ref<UserInfo>({
+    userName: '',
+    userPhoneNumber: '',
+    userEmail: '',
+    avatar: ''
+  })
   const router = useRouter()
 
   // 根据 accessToken 是否存在来判断登录状态
@@ -71,7 +83,7 @@ export const useUserStore = defineStore('user', () => {
       })
     }
   }
-  const updateUserInfo = async (userId: string, data: userInfoUpdate) => {
+  const updateUserInfo = async (userId: string, data: any) => {
     try {
       const res = await userUpdate(userId, data)
       userInfo.value = { ...userInfo.value, ...data }
