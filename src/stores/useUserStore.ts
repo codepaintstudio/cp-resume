@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
 
   // 根据 accessToken 是否存在来判断登录状态
-  const isLoggedIn = computed(() => !!refreshToken.value)
+  const isLoggedIn = computed(() => !!localStorage.getItem('cp-refreshToken'))
 
   // 用户登录
   const login = async (userName: string, userPassword: string) => {

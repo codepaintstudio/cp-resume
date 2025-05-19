@@ -62,7 +62,7 @@ service.interceptors.response.use(
         } catch (_) {
           console.error('刷新 Token 失败')
           localStorage.removeItem('cp-accessToken')
-          localStorage.setItem('cp-refreshToken', '')
+          localStorage.removeItem('cp-refreshToken')
           router.replace('/login')
           return Promise.reject(error)
         } finally {

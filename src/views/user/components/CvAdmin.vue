@@ -216,7 +216,7 @@ const closeMenu = () => {
 </script>
 
 <template>
-  <div v-if="userStore.userId !== '3'" class="text-2xl flex justify-center items-center">
+  <div v-if="userStore.userId !== '10'" class="text-2xl flex justify-center items-center">
     <h1 class="text-2xl text-red-500">您不是管理员，无权管理！</h1>
   </div>
   <div v-else class="p-6 bg-white rounded-lg min-h-[500px]">

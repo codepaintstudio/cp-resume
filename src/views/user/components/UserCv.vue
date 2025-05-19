@@ -116,7 +116,8 @@ const getCvTemplate = (resumeTemplateName: string, thumbnail?: string) => {
 
         <div v-if="userStore.userCvTotal<=10" class="w-63 h-90 flex items-center justify-center bg-gray-200  rounded cursor-pointer hover:bg-gray-300 transition-all duration-300">
           <RouterLink class="block flex items-center justify-center w-full h-full" to="/cv">
-            <span class="text-4xl text-gray-500">+</span>
+<!--            不可以复制-->
+            <span class="text-4xl text-gray-500  outline-none select-none">+</span>
           </RouterLink>
         </div>
 

@@ -159,8 +159,10 @@ const resumeEdit = (id:number|null) => {
 // 组件挂载时获取数据
 onMounted(() => {
   fetchTemplateList();
-  fetchResumeList();
-  // alert(`'User resumes loaded:', ${totalResumes.value}, 'Logged in:', ${userStore.isLoggedIn}`);
+  if(userStore.isLoggedIn) {
+    console.log("islogin",userStore.isLoggedIn)
+    fetchResumeList();
+  }
 });
 </script>
 
