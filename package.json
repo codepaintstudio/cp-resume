@@ -32,7 +32,7 @@
     "@iconify/tailwind": "^1.2.0",
     "@iconify/tailwind4": "^1.0.6",
     "@tsconfig/node22": "^22.0.0",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.19",
     "@vitejs/plugin-vue": "^5.2.2",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.4.0",
